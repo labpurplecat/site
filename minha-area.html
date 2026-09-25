@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finspots | Minha Área</title>
+<link rel="icon" type="image/png" href="assets/img/finspots-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #071730;
+    --quase-preto: #00031B;
+    --laranja: #FF5500;
+    --laranja-fraco: rgba(255,85,0,0.13);
+    --branco: #FFFFFF;
+    --suave: #A9B2D6;
+    --fraco: #6B76A8;
+    --borda: rgba(255,255,255,0.09);
+    --verde: #2ECC71;
+    --verde-fraco: rgba(46,204,113,0.13);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    background-color: var(--azul); color: var(--branco);
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--laranja); outline-offset: 3px; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 48px 0; }
+
+  h1 { font-size: clamp(24px, 3.6vw, 30px); font-weight: 800; }
+  p { color: var(--suave); font-size: 15px; }
+
+  header { padding: 26px 0; text-align: center; }
+  .logo { display: inline-block; }
+  .logo img { height: 42px; }
+
+  .aviso-nao-conectado {
+    background: rgba(255,85,0,0.1); border: 1px solid var(--laranja); border-radius: 10px;
+    padding: 14px 18px; font-size: 13px; color: var(--suave); margin-bottom: 32px;
+  }
+  .aviso-nao-conectado strong { color: var(--laranja); }
+
+  #carregando { padding: 30px 0; text-align: center; font-size: 13.5px; color: var(--fraco); }
+
+  .card-relatorio {
+    background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 16px;
+    padding: 28px; margin-bottom: 20px;
+  }
+  .card-relatorio .topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .card-relatorio h2 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .card-relatorio .data { font-size: 12.5px; color: var(--fraco); }
+
+  .selo-status { font-size: 11.5px; font-weight: 600; padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
+  .selo-status.pronto { background: var(--verde-fraco); color: var(--verde); }
+  .selo-status.processando { background: var(--laranja-fraco); color: var(--laranja); }
+  .selo-status.erro { background: var(--laranja-fraco); color: var(--laranja); }
+
+  .placeholder-video, .video-relatorio {
+    background: var(--azul); border: 1px dashed var(--borda); border-radius: 12px;
+    aspect-ratio: 16/9; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; color: var(--fraco); text-align: center; margin-bottom: 16px; width: 100%;
+  }
+  .video-relatorio { border-style: solid; background: #000; }
+  .play-icon { width: 44px; height: 44px; border-radius: 50%; background: var(--laranja); display: flex; align-items: center; justify-content: center; }
+  .play-icon svg { width: 16px; height: 16px; fill: var(--branco); }
+  .placeholder-video p { font-size: 12.5px; color: var(--fraco); }
+
+  .acoes-card { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; font-family: inherit; font-size: 13.5px; font-weight: 600;
+    text-decoration: none; padding: 11px 20px; border-radius: 8px; border: none; cursor: pointer;
+  }
+  .btn-primario { background: var(--laranja); color: var(--branco); }
+  .btn-secundario { background: transparent; color: var(--suave); border: 1px solid var(--borda); }
+
+  .processando-msg { font-size: 13.5px; color: var(--fraco); text-align: center; padding: 30px 20px; }
+
+  footer { padding: 30px 0; text-align: center; font-size: 12.5px; color: var(--fraco); }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo"><img src="assets/img/finspots-logo.png" alt="Finspots"></a>
+</header>
+
+<section>
+  <div class="wrap">
+    <h1>Olá! Aqui estão seus relatórios.</h1>
+    <p style="margin-top:10px;">Tudo que a Finspots já entregou pra você, num só lugar.</p>
+
+    <p id="carregando">Carregando seus relatórios...</p>
+    <div class="aviso-nao-conectado" id="erro-lista" style="display:none;">
+      Não foi possível carregar seus relatórios agora. Atualiza a página ou chama no <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja); text-decoration:underline;">WhatsApp</a> se continuar.
+    </div>
+
+    <div id="cartoes"></div>
+  </div>
+</section>
+
+<footer>Finspots | Inteligência de Vendas e Finanças para E-commerce</footer>
+
+<script>
+  var API_URL = 'https://saf-production.up.railway.app';
+  var NOMES_MES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+  var agora = new Date();
+  var periodoAtual = NOMES_MES[agora.getMonth()] + '/' + agora.getFullYear();
+
+  var elCarregando = document.getElementById('carregando');
+  var elErro = document.getElementById('erro-lista');
+  var elCartoes = document.getElementById('cartoes');
+
+  function escaparHtml(texto) {
+    var div = document.createElement('div');
+    div.textContent = texto == null ? '' : String(texto);
+    return div.innerHTML;
+  }
+
+  function formatarData(iso) {
+    try {
+      return new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
+    } catch (erro) {
+      return iso;
+    }
+  }
+
+  function tituloRelatorio(r) {
+    if (r.tipo_produto === 'Mensalidade') {
+      return 'Acompanhamento Mensal' + (r.mes_referencia ? ' | ' + escaparHtml(r.mes_referencia) : '');
+    }
+    return 'Diagnóstico Financeiro';
+  }
+
+  function cartaoPendente() {
+    return '' +
+      '<div class="card-relatorio" style="border-color: var(--laranja);">' +
+        '<div class="topo">' +
+          '<div><h2>Faltam os dados de ' + escaparHtml(NOMES_MES[agora.getMonth()]) + '</h2>' +
+          '<div class="data">Sua análise mensal depende deles</div></div>' +
+          '<span class="selo-status processando">Pendente</span>' +
+        '</div>' +
+        '<p style="margin-bottom:18px;">Joga os dados de vendas e financeiro do mês lá, igual sempre. Leva menos de 2 minutos.</p>' +
+        '<div class="acoes-card"><a href="formulario-vendas-mensal.html" class="btn btn-primario">Enviar dados do mês</a></div>' +
+      '</div>';
+  }
+
+  function cartaoRelatorio(r) {
+    var titulo = tituloRelatorio(r);
+    var dataFormatada = escaparHtml(formatarData(r.criado_em));
+
+    if (r.status === 'pronto') {
+      var blocoVideo = r.video_url
+        ? '<video class="video-relatorio" controls preload="none" src="' + escaparHtml(r.video_url) + '"></video>'
+        : '<div class="placeholder-video"><p>Vídeo indisponível no momento.</p></div>';
+      var botaoPdf = r.pdf_url
+        ? '<a href="' + escaparHtml(r.pdf_url) + '" class="btn btn-primario" target="_blank" rel="noopener">Baixar PDF</a>'
+        : '';
+      return '' +
+        '<div class="card-relatorio">' +
+          '<div class="topo"><div><h2>' + titulo + '</h2><div class="data">Entregue em ' + dataFormatada + '</div></div>' +
+            '<span class="selo-status pronto">Pronto</span></div>' +
+          blocoVideo +
+          '<div class="acoes-card">' + botaoPdf + '</div>' +
+        '</div>';
+    }
+
+    if (r.status === 'revisao_manual') {
+      return '' +
+        '<div class="card-relatorio">' +
+          '<div class="topo"><div><h2>' + titulo + '</h2><div class="data">Dados recebidos em ' + dataFormatada + '</div></div>' +
+            '<span class="selo-status processando">Em revisão</span></div>' +
+          '<div class="processando-msg">Nossa equipe está revisando seus dados manualmente antes de liberar sua análise. Você recebe um email assim que estiver pronta.</div>' +
+        '</div>';
+    }
+
+    if (r.status === 'erro') {
+      return '' +
+        '<div class="card-relatorio" style="border-color: var(--laranja);">' +
+          '<div class="topo"><div><h2>' + titulo + '</h2><div class="data">Dados recebidos em ' + dataFormatada + '</div></div>' +
+            '<span class="selo-status erro">Erro</span></div>' +
+          '<div class="processando-msg">Algo deu errado ao gerar essa análise. Nossa equipe já foi avisada. Se precisar, chama no WhatsApp.</div>' +
+        '</div>';
+    }
+
+    // "processando" (default/fallback)
+    return '' +
+      '<div class="card-relatorio">' +
+        '<div class="topo"><div><h2>' + titulo + '</h2><div class="data">Dados recebidos em ' + dataFormatada + '</div></div>' +
+          '<span class="selo-status processando">Processando</span></div>' +
+        '<div class="processando-msg">Sua análise está sendo gerada. Você recebe um email assim que estiver pronta.</div>' +
+      '</div>';
+  }
+
+  // NOVIDADE (24/09/2026): quem já pagou mas ainda não mandou o formulário
+  // (fechou a aba depois do pagamento, por exemplo) cai aqui sem nenhum
+  // relatório. Sem esse cartão, ficava sem caminho pra enviar os dados.
+  function cartaoEnviarDados() {
+    return '' +
+      '<div class="card-relatorio" style="border-color: var(--laranja);">' +
+        '<div class="topo">' +
+          '<div><h2>Falta enviar seus dados</h2>' +
+          '<div class="data">Sua análise começa assim que eles chegarem</div></div>' +
+          '<span class="selo-status processando">Pendente</span>' +
+        '</div>' +
+        '<p style="margin-bottom:18px;">Preencha o formulário e anexe seus arquivos (extratos, relatórios de vendas, planilhas). Leva poucos minutos.</p>' +
+        '<div class="acoes-card">' +
+          '<a href="formulario-diagnostico.html" class="btn btn-primario">Enviar dados do Diagnóstico</a>' +
+          '<a href="formulario-vendas-mensal.html" class="btn btn-secundario">Sou do Acompanhamento Mensal</a>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function cartaoUpsell() {
+    return '' +
+      '<div class="card-relatorio">' +
+        '<div class="topo"><div><h2>Gostou do diagnóstico?</h2>' +
+          '<div class="data">Continue com clareza todo mês, não só uma vez</div></div></div>' +
+        '<p style="margin-bottom:18px;">Com o Acompanhamento Mensal, você recebe o mesmo tipo de análise (lucro real, margem, canais e prioridades) todo mês, com comparativo de evolução.</p>' +
+        '<div class="acoes-card">' +
+          '<a href="mensal.html" class="btn btn-secundario">Ver proposta mensal</a>' +
+          '<a href="contrato-mensal.html" class="btn btn-primario">Comprar</a>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderizar(relatorios) {
+    var relatoriosMensalidade = relatorios.filter(function (r) { return r.tipo_produto === 'Mensalidade'; });
+    var jaAssinanteMensalidade = relatoriosMensalidade.length > 0;
+    var temRelatorioMesAtual = relatoriosMensalidade.some(function (r) { return r.mes_referencia === periodoAtual; });
+
+    if (relatorios.length === 0) {
+      elCartoes.innerHTML = cartaoEnviarDados();
+      return;
+    }
+
+    var html = '';
+    if (jaAssinanteMensalidade && !temRelatorioMesAtual) {
+      html += cartaoPendente();
+    }
+    relatorios.forEach(function (r) { html += cartaoRelatorio(r); });
+    if (!jaAssinanteMensalidade) {
+      html += cartaoUpsell();
+    }
+    elCartoes.innerHTML = html;
+  }
+
+  fetch(API_URL + '/minha-area/relatorios', { credentials: 'include' })
+    .then(function (resposta) {
+      if (resposta.status === 401) {
+        window.location.href = 'login.html';
+        return null;
+      }
+      if (!resposta.ok) throw new Error('status ' + resposta.status);
+      return resposta.json();
+    })
+    .then(function (relatorios) {
+      if (relatorios === null) return; // já redirecionando pro login
+      elCarregando.style.display = 'none';
+      renderizar(relatorios);
+    })
+    .catch(function (erro) {
+      console.error('Falha ao carregar relatórios da Minha Área:', erro);
+      elCarregando.style.display = 'none';
+      elErro.style.display = 'block';
+    });
+</script>
+
+</body>
+</html>

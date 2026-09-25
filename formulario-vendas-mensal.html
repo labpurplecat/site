@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finspots | Envie os dados do mês</title>
+<meta name="description" content="Upload mensal de vendas e financeiro para o Acompanhamento Mensal Finspots.">
+<link rel="icon" type="image/png" href="assets/img/finspots-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+--azul: #071730;
+--quase-preto: #00031B;
+--laranja: #FF5500;
+--laranja-fraco: rgba(255,85,0,0.13);
+--branco: #FFFFFF;
+--suave: #A9B2D6;
+--fraco: #6B76A8;
+--borda: rgba(255,255,255,0.09);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+background-color: var(--azul); color: var(--branco);
+line-height: 1.55; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--laranja); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+.wrap-estreito { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+section { padding: 56px 0; }
+.central { text-align: center; }
+
+h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; line-height: 1.2; letter-spacing: -0.4px; }
+h2 { font-size: 19px; font-weight: 700; }
+p { color: var(--suave); font-size: 15px; }
+
+.btn {
+display: inline-block; font-family: inherit; font-size: 15px; font-weight: 600;
+text-decoration: none; padding: 15px 30px; border-radius: 10px; border: none; cursor: pointer;
+}
+.btn-primario { background: var(--laranja); color: var(--branco); width: 100%; }
+.btn-primario:disabled { background: var(--fraco); cursor: not-allowed; opacity: 0.6; }
+
+header { padding: 26px 0; text-align: center; }
+.logo { font-size: 21px; font-weight: 800; letter-spacing: -0.3px; text-decoration: none; display: inline-block; }
+.logo img { height: 42px; }
+
+.selo-mes {
+display: inline-flex; align-items: center; gap: 8px; background: var(--laranja-fraco); color: var(--laranja);
+font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 20px; margin-top: 18px;
+}
+
+.aviso-erro {
+background: rgba(255,85,0,0.1); border: 1px solid var(--laranja); border-radius: 10px;
+padding: 14px 18px; font-size: 13.5px; color: var(--branco); margin-bottom: 24px; text-align: left; display: none;
+}
+
+.form-grupo { margin-bottom: 32px; text-align: left; }
+.form-grupo .titulo-grupo { display: block; font-size: 15px; font-weight: 700; color: var(--branco); margin-bottom: 6px; }
+.form-grupo .subtitulo-grupo { display: block; font-size: 13px; color: var(--fraco); margin-bottom: 16px; }
+.campo { margin-bottom: 16px; }
+.campo label { display: block; font-size: 13px; color: var(--suave); margin-bottom: 6px; }
+.campo input[type=text], .campo input[type=number] {
+width: 100%; background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px;
+padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
+}
+.duas-colunas-campo { display: grid; gap: 14px; }
+@media (min-width: 560px) { .duas-colunas-campo { grid-template-columns: 1fr 1fr; } }
+
+.upload-area { border: 1.5px dashed var(--borda); border-radius: 12px; padding: 28px; text-align: center; margin-bottom: 14px; }
+.upload-area input[type=file] { margin-top: 14px; color: var(--suave); font-size: 13px; }
+.upload-area .exemplos { font-size: 12px; color: var(--fraco); margin-top: 10px; }
+.upload-area.destaque { border-color: var(--laranja); background: rgba(255,85,0,0.05); }
+
+.lista-instrucoes { text-align: left; font-size: 13.5px; color: var(--suave); padding-left: 18px; margin-top: 10px; }
+.lista-instrucoes li { margin-bottom: 6px; }
+.lista-instrucoes b { color: var(--branco); }
+
+footer { padding: 30px 0; text-align: center; font-size: 13px; color: var(--fraco); }
+b, strong { color: var(--branco); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header>
+<a href="index.html" class="logo"><img src="assets/img/finspots-logo.png" alt="Finspots" style="height:42px;"></a>
+</header>
+
+<section class="central" style="padding-bottom:0;">
+<div class="wrap-estreito">
+<h1>Joga os dados do mês aqui</h1>
+<p style="margin-top:12px;">Mesma lógica de sempre: você sobe o que tiver, a gente cuida do resto. Leva menos de 2 minutos.</p>
+<span class="selo-mes" id="seloMes">Mês de referência: carregando…</span>
+</div>
+</section>
+
+<section style="padding-top:32px;">
+<div class="wrap-estreito">
+
+<p class="aviso-erro" id="erro-envio"></p>
+
+<form id="form-vendas-mensal">
+
+<div class="form-grupo">
+<span class="titulo-grupo">Vendas do mês</span>
+<span class="subtitulo-grupo">O relatório de pedidos que você baixa da própria plataforma de vendas, ou sua planilha de controle.</span>
+<div class="upload-area destaque">
+<p><strong>Envie o export de cada canal que você usa</strong> (pode subir mais de um arquivo).</p>
+<input type="file" name="arquivos_vendas" multiple accept=".csv,.txt,.xlsx,.xls">
+<p class="exemplos">Exemplos: relatório de vendas do Mercado Livre, da Shopee, da Shopify, ou sua própria planilha de pedidos (CSV ou Excel).</p>
+</div>
+<ul class="lista-instrucoes">
+<li>Não precisa organizar nada, manda como baixou da plataforma.</li>
+<li>Pra gente identificar produto, cliente e canal certinho, o arquivo precisa ter pelo menos: <b>o nome/código do produto</b>, <b>um identificador do comprador</b> (email, ID, CPF/telefone) e <b>o valor da venda</b>.</li>
+<li>Sem uma dessas três colunas, aquela linha específica não entra no cálculo, mas o resto do arquivo continua sendo usado normalmente.</li>
+</ul>
+</div>
+
+<div class="form-grupo">
+<span class="titulo-grupo">Financeiro do mês</span>
+<span class="subtitulo-grupo">Os mesmos números de sempre: extrato, custos, anúncios.</span>
+<div class="upload-area">
+<input type="file" name="arquivos_financeiro" multiple accept=".csv,.txt,.xlsx,.xls,.pdf">
+<p class="exemplos">Exemplos: extrato bancário, relatório de anúncios, planilha de custos fixos/variáveis (CSV, Excel ou PDF).</p>
+</div>
+</div>
+
+<button type="submit" class="btn btn-primario" id="btn-enviar">Enviar dados do mês</button>
+</form>
+</div>
+</section>
+
+<footer>
+<div>Finspots: os dados enviados aqui são usados exclusivamente para gerar sua análise mensal.</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+var API_URL = 'https://saf-production.up.railway.app';
+
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// NOTA INTERNA: o mês de referência é sempre o mês corrente da sessão do
+// cliente, calculado aqui (nunca escolhido por ele) — ver Relatorio.mes_referencia
+// em database.py, no repositório SAF, e Month em monthly_engine_models.py
+// (mesmos nomes de mês, pra bater com o que o motor grava).
+var NOMES_MES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+var agora = new Date();
+var periodoAtual = NOMES_MES[agora.getMonth()] + '/' + agora.getFullYear();
+document.getElementById('seloMes').textContent = 'Mês de referência: ' + NOMES_MES[agora.getMonth()] + ' de ' + agora.getFullYear();
+
+// Checagem antecipada de sessão: evita o cliente preencher tudo pra só
+// descobrir na hora de enviar que o link mágico expirou.
+fetch(API_URL + '/minha-area/relatorios', { credentials: 'include' })
+  .then(function (resposta) {
+    if (resposta.status === 401) window.location.href = 'login.html';
+  })
+  .catch(function () { /* checagem só antecipa o problema — o envio confere de novo */ });
+
+function lerComoTexto(arquivo) {
+  return new Promise(function (resolve, reject) {
+    var leitor = new FileReader();
+    leitor.onload = function () { resolve(leitor.result); };
+    leitor.onerror = function () { reject(leitor.error || new Error('erro de leitura')); };
+    leitor.readAsText(arquivo);
+  });
+}
+
+function lerComoArrayBuffer(arquivo) {
+  return new Promise(function (resolve, reject) {
+    var leitor = new FileReader();
+    leitor.onload = function () { resolve(leitor.result); };
+    leitor.onerror = function () { reject(leitor.error || new Error('erro de leitura')); };
+    leitor.readAsArrayBuffer(arquivo);
+  });
+}
+
+function lerPlanilha(arquivo) {
+  return lerComoArrayBuffer(arquivo).then(function (buffer) {
+    var pasta = XLSX.read(buffer, { type: 'array' });
+    var partes = [];
+    pasta.SheetNames.forEach(function (nomeAba) {
+      partes.push('--- ' + nomeAba + ' ---\n' + XLSX.utils.sheet_to_csv(pasta.Sheets[nomeAba]));
+    });
+    return partes.join('\n\n');
+  });
+}
+
+function lerPdf(arquivo) {
+  return lerComoArrayBuffer(arquivo).then(function (buffer) {
+    return pdfjsLib.getDocument({ data: buffer }).promise.then(function (pdf) {
+      var promessasPaginas = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        promessasPaginas.push(
+          pdf.getPage(i).then(function (pagina) {
+            return pagina.getTextContent().then(function (conteudo) {
+              return conteudo.items.map(function (item) { return item.str; }).join(' ');
+            });
+          })
+        );
+      }
+      return Promise.all(promessasPaginas).then(function (textosPagina) { return textosPagina.join('\n'); });
+    });
+  });
+}
+
+function extensao(nomeArquivo) {
+  var partes = nomeArquivo.split('.');
+  return partes.length > 1 ? partes.pop().toLowerCase() : '';
+}
+
+function converterArquivo(arquivo) {
+  var ext = extensao(arquivo.name);
+  if (ext === 'xlsx' || ext === 'xls') return lerPlanilha(arquivo);
+  if (ext === 'pdf') return lerPdf(arquivo);
+  return lerComoTexto(arquivo); // csv, txt e qualquer outro texto simples
+}
+
+var form = document.getElementById('form-vendas-mensal');
+var inputVendas = form.querySelector('input[name=arquivos_vendas]');
+var inputFinanceiro = form.querySelector('input[name=arquivos_financeiro]');
+var btnEnviar = document.getElementById('btn-enviar');
+var erroEl = document.getElementById('erro-envio');
+
+function mostrarErro(msg) {
+  erroEl.textContent = msg;
+  erroEl.style.display = 'block';
+}
+
+function esconderErro() {
+  erroEl.style.display = 'none';
+}
+
+form.addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  esconderErro();
+
+  var arquivosVendas = Array.prototype.slice.call(inputVendas.files);
+  var arquivosFinanceiro = Array.prototype.slice.call(inputFinanceiro.files);
+
+  if (arquivosVendas.length === 0 && arquivosFinanceiro.length === 0) {
+    mostrarErro('Envie pelo menos um arquivo de vendas ou financeiro antes de continuar.');
+    return;
+  }
+
+  var textoOriginalBtn = btnEnviar.textContent;
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = 'Lendo arquivos...';
+
+  var conteudoArquivosVendas = {};
+  var conteudoArquivosFinanceiro = {};
+  var arquivosInfoFinanceiro = [];
+
+  var leituraVendas = Promise.all(arquivosVendas.map(function (arquivo) {
+    return converterArquivo(arquivo)
+      .then(function (texto) { conteudoArquivosVendas[arquivo.name] = texto; })
+      .catch(function (erro) {
+        throw new Error('Não consegui ler o arquivo "' + arquivo.name + '" (vendas). Tenta exportar em CSV ou Excel.');
+      });
+  }));
+
+  var leituraFinanceiro = Promise.all(arquivosFinanceiro.map(function (arquivo) {
+    arquivosInfoFinanceiro.push({
+      nome: arquivo.name,
+      formato: extensao(arquivo.name),
+      tamanho: Math.round((arquivo.size / 1024 / 1024) * 100) / 100,
+    });
+    return converterArquivo(arquivo)
+      .then(function (texto) { conteudoArquivosFinanceiro[arquivo.name] = texto; })
+      .catch(function (erro) {
+        throw new Error('Não consegui ler o arquivo "' + arquivo.name + '" (financeiro). Tenta exportar em CSV ou Excel.');
+      });
+  }));
+
+  Promise.all([leituraVendas, leituraFinanceiro])
+    .then(function () {
+      btnEnviar.textContent = 'Enviando...';
+      return fetch(API_URL + '/processar?tipo_produto=Mensalidade', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          respostas_formulario: { periodo: periodoAtual },
+          arquivos_info: arquivosInfoFinanceiro,
+          conteudo_arquivos: conteudoArquivosFinanceiro,
+          conteudo_arquivos_vendas: conteudoArquivosVendas,
+        }),
+      });
+    })
+    .then(function (resposta) {
+      if (resposta.status === 401) {
+        window.location.href = 'login.html';
+        return null;
+      }
+      if (!resposta.ok) {
+        return resposta.json().catch(function () { return {}; }).then(function (corpo) {
+          throw new Error(corpo.detail || ('status ' + resposta.status));
+        });
+      }
+      return resposta.json();
+    })
+    .then(function (resultado) {
+      if (resultado === null) return; // já redirecionando pro login
+      window.location.href = 'obrigado.html';
+    })
+    .catch(function (erro) {
+      console.error('Falha ao enviar dados do mês:', erro);
+      btnEnviar.disabled = false;
+      btnEnviar.textContent = textoOriginalBtn;
+      var mensagemLeitura = erro.message && erro.message.indexOf('Não consegui ler') === 0;
+      mostrarErro(mensagemLeitura
+        ? erro.message
+        : 'Não foi possível enviar seus dados agora. Confira sua conexão e tenta de novo. Se persistir, chama no WhatsApp.');
+    });
+});
+</script>
+
+</body>
+</html>

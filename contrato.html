@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finspots | Termos do Diagnóstico</title>
+<link rel="icon" type="image/png" href="assets/img/finspots-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+--azul: #071730;
+--quase-preto: #00031B;
+--laranja: #FF5500;
+--laranja-fraco: rgba(255,85,0,0.13);
+--branco: #FFFFFF;
+--suave: #A9B2D6;
+--fraco: #6B76A8;
+--borda: rgba(255,255,255,0.09);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+background-color: var(--azul); color: var(--branco);
+line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--laranja); outline-offset: 3px; }
+
+.wrap-estreito { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+section { padding: 60px 0; }
+.central { text-align: center; }
+
+h1 { font-size: clamp(24px, 3.6vw, 30px); font-weight: 800; }
+p { color: var(--suave); font-size: 15px; }
+
+.btn {
+display: inline-block; font-family: inherit; font-size: 15px; font-weight: 600;
+text-decoration: none; padding: 15px 30px; border-radius: 10px; border: none; cursor: pointer; width: 100%;
+}
+.btn-primario { background: var(--laranja); color: var(--branco); }
+.btn-primario:disabled { background: var(--fraco); cursor: not-allowed; opacity: 0.6; }
+
+header { padding: 26px 0; text-align: center; }
+.logo { font-size: 21px; font-weight: 800; text-decoration: none; display: inline-block; }
+.logo img { height: 42px; }
+
+.contrato-caixa {
+background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 14px;
+padding: 28px 26px; margin: 32px 0; text-align: left; font-size: 14px; color: var(--suave);
+}
+.contrato-caixa h2 { font-size: 15px; color: var(--branco); margin-bottom: 10px; margin-top: 22px; }
+.contrato-caixa > h2:first-child, .contrato-caixa .caixa-head:first-child h2 { margin-top: 0; }
+.contrato-caixa p { margin-bottom: 4px; font-size: 13.5px; }
+
+.caixa-head { display: flex; align-items: center; gap: 12px; margin-top: 22px; }
+.caixa-head:first-child { margin-top: 0; }
+.caixa-head h2 { margin: 0; }
+.icone {
+width: 36px; height: 36px; border-radius: 10px;
+background: var(--laranja-fraco); flex-shrink: 0;
+display: flex; align-items: center; justify-content: center;
+}
+.icone svg { width: 17px; height: 17px; stroke: var(--laranja); fill: none; stroke-width: 1.8; }
+
+.lista-check { list-style: none; margin-top: 12px; display: grid; gap: 10px; }
+.lista-check li { display: flex; gap: 10px; font-size: 13.5px; color: var(--suave); align-items: flex-start; }
+.check-marca {
+width: 18px; height: 18px; border-radius: 50%; background: var(--laranja-fraco);
+flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px;
+}
+.check-marca svg { width: 10px; height: 10px; stroke: var(--laranja); stroke-width: 3; fill: none; }
+
+.preco-destaque { font-size: 20px; font-weight: 800; color: var(--laranja); }
+
+.aceite {
+display: flex; align-items: flex-start; gap: 10px; text-align: left;
+font-size: 13.5px; color: var(--suave); margin-bottom: 24px; cursor: pointer;
+}
+.aceite input { margin-top: 3px; accent-color: var(--laranja); flex-shrink: 0; }
+
+.campo-email { margin-bottom: 20px; text-align: left; }
+.campo-email label { display: block; font-size: 13px; color: var(--suave); margin-bottom: 6px; }
+.campo-email input {
+width: 100%; background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px;
+padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
+}
+.nota-checkout { font-size: 11.5px; color: var(--fraco); text-align: center; margin-top: 10px; }
+.msg-erro { font-size: 12.5px; color: var(--laranja); text-align: center; margin-top: 12px; display: none; }
+
+footer { padding: 30px 0; text-align: center; font-size: 12.5px; color: var(--fraco); }
+  #bg-particulas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    pointer-events: none; filter: blur(1.5px);
+  }
+
+</style>
+</head>
+<body>
+<canvas id="bg-particulas"></canvas>
+
+
+<header>
+<a href="index.html" class="logo"><img src="assets/img/finspots-logo.png" alt="Finspots"></a>
+</header>
+
+<section class="central">
+<div class="wrap-estreito">
+<h1>Antes de continuar, confirme os termos</h1>
+
+<div class="contrato-caixa">
+<div class="caixa-head">
+<span class="icone"><svg viewBox="0 0 24 24"><path d="M21 8V21H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg></span>
+<h2>O que você está contratando</h2>
+</div>
+<p><b style="color:var(--branco);">Diagnóstico Financeiro Finspots:</b> uma análise pontual da sua operação de e-commerce, com diagnóstico dos principais pontos financeiros e de vendas.</p>
+<p style="margin-top:12px;">Você recebe:</p>
+<ul class="lista-check">
+<li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span><b style="color:var(--branco);">PDF personalizado</b> com a análise</span></li>
+<li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Análise de <b style="color:var(--branco);">até 3 canais de venda</b></span></li>
+<li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span><b style="color:var(--branco);">Vídeo personalizado</b> explicando os principais achados e o que fazer</span></li>
+<li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span><b style="color:var(--branco);">Suporte via WhatsApp por até 30 dias</b> após a entrega do diagnóstico</span></li>
+</ul>
+
+<div class="caixa-head">
+<span class="icone"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
+<h2>Investimento</h2>
+  <span style="margin-left:auto; padding:4px 10px; border-radius:20px; background:var(--laranja-fraco); color:var(--laranja); font-size:11px; font-weight:700; letter-spacing:0.3px; white-space:nowrap;">🚀 Versão Beta</span>
+</div>
+<p><span class="preco-destaque">R$ 800,00</span> em pagamento único.</p>
+
+<div class="caixa-head">
+<span class="icone"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
+<h2>Garantia</h2>
+</div>
+<p>Você tem <b style="color:var(--branco);">7 dias de garantia</b>. Se, dentro desse período, entender que o diagnóstico não entregou a clareza esperada, poderá solicitar o reembolso integral do valor pago.</p>
+</div>
+
+<div class="campo-email">
+<label for="email-cliente">Seu email</label>
+<input type="email" id="email-cliente" placeholder="voce@email.com">
+</div>
+
+<label class="aceite">
+<input type="checkbox" id="aceite-termos">
+<span>Li e concordo com os termos acima e com as <a href="condicoes-contratacao.html" style="color:var(--laranja); text-decoration:underline;">Condições de Contratação</a> completas.</span>
+</label>
+
+<button class="btn btn-primario" id="btn-continuar" disabled>Concordo, ir para pagamento</button>
+<p class="nota-checkout">Você será levado ao checkout seguro do Mercado Pago</p>
+<p class="msg-erro" id="msg-erro"></p>
+
+<p style="margin-top:28px; font-size:13px;">Ficou com dúvida antes de continuar? <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja); text-decoration:underline;">Chama no WhatsApp</a></p>
+</div>
+</section>
+
+<footer>Finspots | Inteligência de Vendas e Finanças para E-commerce</footer>
+
+<script>
+var API_URL = 'https://saf-production.up.railway.app';
+
+var check = document.getElementById('aceite-termos');
+var email = document.getElementById('email-cliente');
+var btn = document.getElementById('btn-continuar');
+var msgErro = document.getElementById('msg-erro');
+var TEXTO_BOTAO_PADRAO = btn.textContent;
+
+function atualizarBotao() {
+var emailValido = email.value.includes('@') && email.value.includes('.');
+btn.disabled = !(check.checked && emailValido);
+}
+
+check.addEventListener('change', atualizarBotao);
+email.addEventListener('input', atualizarBotao);
+
+btn.addEventListener('click', function () {
+msgErro.style.display = 'none';
+btn.disabled = true;
+btn.textContent = 'Só um instante...';
+
+var url = API_URL + '/pagamento/criar-preferencia'
++ '?email=' + encodeURIComponent(email.value)
++ '&tipo_produto=' + encodeURIComponent('Diagnóstico');
+
+fetch(url, { method: 'POST' })
+.then(function (resposta) {
+if (!resposta.ok) {
+throw new Error('HTTP ' + resposta.status);
+}
+return resposta.json();
+})
+.then(function (dados) {
+if (!dados.checkout_url) {
+throw new Error('resposta sem checkout_url');
+}
+window.location.href = dados.checkout_url;
+})
+.catch(function (erro) {
+msgErro.textContent = 'Não deu pra continuar pro pagamento agora (' + erro.message + '). Tenta de novo em alguns instantes ou chama no WhatsApp.';
+msgErro.style.display = 'block';
+btn.disabled = false;
+btn.textContent = TEXTO_BOTAO_PADRAO;
+});
+});
+</script>
+<script>
+/**
+ * Background de Partículas de Rede - Estilo Flutuante com Profundidade
+ * Tom de azul: #204aa8
+ * Efeito inspirado em bokeh/profundidade de campo, com movimento suave e orgânico
+ */
+
+(function () {
+  const canvas = document.getElementById('bg-particulas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  // Cor base solicitada: #204aa8
+  const AZUL = { r: 32, g: 74, b: 168 };
+  // Tom mais claro da mesma família - usado só no brilho central das partículas em foco
+  const AZUL_CLARO = { r: 144, g: 165, b: 212 };
+
+  const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const config = {
+    numParticulas: 100,
+    distanciaMax: 190,
+    velocidadeBase: reduzMovimento ? 0.03 : 0.24,
+    amplitudeMax: reduzMovimento ? 0 : 34,
+    focoAlvo: 0.55,               // profundidade que fica "em foco" (efeito bokeh)
+    incrementoTempo: reduzMovimento ? 0.003 : 0.02,
+    pulsoAmplitude: reduzMovimento ? 0.04 : 0.15,
+  };
+
+  let largura, altura, particulas, sprite, tempo = 0;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function redimensionar() {
+    largura = canvas.width = window.innerWidth;
+    altura = canvas.height = window.innerHeight;
+  }
+
+  // Sprite pré-renderizado (gradiente radial): muito mais rápido do que
+  // desenhar um gradiente novo pra cada partícula em cada frame
+  function criarSprite() {
+    const tam = 160;
+    const c = document.createElement('canvas');
+    c.width = tam;
+    c.height = tam;
+    const sctx = c.getContext('2d');
+    const grad = sctx.createRadialGradient(tam / 2, tam / 2, 0, tam / 2, tam / 2, tam / 2);
+    grad.addColorStop(0,    `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, 1)`);
+    grad.addColorStop(0.28, `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, 0.55)`);
+    grad.addColorStop(0.6,  `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, 0.14)`);
+    grad.addColorStop(1,    `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, 0)`);
+    sctx.fillStyle = grad;
+    sctx.fillRect(0, 0, tam, tam);
+    return c;
+  }
+
+  function criarParticulas() {
+    particulas = [];
+    for (let i = 0; i < config.numParticulas; i++) {
+      // profundidade: 0 = mais longe, 1 = mais perto (efeito parallax)
+      const profundidade = Math.random();
+
+      // quanto mais longe da distância de foco, mais desfocada (bokeh)
+      const desfoqueBruto = Math.abs(profundidade - config.focoAlvo);
+      const desfoqueNorm = Math.min(1, desfoqueBruto / Math.max(config.focoAlvo, 1 - config.focoAlvo));
+      const foco = 1 - desfoqueNorm;
+
+      particulas.push({
+        x: Math.random() * largura,
+        y: Math.random() * altura,
+        vx: (Math.random() - 0.5) * config.velocidadeBase,
+        vy: (Math.random() - 0.5) * config.velocidadeBase,
+        profundidade,
+        foco,
+        raioBase: lerp(1.1, 2.6, profundidade) + Math.random() * 0.4,
+        escalaGlow: lerp(9, 3, foco) + (Math.random() - 0.5) * 1.2,
+        opacidadeBase: lerp(0.42, 0.13, desfoqueNorm) * lerp(0.75, 1, profundidade),
+        faseX: Math.random() * Math.PI * 2,
+        faseY: Math.random() * Math.PI * 2,
+        freqX: 0.15 + Math.random() * 0.2,
+        freqY: 0.15 + Math.random() * 0.2,
+        amplitude: lerp(config.amplitudeMax * 0.4, config.amplitudeMax, profundidade),
+        faseBrilho: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  function atualizarPosicoes() {
+    const margem = 60;
+    for (let i = 0; i < particulas.length; i++) {
+      const p = particulas[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < -margem) p.x = largura + margem;
+      if (p.x > largura + margem) p.x = -margem;
+      if (p.y < -margem) p.y = altura + margem;
+      if (p.y > altura + margem) p.y = -margem;
+    }
+  }
+
+  // Posição "flutuante" = posição base + oscilação suave em senoide (bobbing orgânico)
+  function calcularPosicoesRenderizadas() {
+    return particulas.map(p => ({
+      x: p.x + Math.sin(tempo * p.freqX + p.faseX) * p.amplitude,
+      y: p.y + Math.cos(tempo * p.freqY + p.faseY) * p.amplitude,
+    }));
+  }
+
+  function desenharLinhas(posicoes) {
+    ctx.lineWidth = 1;
+    for (let a = 0; a < particulas.length; a++) {
+      for (let b = a + 1; b < particulas.length; b++) {
+        const p1 = posicoes[a], p2 = posicoes[b];
+        const dx = p1.x - p2.x, dy = p1.y - p2.y;
+        const distSq = dx * dx + dy * dy;
+        if (distSq < config.distanciaMax * config.distanciaMax) {
+          const dist = Math.sqrt(distSq);
+          const opacidade = 0.2 * (1 - dist / config.distanciaMax);
+          ctx.strokeStyle = `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, ${opacidade})`;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function desenharParticulas(posicoes) {
+    for (let i = 0; i < particulas.length; i++) {
+      const p = particulas[i];
+      const pos = posicoes[i];
+
+      const pulso = 0.9 + Math.sin(tempo * 0.6 + p.faseBrilho) * config.pulsoAmplitude;
+      const opacidade = p.opacidadeBase * pulso;
+      const tamanho = p.raioBase * p.escalaGlow;
+
+      // halo suave (gradiente pré-renderizado) - dá a maciez e o efeito de profundidade
+      ctx.globalAlpha = opacidade;
+      ctx.drawImage(sprite, pos.x - tamanho / 2, pos.y - tamanho / 2, tamanho, tamanho);
+
+      // núcleo nítido - só aparece nas partículas "em foco", reforçando a profundidade
+      if (p.foco > 0.55) {
+        const intensidade = (p.foco - 0.55) / 0.45;
+        ctx.globalAlpha = intensidade * 0.8 * pulso;
+        ctx.fillStyle = `rgb(${AZUL_CLARO.r}, ${AZUL_CLARO.g}, ${AZUL_CLARO.b})`;
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, p.raioBase * 0.55, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function animar() {
+    tempo += config.incrementoTempo;
+    ctx.clearRect(0, 0, largura, altura);
+
+    atualizarPosicoes();
+    const posicoes = calcularPosicoesRenderizadas();
+
+    desenharLinhas(posicoes);
+    desenharParticulas(posicoes);
+
+    requestAnimationFrame(animar);
+  }
+
+  redimensionar();
+  sprite = criarSprite();
+  criarParticulas();
+
+  window.addEventListener('resize', () => {
+    redimensionar();
+    criarParticulas();
+  });
+
+  animar();
+})();
+
+</script>
+</body>
+</html>
