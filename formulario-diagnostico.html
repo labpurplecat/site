@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Finspots | Envie seus dados para o Diagnóstico</title>
+<meta name="robots" content="noindex">
 <meta name="description" content="Formulário de envio de dados para o Diagnóstico Financeiro Finspots.">
 <link rel="icon" type="image/png" href="assets/img/finspots-favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,46 +90,77 @@ padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
 .upload-area { border: 1.5px dashed var(--borda); border-radius: 12px; padding: 28px; text-align: center; }
 .upload-area input[type=file] { margin-top: 14px; color: var(--suave); font-size: 13px; }
 .upload-area .exemplos { font-size: 12px; color: var(--fraco); margin-top: 10px; }
+.checklist { background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 12px; padding: 20px 22px; margin-bottom: 32px; text-align: left; }
+.checklist p { font-size: 13.5px; }
+.checklist ul { padding-left: 20px; margin-top: 8px; display: grid; gap: 6px; }
+.checklist li { font-size: 13.5px; color: var(--suave); }
+.checklist .sub { color: var(--branco); font-weight: 700; margin-top: 14px; }
+.dica-campo { font-size: 12px; color: var(--fraco); margin-top: 6px; }
+.honey { position: absolute; left: -9999px; }
 
 footer { padding: 30px 0; text-align: center; font-size: 13px; color: var(--fraco); }
 b, strong { color: var(--branco); font-weight: 700; }
+#bg-fundo { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--azul) url('assets/img/fundo-ondas.jpg') center / cover no-repeat; }
 </style>
 </head>
 <body>
+<div id="bg-fundo" aria-hidden="true"></div>
 
 <header>
 <a href="index.html" class="logo"><img src="assets/img/finspots-logo.png" alt="Finspots" style="height:42px;"></a>
 </header>
 
-<section class="central">
+<section class="central" style="padding-bottom:32px;">
 <div class="wrap-estreito">
-<h1>Antes de começar, veja como funciona</h1>
-<p style="margin-top:12px;">Esse vídeo explica rapidinho o que preencher e o que anexar. Leva menos de 2 minutos.</p>
-<div class="placeholder video" style="margin-top:28px;">
-<span class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-<p>Vídeo de recepção: explica o passo a passo do formulário e o que esperar do diagnóstico</p>
-</div>
+<h1>Envie seus dados para o diagnóstico</h1>
+<p style="margin-top:12px;">Obrigada pela compra! Preencha as informações abaixo e anexe seus arquivos. A análise começa assim que os dados chegarem, e o prazo de entrega é de <b>até 3 dias úteis</b>.</p>
 </div>
 </section>
 
 <section style="padding-top:0;">
 <div class="wrap-estreito">
-<div class="aviso-nao-conectado">
-<strong>Pagamento confirmado!</strong> Falta só um passo: preencha os dados abaixo e anexe seus arquivos pra gente começar a sua análise.
+
+<div class="checklist">
+<p class="sub" style="margin-top:0;">O que enviar</p>
+<p style="margin-top:6px;">Envie do jeito que tiver: relatórios das plataformas, planilhas, extratos ou prints. Não precisa organizar nada.</p>
+<p class="sub">O essencial (do período analisado)</p>
+<ul>
+<li>faturamento e devoluções;</li>
+<li>custo dos produtos vendidos;</li>
+<li>frete e embalagem;</li>
+<li>custos fixos e pró-labore;</li>
+<li>número de pedidos;</li>
+<li>vendas e comissões de cada canal (até 3 canais).</li>
+</ul>
+<p class="sub">Para a análise completa</p>
+<ul>
+<li>extrato do período de todas as contas da empresa (banco, Mercado Pago e outras carteiras), de preferência em OFX;</li>
+<li>o que já tem data para entrar e sair nas próximas semanas: repasses a liberar, boletos, parcelas;</li>
+<li>valor investido em anúncios e quantos clientes novos eles trouxeram;</li>
+<li>prazos de recebimento e pagamento e dados de recompra.</li>
+</ul>
+<p style="margin-top:12px; font-size:12.5px; color:var(--fraco);">O que não for enviado fica de fora da análise, e o relatório mostra o que faltou.</p>
 </div>
 
 <p class="aviso-erro" id="erro-envio"></p>
 
-<form id="form-diagnostico" novalidate>
+<form id="form-diagnostico" method="POST" enctype="multipart/form-data" novalidate>
+<!-- Configuração do FormSubmit (envio para o seu e-mail) -->
+<input type="hidden" name="_subject" value="Novo pedido: Diagnóstico Financeiro Finspots">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_next" value="https://finspots.com.br/obrigado.html">
+<input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
 <div class="form-grupo">
 <span class="titulo-grupo">Identificação</span>
 <div class="duas-colunas-campo">
-<div class="campo"><label for="loja">Nome da loja <span class="obrigatorio">*</span></label><input type="text" id="loja" name="loja" required></div>
-<div class="campo"><label for="responsavel">Seu nome</label><input type="text" id="responsavel" name="responsavel"></div>
+<div class="campo"><label for="loja">Nome da loja <span class="obrigatorio">*</span></label><input type="text" id="loja" name="Nome da loja" required></div>
+<div class="campo"><label for="responsavel">Seu nome <span class="obrigatorio">*</span></label><input type="text" id="responsavel" name="Responsável" required></div>
 </div>
 <div class="duas-colunas-campo">
-<div class="campo"><label for="email">Email de contato</label><input type="email" id="email" name="email"></div>
-<div class="campo"><label for="whatsapp">WhatsApp</label><input type="tel" id="whatsapp" name="whatsapp"></div>
+<div class="campo"><label for="email">E-mail para receber o diagnóstico <span class="obrigatorio">*</span></label><input type="email" id="email" name="email" required autocomplete="email"><p class="dica-campo">Use o mesmo e-mail do pagamento, se puder.</p></div>
+<div class="campo"><label for="whatsapp">WhatsApp</label><input type="tel" id="whatsapp" name="WhatsApp" autocomplete="tel"></div>
 </div>
 </div>
 
@@ -136,11 +168,13 @@ b, strong { color: var(--branco); font-weight: 700; }
 <span class="titulo-grupo">Sobre o negócio</span>
 <div class="campo">
 <label for="periodo">Qual período os seus arquivos cobrem? <span class="obrigatorio">*</span></label>
-<input type="text" id="periodo" name="periodo" placeholder="Ex: Agosto/2026 ou Junho a Agosto/2026" required>
+<input type="text" id="periodo" name="Período" placeholder="Ex: Agosto/2026 ou Junho a Agosto/2026" required>
 </div>
+<div class="duas-colunas-campo">
 <div class="campo">
 <label for="regime">Regime tributário</label>
-<select id="regime" name="regime">
+<select id="regime" name="Regime tributário">
+<option value="">Selecione...</option>
 <option>MEI</option>
 <option>Simples Nacional</option>
 <option>Lucro Presumido</option>
@@ -149,19 +183,9 @@ b, strong { color: var(--branco); font-weight: 700; }
 </select>
 </div>
 <div class="campo">
-<label>Canais de venda (marque todos que usa)</label>
-<div class="campo-checkbox-grupo">
-<label class="campo-checkbox"><input type="checkbox" name="canal" value="site"> Site próprio</label>
-<label class="campo-checkbox"><input type="checkbox" name="canal" value="ml"> Mercado Livre</label>
-<label class="campo-checkbox"><input type="checkbox" name="canal" value="shopee"> Shopee</label>
-<label class="campo-checkbox"><input type="checkbox" name="canal" value="amazon"> Amazon</label>
-<label class="campo-checkbox"><input type="checkbox" name="canal" value="social"> Instagram/WhatsApp</label>
-<label class="campo-checkbox"><input type="checkbox" name="canal" value="outro"> Outro</label>
-</div>
-</div>
-<div class="campo">
 <label for="tempo">Há quanto tempo opera?</label>
-<select id="tempo" name="tempo">
+<select id="tempo" name="Tempo de operação">
+<option value="">Selecione...</option>
 <option>Menos de 6 meses</option>
 <option>6 meses a 1 ano</option>
 <option>1 a 3 anos</option>
@@ -169,12 +193,29 @@ b, strong { color: var(--branco); font-weight: 700; }
 </select>
 </div>
 </div>
+<div class="campo">
+<label>Canais de venda para analisar (até 3) <span class="obrigatorio">*</span></label>
+<div class="campo-checkbox-grupo">
+<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Site próprio"> Site próprio</label>
+<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Mercado Livre"> Mercado Livre</label>
+<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Shopee"> Shopee</label>
+<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Amazon"> Amazon</label>
+<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Instagram/WhatsApp"> Instagram/WhatsApp</label>
+<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Outro"> Outro</label>
+</div>
+<p class="dica-campo">Se vende em mais de 3, marque os 3 principais.</p>
+</div>
+</div>
 
 <div class="form-grupo">
-<span class="titulo-grupo">Expectativas</span>
+<span class="titulo-grupo">Informações extras</span>
+<div class="campo">
+<label for="numeros">Números que não estão nos arquivos</label>
+<textarea id="numeros" name="Números informados" placeholder="Ex: aluguel R$ 1.500, pró-labore R$ 3.000, boleto do fornecedor de R$ 4.000 vence dia 10..."></textarea>
+</div>
 <div class="campo">
 <label for="expectativa">O que você mais quer descobrir com esse diagnóstico?</label>
-<textarea id="expectativa" name="expectativa" placeholder="Ex: quero entender se meu canal principal realmente dá lucro..."></textarea>
+<textarea id="expectativa" name="Expectativa" placeholder="Ex: quero entender se meu canal principal realmente dá lucro..."></textarea>
 </div>
 </div>
 
@@ -182,9 +223,11 @@ b, strong { color: var(--branco); font-weight: 700; }
 <span class="titulo-grupo">Seus arquivos</span>
 <div class="upload-area">
 <p><strong>Envie o que tiver disponível</strong>, não precisa estar organizado.</p>
-<input type="file" id="arquivos" name="arquivos" multiple accept=".csv,.txt,.xlsx,.xls,.pdf">
-<p class="exemplos">Exemplos: extrato bancário, relatório de vendas da plataforma, planilha de custos, relatório de anúncios. Formatos: CSV, Excel, PDF ou TXT.</p>
+<input type="file" id="arquivos" name="attachment" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.ofx,.png,.jpg,.jpeg,.zip">
+<p class="exemplos">CSV, Excel, PDF, OFX, imagens ou ZIP. Limite de 10 MB somando todos os arquivos.</p>
+<p class="exemplos" id="tamanho-total"></p>
 </div>
+<p class="dica-campo" style="text-align:left;">Arquivos grandes demais? Envie o que couber e mande o resto pelo <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja);">WhatsApp</a>.</p>
 </div>
 
 <button type="submit" class="btn btn-primario" id="btn-enviar">Enviar meus dados</button>
@@ -193,90 +236,22 @@ b, strong { color: var(--branco); font-weight: 700; }
 </section>
 
 <footer>
-<div>Finspots: os dados enviados aqui são usados exclusivamente para gerar seu diagnóstico.</div>
+<div>Finspots: os dados enviados aqui são usados exclusivamente para gerar seu diagnóstico. <a href="privacidade.html" style="color:var(--laranja);">Política de privacidade</a></div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-var API_URL = 'https://saf-production.up.railway.app';
-
-if (window.pdfjsLib) {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-}
-
-// Checagem antecipada de sessão: o cliente chega aqui logado, vindo direto
-// do pagamento (/auth/pos-pagamento na API) ou pelo link do email. Sem
-// sessão, manda pro login antes de ele preencher tudo à toa.
-fetch(API_URL + '/minha-area/relatorios', { credentials: 'include' })
-  .then(function (resposta) {
-    if (resposta.status === 401) window.location.href = 'login.html';
-  })
-  .catch(function () { /* o envio confere de novo */ });
-
-function lerComoTexto(arquivo) {
-  return new Promise(function (resolve, reject) {
-    var leitor = new FileReader();
-    leitor.onload = function () { resolve(leitor.result); };
-    leitor.onerror = function () { reject(leitor.error || new Error('erro de leitura')); };
-    leitor.readAsText(arquivo);
-  });
-}
-
-function lerComoArrayBuffer(arquivo) {
-  return new Promise(function (resolve, reject) {
-    var leitor = new FileReader();
-    leitor.onload = function () { resolve(leitor.result); };
-    leitor.onerror = function () { reject(leitor.error || new Error('erro de leitura')); };
-    leitor.readAsArrayBuffer(arquivo);
-  });
-}
-
-function lerPlanilha(arquivo) {
-  return lerComoArrayBuffer(arquivo).then(function (buffer) {
-    var pasta = XLSX.read(buffer, { type: 'array' });
-    var partes = [];
-    pasta.SheetNames.forEach(function (nomeAba) {
-      partes.push('--- ' + nomeAba + ' ---\n' + XLSX.utils.sheet_to_csv(pasta.Sheets[nomeAba]));
-    });
-    return partes.join('\n\n');
-  });
-}
-
-function lerPdf(arquivo) {
-  return lerComoArrayBuffer(arquivo).then(function (buffer) {
-    return pdfjsLib.getDocument({ data: buffer }).promise.then(function (pdf) {
-      var promessasPaginas = [];
-      for (var i = 1; i <= pdf.numPages; i++) {
-        promessasPaginas.push(
-          pdf.getPage(i).then(function (pagina) {
-            return pagina.getTextContent().then(function (conteudo) {
-              return conteudo.items.map(function (item) { return item.str; }).join(' ');
-            });
-          })
-        );
-      }
-      return Promise.all(promessasPaginas).then(function (textosPagina) { return textosPagina.join('\n'); });
-    });
-  });
-}
-
-function extensao(nomeArquivo) {
-  var partes = nomeArquivo.split('.');
-  return partes.length > 1 ? partes.pop().toLowerCase() : '';
-}
-
-function converterArquivo(arquivo) {
-  var ext = extensao(arquivo.name);
-  if (ext === 'xlsx' || ext === 'xls') return lerPlanilha(arquivo);
-  if (ext === 'pdf') return lerPdf(arquivo);
-  return lerComoTexto(arquivo); // csv, txt e qualquer outro texto simples
-}
+// Endereço de envio do FormSubmit. Depois de ativar, troque o e-mail pelo
+// código aleatório que o FormSubmit te mandar (esconde seu e-mail do código do site).
+var DESTINO_FORMULARIO = 'https://formsubmit.co/SEU_EMAIL_AQUI';
+var LIMITE_MB = 10;
 
 var form = document.getElementById('form-diagnostico');
+form.action = DESTINO_FORMULARIO;
 var inputArquivos = document.getElementById('arquivos');
 var btnEnviar = document.getElementById('btn-enviar');
 var erroEl = document.getElementById('erro-envio');
+var tamanhoEl = document.getElementById('tamanho-total');
+var canais = form.querySelectorAll('input[name="Canais[]"]');
 
 function mostrarErro(msg) {
   erroEl.textContent = msg;
@@ -284,96 +259,52 @@ function mostrarErro(msg) {
   erroEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-function valor(id) {
-  return (document.getElementById(id).value || '').trim();
+function valor(id) { return (document.getElementById(id).value || '').trim(); }
+
+function totalMb() {
+  var total = 0;
+  Array.prototype.forEach.call(inputArquivos.files, function (a) { total += a.size; });
+  return total / 1024 / 1024;
 }
 
-form.addEventListener('submit', function (ev) {
-  ev.preventDefault();
-  erroEl.style.display = 'none';
+inputArquivos.addEventListener('change', function () {
+  var n = inputArquivos.files.length;
+  tamanhoEl.textContent = n ? n + ' arquivo(s), ' + totalMb().toFixed(1).replace('.', ',') + ' MB no total' : '';
+  tamanhoEl.style.color = totalMb() > LIMITE_MB ? 'var(--laranja)' : '';
+});
 
-  if (!valor('loja') || !valor('periodo')) {
-    mostrarErro('Preencha o nome da loja e o período que os arquivos cobrem.');
-    return;
-  }
-
-  var arquivos = Array.prototype.slice.call(inputArquivos.files);
-  if (arquivos.length === 0) {
-    mostrarErro('Anexe pelo menos um arquivo (extrato, relatório de vendas, planilha...) antes de enviar.');
-    return;
-  }
-
-  var canais = Array.prototype.map.call(
-    form.querySelectorAll('input[name=canal]:checked'),
-    function (el) { return el.parentNode.textContent.trim(); }
-  );
-
-  var respostas = {
-    q1_nome_loja: valor('loja'),
-    responsavel: valor('responsavel'),
-    email_contato: valor('email'),
-    whatsapp: valor('whatsapp'),
-    q2_periodo: valor('periodo'),
-    q7_regime: valor('regime'),
-    q9_canais: canais,
-    q6_tempo: valor('tempo'),
-    expectativa: valor('expectativa'),
-  };
-
-  var textoOriginalBtn = btnEnviar.textContent;
-  btnEnviar.disabled = true;
-  btnEnviar.textContent = 'Lendo arquivos...';
-
-  var conteudoArquivos = {};
-  var arquivosInfo = arquivos.map(function (arquivo) {
-    return {
-      nome_arquivo: arquivo.name,
-      formato: extensao(arquivo.name),
-      tamanho_mb: Math.round((arquivo.size / 1024 / 1024) * 100) / 100,
-    };
+Array.prototype.forEach.call(canais, function (c) {
+  c.addEventListener('change', function () {
+    var marcados = form.querySelectorAll('input[name="Canais[]"]:checked').length;
+    if (marcados > 3) {
+      c.checked = false;
+      mostrarErro('O diagnóstico analisa até 3 canais. Marque os 3 principais.');
+    }
   });
+});
 
-  Promise.all(arquivos.map(function (arquivo) {
-    return converterArquivo(arquivo)
-      .then(function (texto) { conteudoArquivos[arquivo.name] = texto; })
-      .catch(function () {
-        throw new Error('Não consegui ler o arquivo "' + arquivo.name + '". Tenta exportar em CSV ou Excel.');
-      });
-  }))
-    .then(function () {
-      btnEnviar.textContent = 'Enviando...';
-      return fetch(API_URL + '/processar?tipo_produto=' + encodeURIComponent('Diagnóstico'), {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          respostas_formulario: respostas,
-          arquivos_info: arquivosInfo,
-          conteudo_arquivos: conteudoArquivos,
-        }),
-      });
-    })
-    .then(function (resposta) {
-      if (resposta.status === 401) {
-        window.location.href = 'login.html';
-        return null;
-      }
-      if (!resposta.ok) throw new Error('status ' + resposta.status);
-      return resposta.json();
-    })
-    .then(function (resultado) {
-      if (resultado === null) return;
-      window.location.href = 'obrigado.html';
-    })
-    .catch(function (erro) {
-      console.error('Falha ao enviar dados do diagnóstico:', erro);
-      btnEnviar.disabled = false;
-      btnEnviar.textContent = textoOriginalBtn;
-      var erroLeitura = erro.message && erro.message.indexOf('Não consegui ler') === 0;
-      mostrarErro(erroLeitura
-        ? erro.message
-        : 'Não foi possível enviar seus dados agora. Confira sua conexão e tenta de novo. Se continuar, chama no WhatsApp.');
-    });
+form.addEventListener('submit', function (ev) {
+  erroEl.style.display = 'none';
+  var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor('email'));
+  var qtdCanais = form.querySelectorAll('input[name="Canais[]"]:checked').length;
+
+  if (!valor('loja') || !valor('responsavel') || !valor('periodo')) {
+    ev.preventDefault(); mostrarErro('Preencha o nome da loja, seu nome e o período que os arquivos cobrem.'); return;
+  }
+  if (!emailOk) {
+    ev.preventDefault(); mostrarErro('Confira o e-mail: é nele que você vai receber o diagnóstico.'); return;
+  }
+  if (qtdCanais === 0) {
+    ev.preventDefault(); mostrarErro('Marque pelo menos um canal de venda.'); return;
+  }
+  if (inputArquivos.files.length === 0) {
+    ev.preventDefault(); mostrarErro('Anexe pelo menos um arquivo (extrato, relatório de vendas, planilha...) antes de enviar.'); return;
+  }
+  if (totalMb() > LIMITE_MB) {
+    ev.preventDefault(); mostrarErro('Os arquivos passam de 10 MB somados. Envie os principais aqui e o restante pelo WhatsApp.'); return;
+  }
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = 'Enviando... (pode levar alguns segundos)';
 });
 </script>
 </body>

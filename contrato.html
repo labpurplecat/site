@@ -40,7 +40,8 @@ display: inline-block; font-family: inherit; font-size: 15px; font-weight: 600;
 text-decoration: none; padding: 15px 30px; border-radius: 10px; border: none; cursor: pointer; width: 100%;
 }
 .btn-primario { background: var(--laranja); color: var(--branco); }
-.btn-primario:disabled { background: var(--fraco); cursor: not-allowed; opacity: 0.6; }
+.btn-primario[aria-disabled="true"] { background: var(--fraco); cursor: not-allowed; opacity: 0.6; }
+.passo-2 { display: none; margin-top: 32px; padding: 24px; border: 1.5px solid var(--laranja); border-radius: 14px; background: var(--quase-preto); }
 
 header { padding: 26px 0; text-align: center; }
 .logo { font-size: 21px; font-weight: 800; text-decoration: none; display: inline-block; }
@@ -129,7 +130,6 @@ footer { padding: 30px 0; text-align: center; font-size: 12.5px; color: var(--fr
 <div class="caixa-head">
 <span class="icone"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
 <h2>Investimento</h2>
-  <span style="margin-left:auto; padding:4px 10px; border-radius:20px; background:var(--laranja-fraco); color:var(--laranja); font-size:11px; font-weight:700; letter-spacing:0.3px; white-space:nowrap;">🚀 Versão Beta</span>
 </div>
 <p><span class="preco-destaque">R$ 800,00</span> em pagamento único.</p>
 
@@ -137,22 +137,23 @@ footer { padding: 30px 0; text-align: center; font-size: 12.5px; color: var(--fr
 <span class="icone"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
 <h2>Garantia</h2>
 </div>
-<p>Você tem <b style="color:var(--branco);">7 dias de garantia</b>. Se, dentro desse período, entender que o diagnóstico não entregou a clareza esperada, poderá solicitar o reembolso integral do valor pago.</p>
-</div>
-
-<div class="campo-email">
-<label for="email-cliente">Seu email</label>
-<input type="email" id="email-cliente" placeholder="voce@email.com">
+<p>Você tem <b style="color:var(--branco);">7 dias de garantia, contados a partir da entrega do diagnóstico</b>. Se, dentro desse período, entender que o diagnóstico não entregou a clareza esperada, poderá solicitar o reembolso integral do valor pago.</p>
 </div>
 
 <label class="aceite">
 <input type="checkbox" id="aceite-termos">
-<span>Li e concordo com os termos acima e com as <a href="condicoes-contratacao.html" style="color:var(--laranja); text-decoration:underline;">Condições de Contratação</a> completas.</span>
+<span>Li e concordo com os termos acima e com as <a href="condicoes-contratacao.html" target="_blank" style="color:var(--laranja); text-decoration:underline;">Condições de Contratação</a> completas.</span>
 </label>
 
-<button class="btn btn-primario" id="btn-continuar" disabled>Concordo, ir para pagamento</button>
-<p class="nota-checkout">Você será levado ao checkout seguro do Mercado Pago</p>
-<p class="msg-erro" id="msg-erro"></p>
+<a class="btn btn-primario" id="btn-continuar" href="#" aria-disabled="true">Concordo, ir para pagamento</a>
+<p class="nota-checkout">O pagamento abre em uma nova aba, no checkout seguro do Mercado Pago.</p>
+
+<div class="passo-2" id="passo-2">
+<p style="color:var(--branco); font-weight:700; font-size:16px;">Pagamento feito? Agora envie seus dados.</p>
+<p style="margin-top:8px;">Assim que concluir o pagamento no Mercado Pago, volte aqui e preencha o formulário com as informações da sua loja. Sua análise começa quando os dados chegarem.</p>
+<a href="formulario-diagnostico.html" class="btn btn-primario" style="margin-top:18px;">Já paguei, enviar meus dados</a>
+<p class="nota-checkout">Se fechar esta página, sem problema: você também recebe o link do formulário no seu e-mail.</p>
+</div>
 
 <p style="margin-top:28px; font-size:13px;">Ficou com dúvida antes de continuar? <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja); text-decoration:underline;">Chama no WhatsApp</a></p>
 </div>
@@ -161,50 +162,25 @@ footer { padding: 30px 0; text-align: center; font-size: 12.5px; color: var(--fr
 <footer>Finspots | Inteligência de Vendas e Finanças para E-commerce</footer>
 
 <script>
-var API_URL = 'https://saf-production.up.railway.app';
+// Link de pagamento criado no painel do Mercado Pago (Seu negócio > Link de pagamento).
+// Troque pelo seu link antes de publicar.
+var LINK_MERCADO_PAGO = 'COLE_AQUI_O_LINK_DO_MERCADO_PAGO';
 
 var check = document.getElementById('aceite-termos');
-var email = document.getElementById('email-cliente');
 var btn = document.getElementById('btn-continuar');
-var msgErro = document.getElementById('msg-erro');
-var TEXTO_BOTAO_PADRAO = btn.textContent;
+var passo2 = document.getElementById('passo-2');
 
 function atualizarBotao() {
-var emailValido = email.value.includes('@') && email.value.includes('.');
-btn.disabled = !(check.checked && emailValido);
+  btn.setAttribute('aria-disabled', check.checked ? 'false' : 'true');
 }
-
 check.addEventListener('change', atualizarBotao);
-email.addEventListener('input', atualizarBotao);
 
-btn.addEventListener('click', function () {
-msgErro.style.display = 'none';
-btn.disabled = true;
-btn.textContent = 'Só um instante...';
-
-var url = API_URL + '/pagamento/criar-preferencia'
-+ '?email=' + encodeURIComponent(email.value)
-+ '&tipo_produto=' + encodeURIComponent('Diagnóstico');
-
-fetch(url, { method: 'POST' })
-.then(function (resposta) {
-if (!resposta.ok) {
-throw new Error('HTTP ' + resposta.status);
-}
-return resposta.json();
-})
-.then(function (dados) {
-if (!dados.checkout_url) {
-throw new Error('resposta sem checkout_url');
-}
-window.location.href = dados.checkout_url;
-})
-.catch(function (erro) {
-msgErro.textContent = 'Não deu pra continuar pro pagamento agora (' + erro.message + '). Tenta de novo em alguns instantes ou chama no WhatsApp.';
-msgErro.style.display = 'block';
-btn.disabled = false;
-btn.textContent = TEXTO_BOTAO_PADRAO;
-});
+btn.addEventListener('click', function (ev) {
+  ev.preventDefault();
+  if (!check.checked) return;
+  window.open(LINK_MERCADO_PAGO, '_blank', 'noopener');
+  passo2.style.display = 'block';
+  passo2.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
 </script>
 </body>
