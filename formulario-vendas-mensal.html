@@ -71,6 +71,11 @@ padding: 14px 18px; font-size: 13.5px; color: var(--branco); margin-bottom: 24px
 width: 100%; background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px;
 padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
 }
+.campo textarea { width: 100%; background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px; padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px; min-height: 90px; resize: vertical; }
+.campo .dica { font-size: 11.5px; color: var(--fraco); margin-top: 5px; }
+.dinheiro { position: relative; }
+.dinheiro span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--fraco); font-size: 14px; pointer-events: none; }
+.dinheiro input { padding-left: 40px !important; }
 .duas-colunas-campo { display: grid; gap: 14px; }
 @media (min-width: 560px) { .duas-colunas-campo { grid-template-columns: 1fr 1fr; } }
 
@@ -108,8 +113,7 @@ b, strong { color: var(--branco); font-weight: 700; }
 <li><b>Vendas:</b> o relatório de pedidos do mês de cada canal (Mercado Livre, Shopee, site...).</li>
 <li><b>Extratos:</b> o extrato do mês de todas as contas da empresa (banco, Mercado Pago e outras carteiras), de preferência em OFX.</li>
 <li><b>Custos:</b> planilha, notas ou prints com o custo dos produtos, frete, custos fixos e pró-labore do mês.</li>
-<li><b>Anúncios:</b> o relatório com quanto investiu no mês, se anunciou.</li>
-<li><b>Próximas semanas:</b> print ou lista de repasses a liberar, boletos e parcelas com data marcada.</li>
+<li><b>Anúncios:</b> o relatório do mês, se anunciou.</li>
 </ul>
 </div>
 </div>
@@ -135,6 +139,19 @@ b, strong { color: var(--branco); font-weight: 700; }
 </div>
 
 <div class="form-grupo">
+<span class="titulo-grupo">Sobre o mês</span>
+<span class="subtitulo-grupo">O que não aparece nos arquivos. Se não teve, deixe em branco.</span>
+<div class="duas-colunas-campo">
+<div class="campo"><label for="anuncios">Quanto investiu em anúncios no mês</label><div class="dinheiro"><span>R$</span><input type="text" id="anuncios" name="Investimento em anúncios no mês (R$)" inputmode="decimal" placeholder="0,00"></div></div>
+<div class="campo"><label for="prolabore">Quanto você retirou (pró-labore)</label><div class="dinheiro"><span>R$</span><input type="text" id="prolabore" name="Pró-labore do mês (R$)" inputmode="decimal" placeholder="0,00"></div></div>
+<div class="campo"><label for="repasses">Repasses ainda a liberar</label><div class="dinheiro"><span>R$</span><input type="text" id="repasses" name="Repasses a liberar (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">O que os marketplaces ainda vão te pagar.</p></div>
+<div class="campo"><label for="estoque">Compra de estoque já marcada</label><div class="dinheiro"><span>R$</span><input type="text" id="estoque" name="Compra de estoque programada (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Pedidos a fornecedor nas próximas semanas.</p></div>
+</div>
+<div class="campo"><label for="contas">Contas com data nas próximas semanas</label><textarea id="contas" name="Contas a pagar nas próximas semanas" placeholder="Ex: dia 05 boleto fornecedor R$ 4.000 · dia 10 DAS R$ 900 · dia 15 parcela empréstimo R$ 1.200"></textarea></div>
+<div class="campo"><label for="mudancas">O que mudou neste mês?</label><textarea id="mudancas" name="Mudanças no mês" placeholder="Ex: fiz uma promoção, troquei de fornecedor, aumentei o preço, entrei na Shopee, contratei alguém, um custo fixo mudou..."></textarea></div>
+</div>
+
+<div class="form-grupo">
 <span class="titulo-grupo">Vendas do mês</span>
 <span class="subtitulo-grupo">O relatório de pedidos que você baixa da própria plataforma de vendas, ou sua planilha de controle.</span>
 <div class="upload-area destaque">
@@ -150,7 +167,7 @@ b, strong { color: var(--branco); font-weight: 700; }
 
 <div class="form-grupo">
 <span class="titulo-grupo">Financeiro do mês</span>
-<span class="subtitulo-grupo">Extratos, custos, anúncios e contas das próximas semanas.</span>
+<span class="subtitulo-grupo">Extratos, custos e relatório de anúncios.</span>
 <div class="upload-area">
 <input type="file" name="attachment_financeiro" class="arquivos" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.ofx,.png,.jpg,.jpeg,.zip">
 <p class="exemplos">Exemplos: extrato bancário (de preferência OFX), relatório de anúncios, planilha de custos fixos/variáveis.</p>
@@ -180,6 +197,25 @@ if (/[?&]inicio=1/.test(location.search)) {
   form.querySelector('input[name=_subject]').value = 'Nova assinatura: Acompanhamento Mensal Finspots';
   document.getElementById('btn-enviar').textContent = 'Enviar dados e ir para a assinatura';
 }
+// Campos de dinheiro: só números, vírgula e ponto; formata ao sair.
+function formatarReais(txt) {
+  var limpo = txt.replace(/[^\d,.]/g, '');
+  if (!limpo) return '';
+  var num;
+  if (limpo.indexOf(',') >= 0) num = parseFloat(limpo.replace(/\./g, '').replace(',', '.'));
+  else if (/\.\d{1,2}$/.test(limpo)) num = parseFloat(limpo);
+  else num = parseFloat(limpo.replace(/\./g, ''));
+  if (isNaN(num)) return txt;
+  return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+form.querySelectorAll('.dinheiro input').forEach(function (inp) {
+  inp.addEventListener('input', function () { inp.value = inp.value.replace(/[^\d,.]/g, ''); });
+  inp.addEventListener('blur', function () { inp.value = formatarReais(inp.value); });
+});
+form.addEventListener('submit', function () {
+  form.querySelectorAll('.dinheiro input').forEach(function (inp) { inp.value = formatarReais(inp.value); });
+});
+
 var btnEnviar = document.getElementById('btn-enviar');
 var erroEl = document.getElementById('erro-envio');
 
