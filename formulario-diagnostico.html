@@ -12,297 +12,401 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
---azul: #071730;
---quase-preto: #00031B;
---laranja: #FF5500;
---laranja-fraco: rgba(255,85,0,0.13);
---branco: #FFFFFF;
---suave: #A9B2D6;
---fraco: #6B76A8;
---borda: rgba(255,255,255,0.09);
+  --azul: #071730;
+  --quase-preto: #00031B;
+  --laranja: #FF5500;
+  --laranja-fraco: rgba(255,85,0,0.13);
+  --branco: #FFFFFF;
+  --suave: #A9B2D6;
+  --fraco: #6B76A8;
+  --borda: rgba(255,255,255,0.09);
+  --borda-forte: rgba(255,255,255,0.16);
+  --verde: #2ECC71;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-background-color: var(--azul); color: var(--branco);
-line-height: 1.55; -webkit-font-smoothing: antialiased;
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  background-color: var(--azul); color: var(--branco);
+  line-height: 1.55; -webkit-font-smoothing: antialiased;
 }
+#bg-fundo { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--azul) url('assets/img/fundo-ondas.jpg') center / cover no-repeat; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--laranja); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 
-.wrap-estreito { max-width: 680px; margin: 0 auto; padding: 0 24px; }
-section { padding: 56px 0; }
-.central { text-align: center; }
-
-h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; line-height: 1.2; letter-spacing: -0.4px; }
-h2 { font-size: 19px; font-weight: 700; }
-p { color: var(--suave); font-size: 15px; }
-
-.btn {
-display: inline-block; font-family: inherit; font-size: 15px; font-weight: 600;
-text-decoration: none; padding: 15px 30px; border-radius: 10px; border: none; cursor: pointer;
-}
-.btn-primario { background: var(--laranja); color: var(--branco); width: 100%; }
-
-header { padding: 26px 0; text-align: center; }
-.logo { font-size: 21px; font-weight: 800; letter-spacing: -0.3px; text-decoration: none; display: inline-block; }
+.wrap-estreito { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+header { padding: 26px 0 10px; text-align: center; }
 .logo img { height: 42px; }
+h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 800; line-height: 1.2; letter-spacing: -0.4px; text-align: center; }
+p { color: var(--suave); font-size: 15px; }
+b, strong { color: var(--branco); font-weight: 700; }
 
-.placeholder {
-background: var(--quase-preto); border: 1px dashed var(--borda); border-radius: 14px;
-display: flex; flex-direction: column; align-items: center; justify-content: center;
-gap: 12px; color: var(--fraco); text-align: center; padding: 40px 20px;
-}
-.placeholder.video { aspect-ratio: 16/9; }
-.play-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--laranja); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.play-icon svg { width: 18px; height: 18px; fill: var(--branco); }
-.placeholder p { color: var(--fraco); font-size: 13px; max-width: 300px; }
+.etapas { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 22px 0 26px; font-size: 12.5px; color: var(--fraco); flex-wrap: wrap; }
+.etapa { display: flex; align-items: center; gap: 7px; }
+.etapa .n { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11.5px; border: 1px solid var(--borda-forte); }
+.etapa.feita .n { background: rgba(46,204,113,0.15); border-color: rgba(46,204,113,0.4); color: var(--verde); }
+.etapa.atual { color: var(--branco); font-weight: 600; }
+.etapa.atual .n { background: var(--laranja); border-color: var(--laranja); color: var(--branco); }
+.etapas .traco { width: 22px; height: 1px; background: var(--borda-forte); }
 
-.aviso-nao-conectado {
-background: rgba(255,85,0,0.1); border: 1px solid var(--laranja); border-radius: 10px;
-padding: 14px 18px; font-size: 13px; color: var(--suave); margin-bottom: 32px; text-align: left;
-}
-.aviso-nao-conectado strong { color: var(--laranja); }
+.intro { text-align: center; max-width: 560px; margin: 12px auto 0; }
+.intro p + p { margin-top: 8px; }
+.nota-rascunho { font-size: 12.5px; color: var(--fraco); }
 
-.aviso-erro {
-background: rgba(255,85,0,0.1); border: 1px solid var(--laranja); border-radius: 10px;
-padding: 14px 18px; font-size: 13.5px; color: var(--branco); margin-bottom: 24px; text-align: left; display: none;
-}
-.campo .obrigatorio { color: var(--laranja); }
-.btn:disabled { opacity: 0.6; cursor: wait; }
+.secao { background: rgba(0,3,27,0.72); border: 1px solid var(--borda); border-radius: 16px; padding: 24px 20px; margin-top: 18px; }
+@media (min-width: 600px) { .secao { padding: 28px; } }
+.secao-topo { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 18px; }
+.secao-num { width: 30px; height: 30px; border-radius: 9px; background: var(--laranja-fraco); color: var(--laranja); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.secao-topo h2 { font-size: 17px; font-weight: 700; line-height: 1.3; }
+.secao-topo p { font-size: 13px; margin-top: 3px; }
+.tag-opcional { display: inline-block; font-size: 10.5px; font-weight: 600; color: var(--fraco); border: 1px solid var(--borda-forte); border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; }
 
-.form-grupo { margin-bottom: 32px; text-align: left; }
-.form-grupo .titulo-grupo { display: block; font-size: 15px; font-weight: 700; color: var(--branco); margin-bottom: 16px; }
-.campo { margin-bottom: 16px; }
-.campo label { display: block; font-size: 13px; color: var(--suave); margin-bottom: 6px; }
+.grade { display: grid; gap: 14px; }
+@media (min-width: 560px) { .grade.duas { grid-template-columns: 1fr 1fr; } .grade.tres { grid-template-columns: 1fr 1fr 1fr; } }
+.campo label { display: block; font-size: 13px; color: var(--branco); font-weight: 500; margin-bottom: 6px; }
+.campo .dica, .dica { font-size: 11.5px; color: var(--fraco); margin-top: 5px; line-height: 1.4; }
+.obrigatorio { color: var(--laranja); }
 .campo input[type=text], .campo input[type=email], .campo input[type=tel], .campo select, .campo textarea {
-width: 100%; background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px;
-padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
+  width: 100%; background: var(--quase-preto); border: 1px solid var(--borda-forte); border-radius: 9px;
+  padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 15px; transition: border-color .15s;
 }
-.campo textarea { min-height: 100px; resize: vertical; }
-.duas-colunas-campo { display: grid; gap: 14px; }
-@media (min-width: 560px) { .duas-colunas-campo { grid-template-columns: 1fr 1fr; } }
-.campo-checkbox-grupo { display: flex; flex-wrap: wrap; gap: 10px; }
-.campo-checkbox { display: flex; align-items: center; gap: 7px; font-size: 13.5px; color: var(--suave); background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px; padding: 9px 14px; cursor: pointer; }
-.campo-checkbox input { accent-color: var(--laranja); }
-.upload-area { border: 1.5px dashed var(--borda); border-radius: 12px; padding: 28px; text-align: center; }
-.upload-area input[type=file] { margin-top: 14px; color: var(--suave); font-size: 13px; }
+.campo input::placeholder, .campo textarea::placeholder { color: #4d5784; }
+.campo input:focus, .campo select:focus, .campo textarea:focus { border-color: var(--laranja); outline: none; }
+.campo textarea { min-height: 92px; resize: vertical; }
+.campo.invalido input, .campo.invalido select { border-color: var(--laranja); }
+
+.dinheiro { position: relative; }
+.dinheiro span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--fraco); font-size: 14px; pointer-events: none; }
+.dinheiro input { padding-left: 42px !important; }
+.sufixo { position: relative; }
+.sufixo span { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--fraco); font-size: 13px; pointer-events: none; }
+
+.sub-titulo { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fraco); font-weight: 700; margin: 22px 0 12px; }
+.sub-titulo:first-of-type { margin-top: 0; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.chip span { display: block; font-size: 13.5px; color: var(--suave); background: var(--quase-preto); border: 1px solid var(--borda-forte); border-radius: 999px; padding: 8px 16px; transition: all .15s; }
+.chip input:checked + span { background: var(--laranja-fraco); border-color: var(--laranja); color: var(--branco); font-weight: 600; }
+.chip input:focus-visible + span { outline: 2px solid var(--laranja); outline-offset: 2px; }
+.canal-bloco { border: 1px solid var(--borda); border-radius: 12px; padding: 16px; margin-top: 12px; }
+.canal-bloco h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--laranja); }
+#outro-canal-campo { margin-top: 12px; display: none; }
+
+.upload-area { border: 1.5px dashed var(--borda-forte); border-radius: 12px; padding: 22px 16px; text-align: center; }
+.upload-area input[type=file] { margin-top: 12px; color: var(--suave); font-size: 13px; max-width: 100%; }
 .upload-area .exemplos { font-size: 12px; color: var(--fraco); margin-top: 10px; }
-.checklist { background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 12px; padding: 20px 22px; margin-bottom: 32px; text-align: left; }
-.checklist p { font-size: 13.5px; }
-.checklist ul { padding-left: 20px; margin-top: 8px; display: grid; gap: 6px; }
-.checklist li { font-size: 13.5px; color: var(--suave); }
-.checklist .sub { color: var(--branco); font-weight: 700; margin-top: 14px; }
-.dica-campo { font-size: 12px; color: var(--fraco); margin-top: 6px; }
+#lista-arquivos { list-style: none; margin-top: 12px; text-align: left; font-size: 12.5px; color: var(--suave); display: grid; gap: 4px; word-break: break-all; }
+#tamanho-total { font-size: 12.5px; margin-top: 8px; }
+
+.aviso-erro { background: rgba(255,85,0,0.1); border: 1px solid var(--laranja); border-radius: 10px; padding: 14px 18px; font-size: 13.5px; color: var(--branco); margin-top: 18px; display: none; }
+.btn { display: block; width: 100%; font-family: inherit; font-size: 16px; font-weight: 700; padding: 16px 24px; border-radius: 11px; border: none; cursor: pointer; background: var(--laranja); color: var(--branco); margin-top: 24px; }
+.btn:disabled { opacity: 0.6; cursor: wait; }
+.nota-final { font-size: 12.5px; color: var(--fraco); text-align: center; margin-top: 10px; }
 .honey { position: absolute; left: -9999px; }
 
-footer { padding: 30px 0; text-align: center; font-size: 13px; color: var(--fraco); }
-b, strong { color: var(--branco); font-weight: 700; }
-#bg-fundo { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--azul) url('assets/img/fundo-ondas.jpg') center / cover no-repeat; }
+footer { padding: 36px 0 30px; text-align: center; font-size: 12.5px; color: var(--fraco); }
+footer a { color: var(--laranja); }
 </style>
 </head>
 <body>
 <div id="bg-fundo" aria-hidden="true"></div>
 
 <header>
-<a href="index.html" class="logo"><img src="assets/img/finspots-logo.png" alt="Finspots" style="height:42px;"></a>
+<a href="index.html" class="logo"><img src="assets/img/finspots-logo.png" alt="Finspots"></a>
 </header>
 
-<section class="central" style="padding-bottom:32px;">
-<div class="wrap-estreito">
-<h1>Envie seus dados para o diagnóstico</h1>
-<p style="margin-top:12px;">Preencha as informações abaixo e anexe seus arquivos. Depois de enviar, você faz o pagamento. A análise começa assim que o pagamento for confirmado, e o prazo de entrega é de <b>até 3 dias úteis</b>.</p>
-</div>
-</section>
-
-<section style="padding-top:0;">
-<div class="wrap-estreito">
-
-<div class="checklist">
-<p class="sub" style="margin-top:0;">O que enviar</p>
-<p style="margin-top:6px;">Envie do jeito que tiver: relatórios das plataformas, planilhas, extratos ou prints. Não precisa organizar nada.</p>
-<p class="sub">O essencial (do período analisado)</p>
-<ul>
-<li>faturamento e devoluções;</li>
-<li>custo dos produtos vendidos;</li>
-<li>frete e embalagem;</li>
-<li>custos fixos e pró-labore;</li>
-<li>número de pedidos;</li>
-<li>vendas e comissões de cada canal (até 3 canais).</li>
-</ul>
-<p class="sub">Para a análise completa</p>
-<ul>
-<li>extrato do período de todas as contas da empresa (banco, Mercado Pago e outras carteiras), de preferência em OFX;</li>
-<li>o que já tem data para entrar e sair nas próximas semanas: repasses a liberar, boletos, parcelas;</li>
-<li>valor investido em anúncios e quantos clientes novos eles trouxeram;</li>
-<li>prazos de recebimento e pagamento e dados de recompra.</li>
-</ul>
-<p style="margin-top:12px; font-size:12.5px; color:var(--fraco);">O que não for enviado fica de fora da análise, e o relatório mostra o que faltou.</p>
+<main class="wrap-estreito">
+<div class="etapas" aria-label="Etapas da contratação">
+  <div class="etapa feita"><span class="n">✓</span>Termos</div><span class="traco"></span>
+  <div class="etapa atual"><span class="n">2</span>Seus dados</div><span class="traco"></span>
+  <div class="etapa"><span class="n">3</span>Pagamento</div>
 </div>
 
-<p class="aviso-erro" id="erro-envio"></p>
+<h1>Conte como está a sua loja</h1>
+<div class="intro">
+  <p>Preencha o que souber. <b>Se um número já estiver nos arquivos que você vai anexar, pode deixar o campo em branco.</b> O que não for enviado fica de fora, e o relatório mostra o que faltou.</p>
+  <p class="nota-rascunho">Leva uns 10 minutos. O que você digita fica salvo neste navegador até enviar.</p>
+</div>
 
 <form id="form-diagnostico" method="POST" enctype="multipart/form-data" novalidate>
-<!-- Configuração do FormSubmit (envio para o seu e-mail) -->
 <input type="hidden" name="_subject" value="Novo pedido: Diagnóstico Financeiro Finspots">
 <input type="hidden" name="_template" value="table">
 <input type="hidden" name="_captcha" value="false">
 <input type="hidden" name="_next" value="https://finspots.com.br/finalizar-pagamento.html">
 <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-<div class="form-grupo">
-<span class="titulo-grupo">Identificação</span>
-<div class="duas-colunas-campo">
-<div class="campo"><label for="loja">Nome da loja <span class="obrigatorio">*</span></label><input type="text" id="loja" name="Nome da loja" required></div>
-<div class="campo"><label for="responsavel">Seu nome <span class="obrigatorio">*</span></label><input type="text" id="responsavel" name="Responsável" required></div>
-</div>
-<div class="duas-colunas-campo">
-<div class="campo"><label for="email">E-mail para receber o diagnóstico <span class="obrigatorio">*</span></label><input type="email" id="email" name="email" required autocomplete="email"><p class="dica-campo">Use o mesmo e-mail do pagamento, se puder.</p></div>
-<div class="campo"><label for="whatsapp">WhatsApp</label><input type="tel" id="whatsapp" name="WhatsApp" autocomplete="tel"></div>
-</div>
-</div>
-
-<div class="form-grupo">
-<span class="titulo-grupo">Sobre o negócio</span>
-<div class="campo">
-<label for="periodo">Qual período os seus arquivos cobrem? <span class="obrigatorio">*</span></label>
-<input type="text" id="periodo" name="Período" placeholder="Ex: Agosto/2026 ou Junho a Agosto/2026" required>
-</div>
-<div class="duas-colunas-campo">
-<div class="campo">
-<label for="regime">Regime tributário</label>
-<select id="regime" name="Regime tributário">
-<option value="">Selecione...</option>
-<option>MEI</option>
-<option>Simples Nacional</option>
-<option>Lucro Presumido</option>
-<option>Lucro Real</option>
-<option>Não sei</option>
-</select>
-</div>
-<div class="campo">
-<label for="tempo">Há quanto tempo opera?</label>
-<select id="tempo" name="Tempo de operação">
-<option value="">Selecione...</option>
-<option>Menos de 6 meses</option>
-<option>6 meses a 1 ano</option>
-<option>1 a 3 anos</option>
-<option>Mais de 3 anos</option>
-</select>
-</div>
-</div>
-<div class="campo">
-<label>Canais de venda para analisar (até 3) <span class="obrigatorio">*</span></label>
-<div class="campo-checkbox-grupo">
-<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Site próprio"> Site próprio</label>
-<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Mercado Livre"> Mercado Livre</label>
-<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Shopee"> Shopee</label>
-<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Amazon"> Amazon</label>
-<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Instagram/WhatsApp"> Instagram/WhatsApp</label>
-<label class="campo-checkbox"><input type="checkbox" name="Canais[]" value="Outro"> Outro</label>
-</div>
-<p class="dica-campo">Se vende em mais de 3, marque os 3 principais.</p>
-</div>
-</div>
-
-<div class="form-grupo">
-<span class="titulo-grupo">Informações extras</span>
-<div class="campo">
-<label for="numeros">Números que não estão nos arquivos</label>
-<textarea id="numeros" name="Números informados" placeholder="Ex: aluguel R$ 1.500, pró-labore R$ 3.000, boleto do fornecedor de R$ 4.000 vence dia 10..."></textarea>
-</div>
-<div class="campo">
-<label for="expectativa">O que você mais quer descobrir com esse diagnóstico?</label>
-<textarea id="expectativa" name="Expectativa" placeholder="Ex: quero entender se meu canal principal realmente dá lucro..."></textarea>
-</div>
-</div>
-
-<div class="form-grupo">
-<span class="titulo-grupo">Seus arquivos</span>
-<div class="upload-area">
-<p><strong>Envie o que tiver disponível</strong>, não precisa estar organizado.</p>
-<input type="file" id="arquivos" name="attachment" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.ofx,.png,.jpg,.jpeg,.zip">
-<p class="exemplos">CSV, Excel, PDF, OFX, imagens ou ZIP. Limite de 10 MB somando todos os arquivos.</p>
-<p class="exemplos" id="tamanho-total"></p>
-</div>
-<p class="dica-campo" style="text-align:left;">Arquivos grandes demais? Envie o que couber e mande o resto pelo <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja);">WhatsApp</a>.</p>
-</div>
-
-<button type="submit" class="btn btn-primario" id="btn-enviar">Enviar dados e ir para o pagamento</button>
-</form>
-</div>
+<section class="secao">
+  <div class="secao-topo"><span class="secao-num">1</span><div><h2>Sua loja</h2><p>Para identificar o pedido e enviar o diagnóstico.</p></div></div>
+  <div class="grade duas">
+    <div class="campo"><label for="loja">Nome da loja <span class="obrigatorio">*</span></label><input type="text" id="loja" name="Nome da loja" required></div>
+    <div class="campo"><label for="responsavel">Seu nome <span class="obrigatorio">*</span></label><input type="text" id="responsavel" name="Responsável" required autocomplete="name"></div>
+    <div class="campo"><label for="email">E-mail para receber o diagnóstico <span class="obrigatorio">*</span></label><input type="email" id="email" name="email" required autocomplete="email"></div>
+    <div class="campo"><label for="whatsapp">WhatsApp</label><input type="tel" id="whatsapp" name="WhatsApp" autocomplete="tel" placeholder="(00) 00000-0000"></div>
+  </div>
+  <div class="grade" style="margin-top:14px;">
+    <div class="campo"><label for="segmento">O que a sua loja vende? <span class="obrigatorio">*</span></label><input type="text" id="segmento" name="O que vende" required placeholder="Ex: roupas femininas, suplementos, acessórios para pet..."><p class="dica">Usamos para comparar seus números com lojas do mesmo perfil.</p></div>
+  </div>
+  <div class="grade tres" style="margin-top:14px;">
+    <div class="campo"><label for="periodo">Período analisado <span class="obrigatorio">*</span></label><input type="text" id="periodo" name="Período" required placeholder="Ex: Agosto/2026"></div>
+    <div class="campo"><label for="regime">Regime tributário</label>
+      <select id="regime" name="Regime tributário"><option value="">Selecione...</option><option>MEI</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option><option>Não sei</option></select></div>
+    <div class="campo"><label for="tempo">Tempo de operação</label>
+      <select id="tempo" name="Tempo de operação"><option value="">Selecione...</option><option>Menos de 6 meses</option><option>6 meses a 1 ano</option><option>1 a 3 anos</option><option>Mais de 3 anos</option></select></div>
+  </div>
 </section>
 
+<section class="secao">
+  <div class="secao-topo"><span class="secao-num">2</span><div><h2>Canais de venda <span class="obrigatorio">*</span></h2><p>Marque até 3. Se vende em mais, escolha os principais.</p></div></div>
+  <div class="chips" id="chips-canais">
+    <label class="chip"><input type="checkbox" name="Canais[]" value="Mercado Livre"><span>Mercado Livre</span></label>
+    <label class="chip"><input type="checkbox" name="Canais[]" value="Shopee"><span>Shopee</span></label>
+    <label class="chip"><input type="checkbox" name="Canais[]" value="Site próprio"><span>Site próprio</span></label>
+    <label class="chip"><input type="checkbox" name="Canais[]" value="Amazon"><span>Amazon</span></label>
+    <label class="chip"><input type="checkbox" name="Canais[]" value="Magalu"><span>Magalu</span></label>
+    <label class="chip"><input type="checkbox" name="Canais[]" value="TikTok Shop"><span>TikTok Shop</span></label>
+    <label class="chip"><input type="checkbox" name="Canais[]" value="Instagram/WhatsApp"><span>Instagram/WhatsApp</span></label>
+    <label class="chip"><input type="checkbox" name="Canais[]" value="Outro"><span>Outro</span></label>
+  </div>
+  <div class="campo" id="outro-canal-campo"><label for="outro-canal">Qual outro canal?</label><input type="text" id="outro-canal" name="Outro canal"></div>
+  <div id="blocos-canais"></div>
+</section>
+
+<section class="secao">
+  <div class="secao-topo"><span class="secao-num">3</span><div><h2>Números do período</h2><p>O essencial para calcular resultado, margens e ponto de equilíbrio.</p></div></div>
+  <p class="sub-titulo">Vendas</p>
+  <div class="grade tres">
+    <div class="campo"><label for="faturamento">Faturamento bruto</label><div class="dinheiro"><span>R$</span><input type="text" id="faturamento" name="Faturamento bruto (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Tudo o que vendeu, somando os canais.</p></div>
+    <div class="campo"><label for="devolucoes">Devoluções e cancelamentos</label><div class="dinheiro"><span>R$</span><input type="text" id="devolucoes" name="Devoluções e cancelamentos (R$)" inputmode="decimal" placeholder="0,00"></div></div>
+    <div class="campo"><label for="pedidos">Número de pedidos</label><input type="text" id="pedidos" name="Número de pedidos" inputmode="numeric" placeholder="0"></div>
+  </div>
+  <p class="sub-titulo">Custos que variam com as vendas</p>
+  <div class="grade tres">
+    <div class="campo"><label for="cmv">Custo dos produtos vendidos</label><div class="dinheiro"><span>R$</span><input type="text" id="cmv" name="Custo dos produtos vendidos (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Quanto pagou nos produtos que saíram no período.</p></div>
+    <div class="campo"><label for="frete">Frete e embalagem</label><div class="dinheiro"><span>R$</span><input type="text" id="frete" name="Frete e embalagem (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">A parte que você pagou.</p></div>
+    <div class="campo"><label for="impostos">Impostos sobre vendas</label><div class="dinheiro"><span>R$</span><input type="text" id="impostos" name="Impostos sobre vendas (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">DAS, guias etc.</p></div>
+  </div>
+  <p class="sub-titulo">Custos fixos</p>
+  <div class="grade duas">
+    <div class="campo"><label for="fixos">Custos fixos do mês</label><div class="dinheiro"><span>R$</span><input type="text" id="fixos" name="Custos fixos (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Aluguel, sistemas, funcionários, contador, internet...</p></div>
+    <div class="campo"><label for="prolabore">Pró-labore (sua retirada)</label><div class="dinheiro"><span>R$</span><input type="text" id="prolabore" name="Pró-labore (R$)" inputmode="decimal" placeholder="0,00"></div></div>
+  </div>
+  <div class="campo" style="margin-top:14px;"><label for="fixos-detalhe">Quer detalhar os custos fixos?</label><textarea id="fixos-detalhe" name="Detalhe dos custos fixos" placeholder="Ex: aluguel R$ 1.500 · Bling R$ 120 · contador R$ 400 · 1 funcionária R$ 2.200"></textarea></div>
+</section>
+
+<section class="secao">
+  <div class="secao-topo"><span class="secao-num">4</span><div><h2>Caixa e próximas semanas <span class="tag-opcional">recomendado</span></h2><p>Com isso sai o fluxo de caixa, o fôlego e a projeção das próximas 4 semanas. Anexe também os extratos do período.</p></div></div>
+  <div class="grade duas">
+    <div class="campo"><label for="saldo">Saldo hoje, somando todas as contas</label><div class="dinheiro"><span>R$</span><input type="text" id="saldo" name="Saldo atual em conta (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Banco, Mercado Pago e outras carteiras.</p></div>
+    <div class="campo"><label for="repasses">Repasses a liberar (próximas 4 semanas)</label><div class="dinheiro"><span>R$</span><input type="text" id="repasses" name="Repasses a liberar em 4 semanas (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">O que os marketplaces ainda vão te pagar.</p></div>
+    <div class="campo"><label for="parcelas">Parcelas de empréstimos por mês</label><div class="dinheiro"><span>R$</span><input type="text" id="parcelas" name="Parcelas de empréstimos por mês (R$)" inputmode="decimal" placeholder="0,00"></div></div>
+    <div class="campo"><label for="estoque">Compra de estoque já marcada</label><div class="dinheiro"><span>R$</span><input type="text" id="estoque" name="Compra de estoque programada (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Pedidos a fornecedor nas próximas 4 semanas.</p></div>
+  </div>
+  <div class="campo" style="margin-top:14px;"><label for="contas">Contas com data nas próximas 4 semanas</label><textarea id="contas" name="Contas a pagar nas próximas 4 semanas" placeholder="Ex: dia 05 boleto fornecedor R$ 4.000 · dia 10 DAS R$ 900 · dia 15 parcela empréstimo R$ 1.200"></textarea></div>
+</section>
+
+<section class="secao">
+  <div class="secao-topo"><span class="secao-num">5</span><div><h2>Marketing, clientes e prazos <span class="tag-opcional">opcional</span></h2><p>Com isso sai a análise de anúncios, recompra e ciclo de caixa.</p></div></div>
+  <div class="grade duas">
+    <div class="campo"><label for="anuncios">Investimento em anúncios</label><div class="dinheiro"><span>R$</span><input type="text" id="anuncios" name="Investimento em anúncios (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Meta, Google, Mercado Ads, Shopee Ads...</p></div>
+    <div class="campo"><label for="clientes-novos">Clientes novos no período</label><input type="text" id="clientes-novos" name="Clientes novos no período" inputmode="numeric" placeholder="0"></div>
+    <div class="campo"><label for="recompra">Clientes que compraram de novo</label><input type="text" id="recompra" name="Clientes que recompraram" inputmode="numeric" placeholder="0"><p class="dica">Quantos já tinham comprado antes.</p></div>
+    <div class="campo"><label for="prazo-receb">Prazo médio para receber das vendas</label><div class="sufixo"><input type="text" id="prazo-receb" name="Prazo médio de recebimento (dias)" inputmode="numeric" placeholder="0"><span>dias</span></div></div>
+    <div class="campo"><label for="prazo-forn">Prazo para pagar o fornecedor</label><div class="sufixo"><input type="text" id="prazo-forn" name="Prazo de pagamento ao fornecedor (dias)" inputmode="numeric" placeholder="0"><span>dias</span></div></div>
+    <div class="campo"><label for="estoque-dias">Quanto tempo o produto fica em estoque</label><div class="sufixo"><input type="text" id="estoque-dias" name="Tempo médio em estoque (dias)" inputmode="numeric" placeholder="0"><span>dias</span></div></div>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="secao-topo"><span class="secao-num">6</span><div><h2>Arquivos</h2><p>Relatórios das plataformas, extratos (de preferência OFX), planilhas ou prints. Não precisa organizar.</p></div></div>
+  <div class="upload-area">
+    <p><strong>Anexe o que tiver</strong></p>
+    <input type="file" id="arquivos" name="attachment" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.ofx,.png,.jpg,.jpeg,.zip">
+    <p class="exemplos">CSV, Excel, PDF, OFX, imagens ou ZIP · até 10 MB somando todos</p>
+    <ul id="lista-arquivos"></ul>
+    <p id="tamanho-total"></p>
+  </div>
+  <p class="dica" style="font-size:12px; margin-top:10px;">Passou de 10 MB? Anexe os principais e mande o resto pelo <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja);">WhatsApp</a>.</p>
+</section>
+
+<section class="secao">
+  <div class="secao-topo"><span class="secao-num">7</span><div><h2>Para fechar</h2></div></div>
+  <div class="campo"><label for="expectativa">O que você mais quer descobrir com o diagnóstico?</label><textarea id="expectativa" name="Expectativa" placeholder="Ex: quero entender se o Mercado Livre realmente dá lucro, ou por que nunca sobra dinheiro no fim do mês..."></textarea></div>
+  <div class="campo" style="margin-top:14px;"><label for="obs">Algo mais que a gente precise saber?</label><textarea id="obs" name="Observações" placeholder="Ex: em julho fiz uma promoção grande, em agosto troquei de fornecedor..."></textarea></div>
+</section>
+
+<p class="aviso-erro" id="erro-envio" role="alert"></p>
+<button type="submit" class="btn" id="btn-enviar">Enviar dados e ir para o pagamento →</button>
+<p class="nota-final">Na próxima tela você faz o pagamento. A análise começa assim que ele for confirmado, com entrega em até 3 dias úteis.</p>
+</form>
+</main>
+
 <footer>
-<div>Finspots: os dados enviados aqui são usados exclusivamente para gerar seu diagnóstico. <a href="privacidade.html" style="color:var(--laranja);">Política de privacidade</a></div>
+<div>Os dados enviados aqui são usados exclusivamente para gerar seu diagnóstico. <a href="privacidade.html">Política de privacidade</a></div>
 </footer>
 
 <script>
-// Endereço de envio do FormSubmit. Depois de ativar, troque o e-mail pelo
-// código aleatório que o FormSubmit te mandar (esconde seu e-mail do código do site).
 var DESTINO_FORMULARIO = 'https://formsubmit.co/labfinspots@gmail.com';
 var LIMITE_MB = 10;
+var MAX_CANAIS = 3;
+var CHAVE_RASCUNHO = 'finspots-rascunho-diagnostico';
 
 var form = document.getElementById('form-diagnostico');
 form.action = DESTINO_FORMULARIO;
 var inputArquivos = document.getElementById('arquivos');
 var btnEnviar = document.getElementById('btn-enviar');
 var erroEl = document.getElementById('erro-envio');
-var tamanhoEl = document.getElementById('tamanho-total');
+var blocosCanais = document.getElementById('blocos-canais');
 var canais = form.querySelectorAll('input[name="Canais[]"]');
 
-function mostrarErro(msg) {
+function el(id) { return document.getElementById(id); }
+function valor(id) { var e = el(id); return e ? (e.value || '').trim() : ''; }
+
+function mostrarErro(msg, campo) {
   erroEl.textContent = msg;
   erroEl.style.display = 'block';
-  erroEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (campo) {
+    var c = campo.closest('.campo'); if (c) c.classList.add('invalido');
+    campo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(function () { try { campo.focus({ preventScroll: true }); } catch (e) {} }, 300);
+  } else {
+    erroEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 }
+form.addEventListener('input', function (ev) {
+  var c = ev.target.closest && ev.target.closest('.campo');
+  if (c) c.classList.remove('invalido');
+});
 
-function valor(id) { return (document.getElementById(id).value || '').trim(); }
+// Campos de dinheiro: aceita só números, vírgula e ponto; formata ao sair do campo.
+function formatarReais(txt) {
+  var limpo = txt.replace(/[^\d,.]/g, '');
+  if (!limpo) return '';
+  var num;
+  if (limpo.indexOf(',') >= 0) num = parseFloat(limpo.replace(/\./g, '').replace(',', '.'));
+  else if (/\.\d{1,2}$/.test(limpo)) num = parseFloat(limpo);
+  else num = parseFloat(limpo.replace(/\./g, ''));
+  if (isNaN(num)) return txt;
+  return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function ligarMascaras(raiz) {
+  raiz.querySelectorAll('.dinheiro input').forEach(function (inp) {
+    inp.addEventListener('input', function () { inp.value = inp.value.replace(/[^\d,.]/g, ''); });
+    inp.addEventListener('blur', function () { inp.value = formatarReais(inp.value); salvarRascunho(); });
+  });
+  raiz.querySelectorAll('input[inputmode="numeric"]').forEach(function (inp) {
+    inp.addEventListener('input', function () { inp.value = inp.value.replace(/\D/g, ''); });
+  });
+}
+ligarMascaras(form);
 
+// Canais: até 3, cada um abre um bloco com os seus números.
+function slug(txt) { return txt.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase(); }
+function criarBlocoCanal(nome) {
+  var s = slug(nome);
+  var div = document.createElement('div');
+  div.className = 'canal-bloco';
+  div.dataset.canal = nome;
+  div.innerHTML =
+    '<h3>' + nome + '</h3>' +
+    '<div class="grade tres">' +
+      '<div class="campo"><label for="c-vendas-' + s + '">Vendas no canal</label><div class="dinheiro"><span>R$</span><input type="text" id="c-vendas-' + s + '" name="' + nome + ': vendas (R$)" inputmode="decimal" placeholder="0,00"></div></div>' +
+      '<div class="campo"><label for="c-taxas-' + s + '">Comissões e taxas</label><div class="dinheiro"><span>R$</span><input type="text" id="c-taxas-' + s + '" name="' + nome + ': comissões e taxas (R$)" inputmode="decimal" placeholder="0,00"></div></div>' +
+      '<div class="campo"><label for="c-pedidos-' + s + '">Pedidos</label><input type="text" id="c-pedidos-' + s + '" name="' + nome + ': pedidos" inputmode="numeric" placeholder="0"></div>' +
+    '</div>';
+  ligarMascaras(div);
+  return div;
+}
+function atualizarCanais() {
+  var marcados = Array.prototype.filter.call(canais, function (c) { return c.checked; }).map(function (c) { return c.value; });
+  el('outro-canal-campo').style.display = marcados.indexOf('Outro') >= 0 ? 'block' : 'none';
+  Array.prototype.slice.call(blocosCanais.children).forEach(function (b) {
+    if (marcados.indexOf(b.dataset.canal) < 0) b.remove();
+  });
+  marcados.forEach(function (nome) {
+    if (!blocosCanais.querySelector('[data-canal="' + nome + '"]')) blocosCanais.appendChild(criarBlocoCanal(nome));
+  });
+}
+Array.prototype.forEach.call(canais, function (c) {
+  c.addEventListener('change', function () {
+    if (form.querySelectorAll('input[name="Canais[]"]:checked').length > MAX_CANAIS) {
+      c.checked = false;
+      mostrarErro('O diagnóstico analisa até 3 canais. Desmarque um para escolher outro.');
+      return;
+    }
+    erroEl.style.display = 'none';
+    atualizarCanais();
+    salvarRascunho();
+  });
+});
+
+// Arquivos: lista o que foi anexado e soma o tamanho.
 function totalMb() {
   var total = 0;
   Array.prototype.forEach.call(inputArquivos.files, function (a) { total += a.size; });
   return total / 1024 / 1024;
 }
-
 inputArquivos.addEventListener('change', function () {
-  var n = inputArquivos.files.length;
-  tamanhoEl.textContent = n ? n + ' arquivo(s), ' + totalMb().toFixed(1).replace('.', ',') + ' MB no total' : '';
-  tamanhoEl.style.color = totalMb() > LIMITE_MB ? 'var(--laranja)' : '';
-});
-
-Array.prototype.forEach.call(canais, function (c) {
-  c.addEventListener('change', function () {
-    var marcados = form.querySelectorAll('input[name="Canais[]"]:checked').length;
-    if (marcados > 3) {
-      c.checked = false;
-      mostrarErro('O diagnóstico analisa até 3 canais. Marque os 3 principais.');
-    }
+  var lista = el('lista-arquivos'); lista.innerHTML = '';
+  Array.prototype.forEach.call(inputArquivos.files, function (a) {
+    var li = document.createElement('li');
+    li.textContent = '📎 ' + a.name + ' (' + (a.size / 1024 / 1024).toFixed(1).replace('.', ',') + ' MB)';
+    lista.appendChild(li);
   });
+  var n = inputArquivos.files.length, t = totalMb(), tam = el('tamanho-total');
+  tam.textContent = n ? 'Total: ' + t.toFixed(1).replace('.', ',') + ' MB de 10 MB' : '';
+  tam.style.color = t > LIMITE_MB ? 'var(--laranja)' : 'var(--fraco)';
 });
 
+// Rascunho salvo neste navegador (arquivos não entram).
+function camposRascunho() {
+  return form.querySelectorAll('input[type=text]:not(.honey), input[type=email], input[type=tel], select, textarea');
+}
+function salvarRascunho() {
+  try {
+    var dados = { canais: [], campos: {} };
+    Array.prototype.forEach.call(canais, function (c) { if (c.checked) dados.canais.push(c.value); });
+    camposRascunho().forEach(function (e) { if (e.id && e.value) dados.campos[e.id] = e.value; });
+    localStorage.setItem(CHAVE_RASCUNHO, JSON.stringify(dados));
+  } catch (e) {}
+}
+function carregarRascunho() {
+  try {
+    var dados = JSON.parse(localStorage.getItem(CHAVE_RASCUNHO) || 'null');
+    if (!dados) return;
+    Array.prototype.forEach.call(canais, function (c) { c.checked = dados.canais.indexOf(c.value) >= 0; });
+    atualizarCanais();
+    Object.keys(dados.campos).forEach(function (id) { var e = el(id); if (e) e.value = dados.campos[id]; });
+  } catch (e) {}
+}
+carregarRascunho();
+var timerRascunho;
+form.addEventListener('input', function () { clearTimeout(timerRascunho); timerRascunho = setTimeout(salvarRascunho, 400); });
+form.addEventListener('change', salvarRascunho);
+
+// Envio
 form.addEventListener('submit', function (ev) {
   erroEl.style.display = 'none';
-  var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor('email'));
-  var qtdCanais = form.querySelectorAll('input[name="Canais[]"]:checked').length;
-
-  if (!valor('loja') || !valor('responsavel') || !valor('periodo')) {
-    ev.preventDefault(); mostrarErro('Preencha o nome da loja, seu nome e o período que os arquivos cobrem.'); return;
+  var obrig = [['loja', 'Preencha o nome da loja.'], ['responsavel', 'Preencha o seu nome.'], ['email', ''], ['segmento', 'Conte o que a sua loja vende.'], ['periodo', 'Informe o período analisado (ex: Agosto/2026).']];
+  for (var i = 0; i < obrig.length; i++) {
+    var id = obrig[i][0];
+    if (id === 'email') {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor('email'))) { ev.preventDefault(); mostrarErro('Confira o e-mail: é nele que você vai receber o diagnóstico.', el('email')); return; }
+    } else if (!valor(id)) { ev.preventDefault(); mostrarErro(obrig[i][1], el(id)); return; }
   }
-  if (!emailOk) {
-    ev.preventDefault(); mostrarErro('Confira o e-mail: é nele que você vai receber o diagnóstico.'); return;
+  if (form.querySelectorAll('input[name="Canais[]"]:checked').length === 0) {
+    ev.preventDefault(); mostrarErro('Marque pelo menos um canal de venda.', canais[0]); return;
   }
-  if (qtdCanais === 0) {
-    ev.preventDefault(); mostrarErro('Marque pelo menos um canal de venda.'); return;
-  }
-  if (inputArquivos.files.length === 0) {
-    ev.preventDefault(); mostrarErro('Anexe pelo menos um arquivo (extrato, relatório de vendas, planilha...) antes de enviar.'); return;
+  if (!valor('faturamento') && inputArquivos.files.length === 0) {
+    ev.preventDefault(); mostrarErro('Preencha o faturamento ou anexe os relatórios de vendas, para a gente ter por onde começar.', el('faturamento')); return;
   }
   if (totalMb() > LIMITE_MB) {
-    ev.preventDefault(); mostrarErro('Os arquivos passam de 10 MB somados. Envie os principais aqui e o restante pelo WhatsApp.'); return;
+    ev.preventDefault(); mostrarErro('Os arquivos passam de 10 MB somados. Anexe os principais e mande o restante pelo WhatsApp.', inputArquivos); return;
   }
+  form.querySelectorAll('.dinheiro input').forEach(function (inp) { inp.value = formatarReais(inp.value); });
+  try { localStorage.removeItem(CHAVE_RASCUNHO); } catch (e) {}
   btnEnviar.disabled = true;
   btnEnviar.textContent = 'Enviando... (pode levar alguns segundos)';
 });
