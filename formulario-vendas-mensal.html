@@ -79,6 +79,11 @@ padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
 .upload-area .exemplos { font-size: 12px; color: var(--fraco); margin-top: 10px; }
 .upload-area.destaque { border-color: var(--laranja); background: rgba(255,85,0,0.05); }
 
+.guia-arquivos { background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 12px; padding: 18px 20px; margin-top: 22px; text-align: left; }
+.guia-arquivos .guia-titulo { color: var(--branco); font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+.guia-arquivos ul { padding-left: 18px; display: grid; gap: 6px; }
+.guia-arquivos li { font-size: 13.5px; color: var(--suave); }
+.guia-arquivos b { color: var(--branco); }
 .lista-instrucoes { text-align: left; font-size: 13.5px; color: var(--suave); padding-left: 18px; margin-top: 10px; }
 .lista-instrucoes li { margin-bottom: 6px; }
 .lista-instrucoes b { color: var(--branco); }
@@ -95,8 +100,18 @@ b, strong { color: var(--branco); font-weight: 700; }
 
 <section class="central" style="padding-bottom:0;">
 <div class="wrap-estreito">
-<h1>Joga os dados do mês aqui</h1>
-<p style="margin-top:12px;">Mesma lógica de sempre: você sobe o que tiver, a gente cuida do resto. Leva menos de 2 minutos.</p>
+<h1>Envie os dados do mês</h1>
+<p style="margin-top:12px;">Você anexa os arquivos do jeito que baixou, e a Finspots organiza o resto.</p>
+<div class="guia-arquivos">
+<p class="guia-titulo">O que anexar</p>
+<ul>
+<li><b>Vendas:</b> o relatório de pedidos do mês de cada canal (Mercado Livre, Shopee, site...).</li>
+<li><b>Extratos:</b> o extrato do mês de todas as contas da empresa (banco, Mercado Pago e outras carteiras), de preferência em OFX.</li>
+<li><b>Custos:</b> planilha, notas ou prints com o custo dos produtos, frete, custos fixos e pró-labore do mês.</li>
+<li><b>Anúncios:</b> o relatório com quanto investiu no mês, se anunciou.</li>
+<li><b>Próximas semanas:</b> print ou lista de repasses a liberar, boletos e parcelas com data marcada.</li>
+</ul>
+</div>
 </div>
 </section>
 
@@ -135,7 +150,7 @@ b, strong { color: var(--branco); font-weight: 700; }
 
 <div class="form-grupo">
 <span class="titulo-grupo">Financeiro do mês</span>
-<span class="subtitulo-grupo">Os mesmos números de sempre: extrato, custos, anúncios.</span>
+<span class="subtitulo-grupo">Extratos, custos, anúncios e contas das próximas semanas.</span>
 <div class="upload-area">
 <input type="file" name="attachment_financeiro" class="arquivos" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.ofx,.png,.jpg,.jpeg,.zip">
 <p class="exemplos">Exemplos: extrato bancário (de preferência OFX), relatório de anúncios, planilha de custos fixos/variáveis.</p>
@@ -160,6 +175,11 @@ var NOMES_MES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Ju
 
 var form = document.getElementById('form-vendas-mensal');
 form.action = DESTINO_FORMULARIO;
+if (/[?&]inicio=1/.test(location.search)) {
+  form.querySelector('input[name=_next]').value = 'https://finspots.com.br/finalizar-assinatura.html';
+  form.querySelector('input[name=_subject]').value = 'Nova assinatura: Acompanhamento Mensal Finspots';
+  document.getElementById('btn-enviar').textContent = 'Enviar dados e ir para a assinatura';
+}
 var btnEnviar = document.getElementById('btn-enviar');
 var erroEl = document.getElementById('erro-envio');
 

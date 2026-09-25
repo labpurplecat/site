@@ -40,7 +40,7 @@
     text-decoration: none; padding: 15px 30px; border-radius: 10px; border: none; cursor: pointer; width: 100%;
   }
   .btn-primario { background: var(--laranja); color: var(--branco); }
-  .btn-primario:disabled { background: var(--fraco); cursor: not-allowed; opacity: 0.6; }
+  .btn-primario[aria-disabled="true"] { background: var(--fraco); cursor: not-allowed; opacity: 0.6; }
 
   header { padding: 26px 0; text-align: center; }
   .logo { font-size: 21px; font-weight: 800; text-decoration: none; display: inline-block; }
@@ -79,13 +79,6 @@
     font-size: 13.5px; color: var(--suave); margin-bottom: 24px; cursor: pointer;
   }
   .aceite input { margin-top: 3px; accent-color: var(--laranja); flex-shrink: 0; }
-
-  .campo-email { margin-bottom: 20px; text-align: left; }
-  .campo-email label { display: block; font-size: 13px; color: var(--suave); margin-bottom: 6px; }
-  .campo-email input {
-    width: 100%; background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px;
-    padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
-  }
   .nota-checkout { font-size: 11.5px; color: var(--fraco); text-align: center; margin-top: 10px; }
 
   footer { padding: 30px 0; text-align: center; font-size: 12.5px; color: var(--fraco); }
@@ -129,7 +122,6 @@
       <div class="caixa-head">
         <span class="icone"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
         <h2>Investimento</h2>
-        <span style="margin-left:auto; padding:4px 10px; border-radius:20px; background:var(--laranja-fraco); color:var(--laranja); font-size:11px; font-weight:700; letter-spacing:0.3px; white-space:nowrap;">🚀 Versão Beta</span>
       </div>
       <p><span class="preco-destaque">R$ 1.200,00</span> por mês, com cobrança recorrente via Mercado Pago.</p>
 
@@ -146,19 +138,12 @@
       <p>Você pode <b style="color:var(--branco);">cancelar a qualquer momento</b>, sem aviso prévio e sem multa. Ao cancelar, você mantém acesso ao serviço até o fim do ciclo já pago. Não haverá novas cobranças após o cancelamento.</p>
     </div>
 
-    <div class="campo-email">
-      <label for="email-cliente">Seu email</label>
-      <input type="email" id="email-cliente" placeholder="voce@email.com">
-    </div>
-
     <label class="aceite">
       <input type="checkbox" id="aceite-termos">
-      <span>Li e concordo com os termos acima e com as <a href="condicoes-contratacao-mensal.html" style="color:var(--laranja); text-decoration:underline;">Condições de Contratação</a> completas.</span>
+      <span>Li e concordo com os termos acima e com as <a href="condicoes-contratacao-mensal.html" target="_blank" style="color:var(--laranja); text-decoration:underline;">Condições de Contratação</a> completas.</span>
     </label>
-
-    <button class="btn btn-primario" id="btn-continuar" disabled>Concordo, ir para pagamento</button>
-    <p class="nota-checkout">Você será levado ao checkout seguro do Mercado Pago</p>
-    <p id="erro-checkout" style="display:none; color:var(--laranja); font-size:13px; text-align:center; margin-top:12px;"></p>
+    <a class="btn btn-primario" id="btn-continuar" href="formulario-vendas-mensal.html?inicio=1" aria-disabled="true">Concordo, continuar</a>
+    <p class="nota-checkout">Próximo passo: enviar os dados do mês. A assinatura é feita no final.</p>
 
     <p style="margin-top:28px; font-size:13px;">Ficou com dúvida antes de continuar? <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja); text-decoration:underline;">Chama no WhatsApp</a></p>
   </div>
@@ -167,50 +152,13 @@
 <footer>Finspots | Inteligência de Vendas e Finanças para E-commerce</footer>
 
 <script>
-  var API_URL = 'https://saf-production.up.railway.app';
-
   var check = document.getElementById('aceite-termos');
-  var email = document.getElementById('email-cliente');
   var btn = document.getElementById('btn-continuar');
-  var erroEl = document.getElementById('erro-checkout');
-
-  function atualizarBotao() {
-    var emailValido = email.value.includes('@') && email.value.includes('.');
-    btn.disabled = !(check.checked && emailValido);
-  }
-
-  check.addEventListener('change', atualizarBotao);
-  email.addEventListener('input', atualizarBotao);
-
-  function mostrarErro(msg) {
-    erroEl.textContent = msg;
-    erroEl.style.display = 'block';
-  }
-
-  btn.addEventListener('click', function () {
-    erroEl.style.display = 'none';
-    btn.disabled = true;
-    var textoOriginal = btn.textContent;
-    btn.textContent = 'Só um instante...';
-
-    var url = API_URL + '/pagamento/criar-preferencia'
-      + '?email=' + encodeURIComponent(email.value)
-      + '&tipo_produto=' + encodeURIComponent('Mensalidade');
-
-    fetch(url, { method: 'POST' })
-      .then(function (resposta) {
-        if (!resposta.ok) throw new Error('status ' + resposta.status);
-        return resposta.json();
-      })
-      .then(function (dados) {
-        window.location.href = dados.checkout_url;
-      })
-      .catch(function (erro) {
-        console.error('Falha ao criar preferência de pagamento:', erro);
-        btn.disabled = false;
-        btn.textContent = textoOriginal;
-        mostrarErro('Não foi possível iniciar o pagamento agora. Tenta de novo em instantes, ou chama no WhatsApp se continuar.');
-      });
+  check.addEventListener('change', function () {
+    btn.setAttribute('aria-disabled', check.checked ? 'false' : 'true');
+  });
+  btn.addEventListener('click', function (ev) {
+    if (!check.checked) ev.preventDefault();
   });
 </script>
 </body>
