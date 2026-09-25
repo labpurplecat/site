@@ -41,7 +41,6 @@ text-decoration: none; padding: 15px 30px; border-radius: 10px; border: none; cu
 }
 .btn-primario { background: var(--laranja); color: var(--branco); }
 .btn-primario[aria-disabled="true"] { background: var(--fraco); cursor: not-allowed; opacity: 0.6; }
-.passo-2 { display: none; margin-top: 32px; padding: 24px; border: 1.5px solid var(--laranja); border-radius: 14px; background: var(--quase-preto); }
 
 header { padding: 26px 0; text-align: center; }
 .logo { font-size: 21px; font-weight: 800; text-decoration: none; display: inline-block; }
@@ -145,15 +144,8 @@ footer { padding: 30px 0; text-align: center; font-size: 12.5px; color: var(--fr
 <span>Li e concordo com os termos acima e com as <a href="condicoes-contratacao.html" target="_blank" style="color:var(--laranja); text-decoration:underline;">Condições de Contratação</a> completas.</span>
 </label>
 
-<a class="btn btn-primario" id="btn-continuar" href="#" aria-disabled="true">Concordo, ir para pagamento</a>
-<p class="nota-checkout">O pagamento abre em uma nova aba, no checkout seguro do Mercado Pago.</p>
-
-<div class="passo-2" id="passo-2">
-<p style="color:var(--branco); font-weight:700; font-size:16px;">Pagamento feito? Agora envie seus dados.</p>
-<p style="margin-top:8px;">Assim que concluir o pagamento no Mercado Pago, volte aqui e preencha o formulário com as informações da sua loja. Sua análise começa quando os dados chegarem.</p>
-<a href="formulario-diagnostico.html" class="btn btn-primario" style="margin-top:18px;">Já paguei, enviar meus dados</a>
-<p class="nota-checkout">Se fechar esta página, sem problema: você também recebe o link do formulário no seu e-mail.</p>
-</div>
+<a class="btn btn-primario" id="btn-continuar" href="formulario-diagnostico.html" aria-disabled="true">Concordo, continuar</a>
+<p class="nota-checkout">Próximo passo: enviar os dados da sua loja. O pagamento é feito no final.</p>
 
 <p style="margin-top:28px; font-size:13px;">Ficou com dúvida antes de continuar? <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja); text-decoration:underline;">Chama no WhatsApp</a></p>
 </div>
@@ -162,13 +154,8 @@ footer { padding: 30px 0; text-align: center; font-size: 12.5px; color: var(--fr
 <footer>Finspots | Inteligência de Vendas e Finanças para E-commerce</footer>
 
 <script>
-// Link de pagamento criado no painel do Mercado Pago (Seu negócio > Link de pagamento).
-// Troque pelo seu link antes de publicar.
-var LINK_MERCADO_PAGO = 'https://mpago.la/218poVP';
-
 var check = document.getElementById('aceite-termos');
 var btn = document.getElementById('btn-continuar');
-var passo2 = document.getElementById('passo-2');
 
 function atualizarBotao() {
   btn.setAttribute('aria-disabled', check.checked ? 'false' : 'true');
@@ -176,11 +163,7 @@ function atualizarBotao() {
 check.addEventListener('change', atualizarBotao);
 
 btn.addEventListener('click', function (ev) {
-  ev.preventDefault();
-  if (!check.checked) return;
-  window.open(LINK_MERCADO_PAGO, '_blank', 'noopener');
-  passo2.style.display = 'block';
-  passo2.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (!check.checked) ev.preventDefault();
 });
 </script>
 </body>
