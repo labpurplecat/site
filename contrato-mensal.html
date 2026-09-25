@@ -154,9 +154,13 @@
 <script>
   var check = document.getElementById('aceite-termos');
   var btn = document.getElementById('btn-continuar');
-  check.addEventListener('change', function () {
+  function atualizarBotao() {
     btn.setAttribute('aria-disabled', check.checked ? 'false' : 'true');
-  });
+  }
+  check.addEventListener('change', atualizarBotao);
+  // Ao voltar pelo navegador, a caixinha pode vir marcada: sincroniza o botão.
+  window.addEventListener('pageshow', atualizarBotao);
+  atualizarBotao();
   btn.addEventListener('click', function (ev) {
     if (!check.checked) ev.preventDefault();
   });
