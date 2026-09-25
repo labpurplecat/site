@@ -320,6 +320,20 @@
   .lista-simples { list-style: disc; padding-left: 20px; margin: 10px 0 4px; display: grid; gap: 6px; font-size: 14.5px; color: var(--suave); text-align: left; }
   .central .lista-simples { max-width: 560px; margin-left: auto; margin-right: auto; padding-left: 38px; }
   .faq .lista-simples { margin-top: 12px; }
+  .analise-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 44px; text-align: left; }
+  @media (min-width: 720px) { .analise-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 960px) { .analise-grid { grid-template-columns: repeat(3, 1fr); } }
+  .analise-card { background: rgba(255,255,255,0.03); border: 1px solid var(--borda); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .analise-topo { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .analise-titulo { font-size: 13px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; color: var(--branco); }
+  .analise-tag { font-size: 11.5px; color: var(--laranja); background: var(--laranja-fraco); border-radius: 999px; padding: 3px 10px; font-weight: 600; }
+  .analise-item h4 { font-size: 15px; font-weight: 600; color: var(--branco); margin-bottom: 4px; line-height: 1.35; }
+  .central .analise-item p { font-size: 14px; color: var(--suave); margin: 0; max-width: none; }
+  .analise-item strong { color: var(--branco); }
+  .analise-destaque { grid-column: 1 / -1; border-color: rgba(255,85,0,0.35); background: linear-gradient(180deg, rgba(255,85,0,0.07), rgba(255,255,255,0.02)); }
+  .analise-subgrid { display: grid; grid-template-columns: 1fr; gap: 18px 28px; }
+  @media (min-width: 720px) { .analise-subgrid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 960px) { .analise-subgrid { grid-template-columns: repeat(3, 1fr); } }
 </style>
 </head>
 <body>
@@ -420,65 +434,48 @@
 
 <!-- 05 - O QUE ANALISAMOS -->
 <section class="central">
-  <div class="wrap-estreito">
+  <div class="wrap">
     <h2>O que está por trás do seu resultado?</h2>
     <p style="margin-top:20px;">Para entender se o seu e-commerce realmente lucra, não basta olhar para o faturamento. Analisamos diferentes partes da operação e cruzamos essas informações para entender o resultado como um todo.</p>
 
-    <div class="lista-icones duas-colunas" style="text-align:left;">
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>
-        <div>
-          <div class="categoria-label">Resultado financeiro</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">DRE</strong>: organiza receitas, custos e despesas, do faturamento até o lucro, para mostrar o resultado real da operação.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Margem de contribuição e margem líquida</strong>: quanto sobra de cada venda para pagar a estrutura, e quanto vira lucro de verdade no fim do mês.</p></div>
+    <div class="analise-grid">
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span><span class="analise-titulo">Resultado financeiro</span></div>
+        <div class="analise-item"><h4>DRE</h4><p>Organiza receitas, custos e despesas, do faturamento até o lucro, para mostrar o resultado real da operação.</p></div>
+        <div class="analise-item"><h4>Margem de contribuição e margem líquida</h4><p>Quanto sobra de cada venda para pagar a estrutura, e quanto vira lucro de verdade no fim do mês.</p></div>
+      </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="var(--laranja)"/></svg></span><span class="analise-titulo">Estrutura financeira</span></div>
+        <div class="analise-item"><h4>Ponto de equilíbrio</h4><p>Quanto sua operação precisa vender para cobrir todos os custos, e qual a sua folga até lá.</p></div>
+      </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span><span class="analise-titulo">Vendas</span></div>
+        <div class="analise-item"><h4>Análise por canal</h4><p>Quanto cada canal vende e quanto fica com as taxas e comissões de cada um.</p></div>
+      </div>
+
+      <div class="analise-card analise-destaque">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M16 14.5h2"/></svg></span><span class="analise-titulo">Caixa</span><span class="analise-tag">o dinheiro de verdade</span></div>
+        <div class="analise-subgrid">
+          <div class="analise-item"><h4>Fluxo de caixa do período</h4><p>O dinheiro que de fato entrou e saiu das suas contas, conferido com o extrato do banco e separado entre operação, empréstimos e retiradas.</p></div>
+          <div class="analise-item"><h4>Lucro × caixa</h4><p>Se o lucro que aparece na DRE está virando dinheiro na conta ou ficando preso no caminho.</p></div>
+          <div class="analise-item"><h4>Fôlego de caixa</h4><p>Quantos dias a loja se mantém só com o dinheiro que tem hoje.</p></div>
+          <div class="analise-item"><h4>Projeção das próximas 4 semanas</h4><p>Com os repasses a liberar e as contas já marcadas, como fica o saldo semana a semana e se vai faltar dinheiro em alguma delas.</p></div>
+          <div class="analise-item"><h4>Ciclo de caixa</h4><p>Quantos dias o seu dinheiro fica preso entre pagar o fornecedor e receber do cliente, e se isso coloca o caixa em risco mesmo com lucro.</p></div>
         </div>
       </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="var(--laranja)"/></svg></span>
-        <div>
-          <div class="categoria-label">Estrutura financeira</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Ponto de equilíbrio</strong>: quanto sua operação precisa vender para cobrir todos os custos, e qual a sua folga até lá.</p></div>
-        </div>
+
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 002 2h1l4 4V5L6 9H5a2 2 0 00-2 2z"/><path d="M16 8a5 5 0 010 8"/></svg></span><span class="analise-titulo">Marketing e clientes</span></div>
+        <div class="analise-item"><h4>ROAS, CAC e LTV/CAC</h4><p>Se os anúncios estão se pagando, quanto custa conquistar cada cliente e quanto ele devolve ao longo do tempo.</p></div>
+        <div class="analise-item"><h4>Ticket médio e recompra</h4><p>Quanto cada cliente gasta e quantos voltam a comprar.</p></div>
       </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M16 14.5h2"/></svg></span>
-        <div>
-          <div class="categoria-label">Caixa</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Fluxo de caixa do período</strong>: o dinheiro que de fato entrou e saiu das suas contas, conferido com o extrato do banco e separado entre operação, empréstimos e retiradas.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Lucro × caixa</strong>: se o lucro que aparece na DRE está virando dinheiro na conta ou ficando preso no caminho.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Fôlego de caixa</strong>: quantos dias a loja se mantém só com o dinheiro que tem hoje.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Projeção das próximas 4 semanas</strong>: com os repasses a liberar e as contas já marcadas, como fica o saldo semana a semana e se vai faltar dinheiro em alguma delas.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Ciclo de caixa</strong>: quantos dias o seu dinheiro fica preso entre pagar o fornecedor e receber do cliente, e se isso coloca o caixa em risco mesmo com lucro.</p></div>
-        </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg></span><span class="analise-titulo">Régua do seu segmento</span></div>
+        <div class="analise-item"><h4>Comparação com lojas do seu perfil</h4><p>Uma margem boa para uma loja pode ser baixa para outra. Por isso, seus números são comparados com o que é saudável para negócios com o mesmo perfil de ticket e margem que o seu.</p></div>
       </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span>
-        <div>
-          <div class="categoria-label">Vendas</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Análise por canal</strong>: quanto cada canal vende e quanto fica com as taxas e comissões de cada um.</p></div>
-        </div>
-      </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 002 2h1l4 4V5L6 9H5a2 2 0 00-2 2z"/><path d="M16 8a5 5 0 010 8"/></svg></span>
-        <div>
-          <div class="categoria-label">Marketing e clientes</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">ROAS, CAC e LTV/CAC</strong>: se os anúncios estão se pagando, quanto custa conquistar cada cliente e quanto ele devolve ao longo do tempo.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Ticket médio e recompra</strong>: quanto cada cliente gasta e quantos voltam a comprar.</p></div>
-        </div>
-      </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg></span>
-        <div>
-          <div class="categoria-label">Régua do seu segmento</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Comparação com lojas do seu perfil</strong>: uma margem boa para uma loja pode ser baixa para outra. Por isso, seus números são comparados com o que é saudável para negócios com o mesmo perfil de ticket e margem que o seu.</p></div>
-        </div>
-      </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span>
-        <div>
-          <div class="categoria-label">Priorização</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Prioridades por impacto e urgência</strong>: os pontos encontrados são ordenados pelo impacto no resultado e pela urgência, para mostrar <strong style="color:var(--branco);">o que resolver primeiro, segundo e terceiro.</strong></p></div>
-        </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span class="analise-titulo">Priorização</span></div>
+        <div class="analise-item"><h4>Prioridades por impacto e urgência</h4><p>Os pontos encontrados são ordenados pelo impacto no resultado e pela urgência, para mostrar <strong>o que resolver primeiro, segundo e terceiro.</strong></p></div>
       </div>
     </div>
   </div>
