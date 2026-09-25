@@ -20,6 +20,8 @@
 --suave: #A9B2D6;
 --fraco: #6B76A8;
 --borda: rgba(255,255,255,0.09);
+--borda-forte: rgba(255,255,255,0.16);
+--verde: #2ECC71;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -79,10 +81,26 @@ padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
 .duas-colunas-campo { display: grid; gap: 14px; }
 @media (min-width: 560px) { .duas-colunas-campo { grid-template-columns: 1fr 1fr; } }
 
-.upload-area { border: 1.5px dashed var(--borda); border-radius: 12px; padding: 28px; text-align: center; margin-bottom: 14px; }
-.upload-area input[type=file] { margin-top: 14px; color: var(--suave); font-size: 13px; }
+.upload-area { border: 1.5px dashed var(--borda-forte); border-radius: 12px; padding: 22px 18px; text-align: center; margin-bottom: 14px; }
+.upload-area p { font-size: 14px; }
+.upload-area input[type=file] { margin-top: 12px; color: var(--suave); font-size: 13px; max-width: 100%; }
 .upload-area .exemplos { font-size: 12px; color: var(--fraco); margin-top: 10px; }
-.upload-area.destaque { border-color: var(--laranja); background: rgba(255,85,0,0.05); }
+.lista-arquivos { list-style: none; margin-top: 12px; text-align: left; font-size: 12.5px; color: var(--suave); display: grid; gap: 4px; word-break: break-all; }
+.lista-arquivos:empty { display: none; }
+.nota-limite { font-size: 12px; color: var(--fraco); margin-top: 4px; text-align: left; }
+.nota-limite a { color: var(--laranja); }
+#tamanho-total { font-size: 12.5px; margin-top: 6px; text-align: left; }
+
+.etapas { display: none; justify-content: center; align-items: center; gap: 8px; margin: 0 0 22px; font-size: 12.5px; color: var(--fraco); flex-wrap: wrap; }
+.etapas.visivel { display: flex; }
+.etapa { display: flex; align-items: center; gap: 7px; }
+.etapa .n { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11.5px; border: 1px solid var(--borda-forte); }
+.etapa.feita .n { background: rgba(46,204,113,0.15); border-color: rgba(46,204,113,0.4); color: var(--verde); }
+.etapa.atual { color: var(--branco); font-weight: 600; }
+.etapa.atual .n { background: var(--laranja); border-color: var(--laranja); color: var(--branco); }
+.etapas .traco { width: 22px; height: 1px; background: var(--borda-forte); }
+.nota-rascunho { font-size: 12.5px; color: var(--fraco); margin-top: 8px; }
+footer a { color: var(--laranja); }
 
 .guia-arquivos { background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 12px; padding: 18px 20px; margin-top: 22px; text-align: left; }
 .guia-arquivos .guia-titulo { color: var(--branco); font-weight: 700; font-size: 14px; margin-bottom: 8px; }
@@ -107,8 +125,14 @@ b, strong { color: var(--branco); font-weight: 700; }
 
 <section class="central" style="padding-bottom:0;">
 <div class="wrap-estreito">
+<div class="etapas" id="etapas" aria-label="Etapas da assinatura">
+<div class="etapa feita"><span class="n">✓</span>Termos</div><span class="traco"></span>
+<div class="etapa atual"><span class="n">2</span>Dados do mês</div><span class="traco"></span>
+<div class="etapa"><span class="n">3</span>Assinatura</div>
+</div>
 <h1>Envie os dados do mês</h1>
 <p style="margin-top:12px;">Você anexa os arquivos do jeito que baixou, e a Finspots organiza o resto.</p>
+<p class="nota-rascunho">O que você digita fica salvo neste navegador até enviar.</p>
 <div class="guia-arquivos">
 <p class="guia-titulo">O que anexar</p>
 <ul>
@@ -156,9 +180,11 @@ b, strong { color: var(--branco); font-weight: 700; }
 <div class="form-grupo">
 <span class="titulo-grupo">Vendas do mês</span>
 <span class="subtitulo-grupo">O relatório de pedidos que você baixa da própria plataforma de vendas, ou sua planilha de controle.</span>
-<div class="upload-area destaque">
-<p><strong>Envie o export de cada canal que você usa</strong> (pode subir mais de um arquivo).</p>
+<div class="upload-area">
+<p><strong>Relatórios de vendas</strong></p>
+<p class="exemplos" style="margin-top:4px;">Um arquivo por canal, pode anexar vários.</p>
 <input type="file" name="attachment" class="arquivos" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.png,.jpg,.jpeg,.zip">
+<ul class="lista-arquivos"></ul>
 <p class="exemplos">Exemplos: relatório de vendas do Mercado Livre, da Shopee, da Shopify, ou sua própria planilha de pedidos.</p>
 </div>
 <ul class="lista-instrucoes">
@@ -171,10 +197,14 @@ b, strong { color: var(--branco); font-weight: 700; }
 <span class="titulo-grupo">Financeiro do mês</span>
 <span class="subtitulo-grupo">Extratos, custos e relatório de anúncios.</span>
 <div class="upload-area">
+<p><strong>Extratos, custos e anúncios</strong></p>
+<p class="exemplos" style="margin-top:4px;">Pode anexar vários.</p>
 <input type="file" name="attachment_financeiro" class="arquivos" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.ofx,.png,.jpg,.jpeg,.zip">
+<ul class="lista-arquivos"></ul>
 <p class="exemplos">Exemplos: extrato bancário (de preferência OFX), relatório de anúncios, planilha de custos fixos/variáveis.</p>
 </div>
-<p class="exemplos" style="font-size:12px; color:var(--fraco); margin-top:10px;">Limite de 10 MB somando todos os arquivos. Se passar, mande o resto pelo <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja);">WhatsApp</a>.</p>
+<p id="tamanho-total"></p>
+<p class="nota-limite">Limite de 10 MB somando os arquivos das duas caixas. Se passar, mande o resto pelo <a href="https://wa.me/5562996677168" target="_blank" rel="noopener">WhatsApp</a>.</p>
 </div>
 
 <button type="submit" class="btn btn-primario" id="btn-enviar">Enviar dados do mês</button>
@@ -183,7 +213,7 @@ b, strong { color: var(--branco); font-weight: 700; }
 </section>
 
 <footer>
-<div>Finspots: os dados enviados aqui são usados exclusivamente para gerar sua análise mensal.</div>
+<div>Finspots: os dados enviados aqui são usados exclusivamente para gerar sua análise mensal. <a href="privacidade.html">Política de privacidade</a></div>
 </footer>
 
 <script>
@@ -192,9 +222,12 @@ var DESTINO_FORMULARIO = 'https://formsubmit.co/labfinspots@gmail.com';
 var LIMITE_MB = 10;
 var NOMES_MES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
+var CHAVE_RASCUNHO = 'finspots-rascunho-mensal';
+
 var form = document.getElementById('form-vendas-mensal');
 form.action = DESTINO_FORMULARIO;
 if (/[?&]inicio=1/.test(location.search)) {
+  document.getElementById('etapas').classList.add('visivel');
   form.querySelector('input[name=_next]').value = 'https://finspots.com.br/finalizar-assinatura.html';
   form.querySelector('input[name=_subject]').value = 'Nova assinatura: Acompanhamento Mensal Finspots';
   document.getElementById('btn-enviar').textContent = 'Enviar dados e ir para a assinatura';
@@ -219,12 +252,55 @@ form.addEventListener('submit', function () {
 });
 
 var btnEnviar = document.getElementById('btn-enviar');
+var TEXTO_BTN_ORIGINAL = btnEnviar.textContent;
 var erroEl = document.getElementById('erro-envio');
+var inputsArquivos = form.querySelectorAll('input.arquivos');
+
+// Arquivos: lista o que foi anexado em cada caixa e soma o total.
+function totalMb() {
+  var t = 0;
+  inputsArquivos.forEach(function (inp) { Array.prototype.forEach.call(inp.files, function (a) { t += a.size; }); });
+  return t / 1024 / 1024;
+}
+function mb(bytes) { return (bytes / 1024 / 1024).toFixed(1).replace('.', ',') + ' MB'; }
+inputsArquivos.forEach(function (inp) {
+  inp.addEventListener('change', function () {
+    var lista = inp.parentNode.querySelector('.lista-arquivos');
+    lista.innerHTML = '';
+    Array.prototype.forEach.call(inp.files, function (a) {
+      var li = document.createElement('li');
+      li.textContent = '📎 ' + a.name + ' (' + mb(a.size) + ')';
+      lista.appendChild(li);
+    });
+    var t = totalMb(), tam = document.getElementById('tamanho-total');
+    tam.textContent = t > 0 ? 'Total anexado: ' + t.toFixed(1).replace('.', ',') + ' MB de 10 MB' : '';
+    tam.style.color = t > LIMITE_MB ? 'var(--laranja)' : 'var(--fraco)';
+  });
+});
 
 // Sugere o mês anterior (o mês que acabou de fechar); o cliente pode trocar.
 var hoje = new Date();
 var anterior = new Date(hoje.getFullYear(), hoje.getMonth() - 1, 1);
 document.getElementById('mes').value = NOMES_MES[anterior.getMonth()] + '/' + anterior.getFullYear();
+
+// Rascunho salvo neste navegador (arquivos não entram).
+function camposRascunho() {
+  return form.querySelectorAll('input[type=text]:not([name=_honey]), input[type=email], textarea');
+}
+function salvarRascunho() {
+  try {
+    var dados = {};
+    camposRascunho().forEach(function (e) { if (e.id && e.value) dados[e.id] = e.value; });
+    localStorage.setItem(CHAVE_RASCUNHO, JSON.stringify(dados));
+  } catch (e) {}
+}
+try {
+  var rascunho = JSON.parse(localStorage.getItem(CHAVE_RASCUNHO) || 'null');
+  if (rascunho) Object.keys(rascunho).forEach(function (id) { var e = document.getElementById(id); if (e) e.value = rascunho[id]; });
+} catch (e) {}
+var timerRascunho;
+form.addEventListener('input', function () { clearTimeout(timerRascunho); timerRascunho = setTimeout(salvarRascunho, 400); });
+form.addEventListener('change', salvarRascunho);
 
 function mostrarErro(msg) {
   erroEl.textContent = msg;
@@ -236,15 +312,19 @@ function valor(id) { return (document.getElementById(id).value || '').trim(); }
 form.addEventListener('submit', function (ev) {
   erroEl.style.display = 'none';
   var arquivos = [];
-  form.querySelectorAll('input.arquivos').forEach(function (inp) { arquivos = arquivos.concat(Array.prototype.slice.call(inp.files)); });
-  var totalMb = arquivos.reduce(function (t, a) { return t + a.size; }, 0) / 1024 / 1024;
+  inputsArquivos.forEach(function (inp) { arquivos = arquivos.concat(Array.prototype.slice.call(inp.files)); });
 
   if (!valor('loja') || !valor('mes')) { ev.preventDefault(); mostrarErro('Preencha o nome da loja e o mês de referência.'); return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor('email'))) { ev.preventDefault(); mostrarErro('Confira o seu e-mail.'); return; }
   if (arquivos.length === 0) { ev.preventDefault(); mostrarErro('Anexe pelo menos um arquivo antes de enviar.'); return; }
-  if (totalMb > LIMITE_MB) { ev.preventDefault(); mostrarErro('Os arquivos passam de 10 MB somados. Envie os principais aqui e o restante pelo WhatsApp.'); return; }
+  if (totalMb() > LIMITE_MB) { ev.preventDefault(); mostrarErro('Os arquivos passam de 10 MB somados. Envie os principais aqui e o restante pelo WhatsApp.'); return; }
+  try { localStorage.removeItem(CHAVE_RASCUNHO); } catch (e) {}
   btnEnviar.disabled = true;
   btnEnviar.textContent = 'Enviando... (pode levar alguns segundos)';
+});
+// Se a pessoa voltar pelo navegador depois de enviar, destrava o botão.
+window.addEventListener('pageshow', function (ev) {
+  if (ev.persisted) { btnEnviar.disabled = false; btnEnviar.textContent = TEXTO_BTN_ORIGINAL; }
 });
 </script>
 
