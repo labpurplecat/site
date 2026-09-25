@@ -319,6 +319,25 @@
   footer .links span { margin: 0 8px; }
 
   b, strong { color: var(--branco); font-weight: 700; }
+  .lista-simples { list-style: disc; padding-left: 20px; margin: 10px 0 4px; display: grid; gap: 6px; font-size: 14.5px; color: var(--suave); text-align: left; }
+  .central .lista-simples { max-width: 560px; margin-left: auto; margin-right: auto; padding-left: 38px; }
+  .faq .lista-simples { margin-top: 12px; }
+  .analise-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 44px; text-align: left; }
+  @media (min-width: 720px) { .analise-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 960px) { .analise-grid { grid-template-columns: repeat(3, 1fr); } }
+  .analise-card { background: rgba(0,3,27,0.45); border: 1px solid rgba(107,118,168,0.28); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .analise-topo { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .analise-titulo { font-size: 13px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; color: var(--branco); }
+  .analise-tag { font-size: 11.5px; color: var(--laranja); background: var(--laranja-fraco); border-radius: 999px; padding: 3px 10px; font-weight: 600; }
+  .analise-item h4 { font-size: 15px; font-weight: 600; color: var(--branco); margin-bottom: 4px; line-height: 1.35; }
+  .central .analise-item p { font-size: 14px; color: var(--suave); margin: 0; max-width: none; }
+  .analise-item strong { color: var(--branco); }
+  .analise-destaque { grid-column: 1 / -1; }
+  .analise-subgrid { display: grid; grid-template-columns: 1fr; gap: 18px 28px; }
+  @media (min-width: 720px) { .analise-subgrid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 960px) { .analise-subgrid { grid-template-columns: repeat(3, 1fr); } }
+  .analise-item .lista-simples, .central .analise-item .lista-simples { padding-left: 18px; margin: 8px 0 0; font-size: 14px; max-width: none; }
+  .faq p { text-align: left; }
 </style>
 </head>
 <body>
@@ -337,7 +356,7 @@
       <p style="color:var(--branco); font-weight:600; font-size:15px;">Você precisa acompanhar o que está acontecendo.</p>
       <h1 style="margin-top:14px;">Seu e-commerce muda todos os meses.</h1>
       <div class="subtitulo">Você precisa saber o que mudou.</div>
-      <p>O Acompanhamento Mensal Finspots analisa os resultados da sua operação, compara com o histórico e mostra o que melhorou, o que piorou e o que merece atenção.</p>
+      <p>O Acompanhamento Mensal Finspots analisa os resultados da sua operação, compara com o mês anterior e com as suas metas e mostra o que melhorou, o que piorou e o que merece atenção.</p>
       <p>Você não precisa passar horas olhando planilhas.</p>
       <p style="color:var(--branco); font-weight:600; margin-top:6px;">Nós fazemos a análise. Você recebe as respostas.</p>
 
@@ -360,10 +379,10 @@
     <h2>O seu e-commerce não para de mudar.</h2>
     <p style="margin-top:20px;">Um mês pode terminar com mais vendas.</p>
     <p>Mas isso não significa, necessariamente, mais lucro.</p>
-    <p>Os custos podem aumentar. As margens podem cair. Um canal pode perder desempenho. Um produto pode deixar de contribuir. O investimento em anúncios pode crescer sem trazer o retorno esperado.</p>
+    <p>Os custos podem aumentar. As margens podem cair. Um canal pode perder desempenho. Um produto pode deixar de contribuir. O investimento em anúncios pode crescer sem trazer o retorno esperado. O lucro pode aparecer no relatório e o dinheiro não aparecer na conta.</p>
     <p>E quando você olha apenas para o faturamento, essas mudanças podem passar despercebidas.</p>
     <p style="color:var(--branco); font-weight:600; margin-top:24px;">Você precisa saber:</p>
-    <p style="color:var(--branco); font-weight:700; font-size:18px; margin-top:6px;">O que melhorou? O que piorou? O que mudou no resultado? O que precisa da sua atenção agora?</p>
+    <p style="color:var(--branco); font-weight:700; font-size:18px; margin-top:6px;">O que melhorou?<br>O que piorou?<br>O que mudou no resultado?<br>O que precisa da sua atenção agora?</p>
     <p style="margin-top:24px;">O problema não é apenas saber quanto vendeu.</p>
     <p style="color:var(--branco); font-weight:700; font-size:18px;">É entender como sua operação está evoluindo.</p>
   </div>
@@ -380,9 +399,18 @@
       <p>Vídeo explicando como funciona o Acompanhamento Mensal</p>
     </div>
 
-    <p style="margin-top:28px;">A cada mês, a Finspots analisa os novos dados da sua operação e compara os resultados com o histórico.</p>
-    <p>Você entende o que mudou, o que está impactando o resultado, o que melhorou, o que piorou, o que merece atenção e quais são as prioridades do próximo período.</p>
-    <p>O primeiro acompanhamento pode usar o Diagnóstico Financeiro como ponto de comparação.</p>
+    <p style="margin-top:28px;">A cada mês, a Finspots analisa os novos dados da sua operação e compara os resultados com o mês anterior, com o histórico e com as metas do seu negócio.</p>
+    <p style="color:var(--branco); font-weight:600; margin-top:16px;">Você entende:</p>
+    <ul class="lista-simples">
+      <li>o que mudou;</li>
+      <li>o que está impactando o resultado;</li>
+      <li>o que melhorou;</li>
+      <li>o que piorou;</li>
+      <li>se as metas foram batidas;</li>
+      <li>se o caixa aguenta as próximas semanas;</li>
+      <li>e quais são as prioridades até o próximo relatório.</li>
+    </ul>
+    <p style="margin-top:16px;">O primeiro acompanhamento usa o Diagnóstico Financeiro como ponto de comparação. Assim, a comparação começa já no primeiro mês.</p>
     <p style="color:var(--branco); font-weight:700; font-size:18px; margin-top:20px;">Um mês mostra o resultado. Vários meses mostram a evolução.</p>
   </div>
 </section>
@@ -395,67 +423,74 @@
       <div class="passo">
         <div class="passo-num">1</div>
         <h3>Envie os dados do mês</h3>
-        <p>Você baixa os relatórios e dados necessários da sua operação e envia para a Finspots.</p>
+        <p>Você baixa os relatórios da sua operação, como os das plataformas de venda e os extratos do banco, e envia para a Finspots do jeito que vierem, junto com o que já está marcado para entrar e sair nas próximas semanas.</p>
       </div>
       <div class="passo">
         <div class="passo-num">2</div>
         <h3>Nós fazemos a análise</h3>
-        <p>Cruzamos informações financeiras, comerciais, de produtos, canais, clientes e marketing. Identificamos o que mudou e o que merece atenção.</p>
+        <p>Organizamos os dados e cruzamos informações financeiras, comerciais, de produtos, canais, clientes e marketing. Identificamos o que mudou em relação ao mês anterior e o que merece atenção.</p>
       </div>
       <div class="passo">
         <div class="passo-num">3</div>
         <h3>Você recebe o acompanhamento</h3>
-        <p>Você recebe um <strong>PDF personalizado + vídeo narrado</strong> com os principais resultados, comparativos e prioridades do mês.</p>
+        <p>Você recebe um <strong>PDF personalizado + vídeo narrado</strong> com os resultados do mês, a comparação com o mês anterior, as metas e as prioridades.</p>
       </div>
     </div>
-    <p style="color:var(--branco); font-weight:600; text-align:center; margin-top:44px;">Você envia os dados. Nós fazemos a análise. Você acompanha a evolução.</p>
+    <p style="color:var(--branco); font-weight:600; text-align:center; margin-top:44px;">Você envia os dados.<br>Nós fazemos a análise.<br>Você acompanha a evolução.</p>
   </div>
 </section>
 
 <!-- 05 - O QUE ANALISAMOS -->
 <section class="central">
-  <div class="wrap-estreito">
+  <div class="wrap">
     <h2>O que aconteceu com a sua operação neste mês?</h2>
 
-    <div class="lista-icones duas-colunas" style="text-align:left;">
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>
-        <div>
-          <div class="categoria-label">Resultado financeiro</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">DRE mensal</strong>:receitas, custos, despesas e lucro da operação.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Margem de contribuição</strong>:quanto das vendas realmente contribui para gerar resultado.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Ponto de equilíbrio</strong>:quanto sua operação precisa vender para cobrir seus custos.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Fluxo de caixa e ciclo financeiro</strong>:como o dinheiro circulou e onde podem existir riscos no caixa.</p></div>
+    <div class="analise-grid">
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span><span class="analise-titulo">Resultado financeiro</span></div>
+        <div class="analise-item"><h4>DRE mensal</h4><p>Receitas, custos, despesas e lucro do mês, lado a lado com o mês anterior.</p></div>
+        <div class="analise-item"><h4>Margem de contribuição e margem líquida</h4><p>Quanto sobra de cada venda para pagar a estrutura e quanto vira lucro, na régua do seu segmento.</p></div>
+        <div class="analise-item"><h4>Ponto de equilíbrio</h4><p>Quanto sua operação precisa vender para cobrir os custos, e qual a folga até lá.</p></div>
+      </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="var(--laranja)"/></svg></span><span class="analise-titulo">Metas</span></div>
+        <div class="analise-item"><h4>Real contra meta, mês a mês</h4><p>As metas de margem e de lucro do seu negócio, com a marcação de quais meses bateram e quais ficaram abaixo.</p></div>
+      </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0116 0v1"/></svg></span><span class="analise-titulo">Clientes</span></div>
+        <div class="analise-item"><h4>Novos e recorrentes</h4><p>Quantos clientes novos chegaram e quantos voltaram a comprar, mês a mês.</p></div>
+      </div>
+
+      <div class="analise-card analise-destaque">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M16 14.5h2"/></svg></span><span class="analise-titulo">Caixa</span><span class="analise-tag">o dinheiro de verdade</span></div>
+        <div class="analise-subgrid">
+          <div class="analise-item"><h4>Fluxo de caixa do mês</h4><p>O dinheiro que de fato entrou e saiu das suas contas, conferido com o extrato do banco e comparado com o mês anterior.</p></div>
+          <div class="analise-item"><h4>Lucro × caixa</h4><p>Se o lucro do mês virou dinheiro na conta ou ficou preso no caminho.</p></div>
+          <div class="analise-item"><h4>Fôlego de caixa</h4><p>Quantos dias a loja se mantém só com o dinheiro que tem, e como isso muda de um mês para o outro.</p></div>
+          <div class="analise-item"><h4>Projeção das próximas 8 semanas</h4><p>Refeita todo mês: com os repasses a liberar e as contas já marcadas, como fica o saldo semana a semana e se vai faltar dinheiro em alguma delas.</p></div>
+          <div class="analise-item"><h4>Ciclo de caixa</h4><p>Quantos dias o seu dinheiro fica preso entre pagar o fornecedor e receber do cliente.</p></div>
         </div>
       </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span>
-        <div>
-          <div class="categoria-label">Inteligência de vendas</div>
-          <div class="sub-item"><p>Analisamos os principais movimentos das vendas: produtos, canais, clientes, fornecedores e desempenho comercial.</p></div>
+
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span><span class="analise-titulo">Inteligência de vendas</span></div>
+        <div class="analise-item"><p>Analisamos os principais movimentos das vendas:</p>
+          <ul class="lista-simples">
+            <li>os 3 produtos campeões do mês, com receita e margem;</li>
+            <li>o produto de pior margem;</li>
+            <li>os produtos que ficaram parados;</li>
+            <li>o canal líder e o canal que mais preocupa;</li>
+            <li>o fornecedor de maior custo.</li>
+          </ul>
         </div>
       </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0116 0v1"/></svg></span>
-        <div>
-          <div class="categoria-label">Clientes e portfólio</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Retenção</strong>:clientes novos e recorrentes.</p></div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">Portfólio</strong>:produtos que estão contribuindo, perdendo espaço ou ficando parados.</p></div>
-        </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 002 2h1l4 4V5L6 9H5a2 2 0 00-2 2z"/><path d="M16 8a5 5 0 010 8"/></svg></span><span class="analise-titulo">Marketing</span></div>
+        <div class="analise-item"><h4>ROAS, CAC e LTV/CAC</h4><p>Se os anúncios estão se pagando, quanto custa conquistar cada cliente e quanto ele devolve ao longo do tempo.</p></div>
       </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 002 2h1l4 4V5L6 9H5a2 2 0 00-2 2z"/><path d="M16 8a5 5 0 010 8"/></svg></span>
-        <div>
-          <div class="categoria-label">Marketing</div>
-          <div class="sub-item"><p><strong style="color:var(--branco);">ROAS e CAC</strong>:a relação entre investimento, aquisição e retorno.</p></div>
-        </div>
-      </div>
-      <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span>
-        <div>
-          <div class="categoria-label">Prioridades</div>
-          <div class="sub-item"><p>Os principais pontos encontrados são organizados por impacto. E a prioridade do mês anterior continua sendo acompanhada: <strong style="color:var(--branco);">resolvida, em andamento ou ainda não resolvida.</strong></p></div>
-        </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span class="analise-titulo">Prioridades</span></div>
+        <div class="analise-item"><p>Os pontos encontrados são ordenados pelo impacto no resultado e pela urgência. E a prioridade definida no mês anterior aparece no relatório, para vocês <strong>conferirem juntos se ela virou resultado.</strong></p></div>
       </div>
     </div>
   </div>
@@ -468,12 +503,24 @@
 
     <div class="lista-icones" style="text-align:left;">
       <div class="item-icone">
+        <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+        <div><h3>Como foi o seu mês?</h3><p>Uma manchete e uma avaliação geral da operação: saudável, atenção, requer ajustes ou crítico.</p></div>
+      </div>
+      <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 .9 3 2.2c0 2.8-6 1.8-6 4.6 0 1.3 1.3 2.2 3 2.2s3-1.1 3-2.5"/></svg></span>
-        <div><h3>Seu lucro melhorou ou piorou?</h3><p>Compare o resultado com o período anterior.</p></div>
+        <div><h3>Seu lucro melhorou ou piorou?</h3><p>Compare cada resultado com o mês anterior e veja o quanto variou.</p></div>
+      </div>
+      <div class="item-icone">
+        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="var(--laranja)"/></svg></span>
+        <div><h3>Você bateu as suas metas?</h3><p>Veja o resultado real contra as metas de margem e de lucro, mês a mês.</p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
-        <div><h3>O que mudou no seu resultado?</h3><p>Entenda o impacto de custos, despesas, margens e vendas.</p></div>
+        <div><h3>O que mudou no seu resultado?</h3><p>Veja o que melhorou e o que piorou em custos, margens e vendas.</p></div>
+      </div>
+      <div class="item-icone">
+        <span class="icone"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+        <div><h3>O dinheiro vai dar para os próximos meses?</h3><p>Veja o fôlego de caixa e o saldo projetado semana a semana para as próximas 8 semanas, com tempo de agir antes do aperto.</p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="1"/><path d="M3 8l9-5 9 5M12 3v5"/></svg></span>
@@ -481,7 +528,7 @@
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span>
-        <div><h3>Quais canais estão trazendo resultado?</h3><p>Compare o desempenho dos seus canais.</p></div>
+        <div><h3>Quais canais estão trazendo resultado?</h3><p>Veja quanto cada canal vendeu, quanto ficou com as comissões e qual merece atenção.</p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0116 0v1"/></svg></span>
@@ -489,11 +536,11 @@
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 002 2h1l4 4V5L6 9H5a2 2 0 00-2 2z"/><path d="M16 8a5 5 0 010 8"/></svg></span>
-        <div><h3>Seu marketing está trazendo retorno?</h3><p>Acompanhe ROAS e CAC.</p></div>
+        <div><h3>Seu marketing está trazendo retorno?</h3><p>Acompanhe ROAS, CAC e LTV/CAC.</p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span>
-        <div><h3>O que precisa da sua atenção agora?</h3><p>Receba as principais prioridades organizadas por impacto.</p></div>
+        <div><h3>O que precisa da sua atenção agora?</h3><p>Até 3 prioridades, cada uma com a explicação do problema e o que fazer.</p></div>
       </div>
     </div>
   </div>
@@ -505,9 +552,9 @@
     <h2>Um mês conta uma história.</h2>
     <p class="lead" style="color:var(--branco); margin-top:8px;">Vários meses mostram a evolução do seu negócio.</p>
     <p style="margin-top:20px;">O acompanhamento não olha cada mês de forma isolada.</p>
-    <p>A cada nova análise, você consegue comparar os resultados com o período anterior e entender o caminho que sua operação está percorrendo.</p>
-    <p style="color:var(--branco); font-weight:700; font-size:17px; margin-top:20px;">O lucro melhorou? As margens evoluíram? As vendas cresceram? Algum canal perdeu desempenho? Os clientes estão voltando mais?</p>
-    <p style="margin-top:20px;">E as prioridades anteriores continuam no acompanhamento. Assim, cada mês parte do que aconteceu antes.</p>
+    <p>A cada nova análise, você compara os resultados com o mês anterior e vê, em gráficos, o caminho que a sua operação percorreu desde o primeiro mês.</p>
+    <p style="color:var(--branco); font-weight:700; font-size:17px; margin-top:20px;">O lucro melhorou?<br>As margens evoluíram?<br>As vendas cresceram?<br>Algum canal perdeu desempenho?<br>Os clientes estão voltando mais?<br>O caixa está crescendo?</p>
+    <p style="margin-top:20px;">E a prioridade do mês anterior volta para a conversa. Assim, cada mês parte do que aconteceu antes.</p>
     <p style="color:var(--branco); font-weight:600; margin-top:16px;">Você não apenas acompanha resultados. Você acompanha a evolução da operação.</p>
   </div>
 </section>
@@ -520,11 +567,23 @@
     <div class="lista-icones" style="text-align:left; margin-top:44px;">
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></span>
-        <div><h3>PDF personalizado</h3><p>Um relatório com os principais resultados, comparativos, análises e prioridades do mês.</p></div>
+        <div>
+          <h3>PDF personalizado</h3>
+          <p>Um relatório visual do mês, feito para ser lido sem precisar entender de finanças:</p>
+          <ul class="lista-simples">
+            <li>resumo do mês em uma página, com o que melhorou e o que piorou</li>
+            <li>evolução de receita, lucro e margens desde o início do acompanhamento</li>
+            <li>metas batidas e não batidas</li>
+            <li>para onde foi cada R$ 100 vendidos</li>
+            <li>fluxo de caixa do mês, fôlego e projeção das próximas 8 semanas</li>
+            <li>produtos, canais, clientes e marketing</li>
+            <li>plano do mês, com as prioridades e quanto vale bater as metas</li>
+          </ul>
+        </div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        <div><h3>Vídeo personalizado</h3><p>Um vídeo narrado explicando os principais pontos encontrados e o que merece atenção.</p></div>
+        <div><h3>Vídeo narrado</h3><p>A edição do mês do seu noticiário financeiro: um vídeo curto, feito só para a sua loja, com a manchete, o placar do mês e as prioridades. Você assiste em poucos minutos, quando e onde quiser.</p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
@@ -532,10 +591,10 @@
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
-        <div><h3>Histórico contínuo</h3><p>Cada nova análise é adicionada ao acompanhamento, permitindo comparar períodos e acompanhar a evolução da operação.</p></div>
+        <div><h3>Histórico contínuo</h3><p>Cada novo mês é adicionado ao acompanhamento, permitindo comparar períodos e acompanhar a evolução da operação.</p></div>
       </div>
     </div>
-    <p style="color:var(--branco); font-weight:600; margin-top:44px;">PDF para consultar. Vídeo para entender. Suporte para conversar. Histórico para acompanhar.</p>
+    <p style="color:var(--branco); font-weight:600; margin-top:44px;">PDF para consultar.<br>Vídeo para entender.<br>Suporte para conversar.<br>Histórico para acompanhar.</p>
   </div>
 </section>
 
@@ -549,7 +608,9 @@
       <li>Quer acompanhar a evolução financeira e comercial.</li>
       <li>Percebe mudanças, mas nem sempre sabe o motivo.</li>
       <li>Quer entender quais produtos e canais estão performando.</li>
-      <li>Quer acompanhar marketing, clientes e caixa.</li>
+      <li>Quer acompanhar marketing e clientes.</li>
+      <li>Quer saber com antecedência se o dinheiro vai dar para as próximas semanas.</li>
+      <li>Quer metas claras e saber se está chegando nelas.</li>
       <li>Quer saber o que merece atenção primeiro.</li>
       <li>Não quer analisar planilhas sozinho todos os meses.</li>
     </ul>
@@ -570,24 +631,20 @@
 
       <p style="color:var(--branco); font-weight:600; margin-top:24px;">Você recebe:</p>
       <ul class="lista-check" style="text-align:left;">
-        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Análise financeira e comercial</span></li>
-        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Comparação com períodos anteriores</span></li>
+        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Análise financeira e comercial do mês</span></li>
+        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Comparação com o mês anterior e evolução desde o início</span></li>
+        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Acompanhamento das suas metas</span></li>
+        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Fluxo de caixa do mês e projeção das próximas 8 semanas</span></li>
         <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Análise de produtos e canais</span></li>
         <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Análise de clientes</span></li>
-        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>ROAS e CAC</span></li>
-        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Pontos de atenção priorizados</span></li>
-        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Acompanhamento das prioridades anteriores</span></li>
+        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>ROAS, CAC e LTV/CAC</span></li>
+        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Até 3 prioridades por mês, com o que fazer em cada uma</span></li>
         <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>PDF personalizado</span></li>
         <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Vídeo narrado</span></li>
         <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Suporte via WhatsApp</span></li>
       </ul>
 
-      <p style="color:var(--branco); font-weight:600; margin-top:8px;">Assinatura recorrente. Sem prazo mínimo. Cancele quando quiser.</p>
-
-      <div class="garantia-nota">
-        <p style="color:var(--laranja); font-weight:700; font-size:13px; letter-spacing:0.3px;">🚀 Versão Beta</p>
-        <p style="margin-top:6px;">Estamos na versão beta da Finspots. Por isso, você conta com uma garantia de 7 dias: se não gostar da análise, é só solicitar o reembolso e devolvemos 100% do seu pagamento.</p>
-      </div>
+      <p style="color:var(--branco); font-weight:600; margin-top:8px;">Assinatura recorrente.<br>Sem prazo mínimo.<br>Cancele quando quiser.</p>
 
       <a href="contrato-mensal.html" class="btn btn-primario" style="width:100%; text-align:center; margin-top:28px;">Quero acompanhar meu e-commerce →</a>
     </div>
@@ -601,39 +658,49 @@
     <div class="faq">
       <details>
         <summary>Preciso fazer o Diagnóstico Financeiro antes?</summary>
-        <p>Sim. O Acompanhamento Mensal foi pensado para continuar a partir do Diagnóstico Financeiro, que pode servir como primeira base de comparação.</p>
+        <p><strong>Sim.</strong> O Acompanhamento Mensal continua a partir do Diagnóstico Financeiro, que serve como primeira base de comparação. Assim, o primeiro relatório mensal já mostra o que mudou.</p>
       </details>
       <details>
         <summary>O que preciso enviar todos os meses?</summary>
-        <p>Você envia os relatórios e dados necessários da sua operação referentes ao período analisado.</p>
+        <p>Os números do mês: faturamento, devoluções, custo dos produtos, frete e embalagem, custos fixos, pró-labore e número de pedidos, além dos relatórios de vendas das plataformas.</p>
+        <p><strong>Para o caixa:</strong> o extrato do mês de todas as contas da empresa (banco, Mercado Pago e outras carteiras) e o que já tem data para entrar e sair nas próximas semanas, como repasses a liberar, boletos e parcelas.</p>
+        <p>Se você investe em anúncios, também o valor investido e quantos clientes novos eles trouxeram. A lista de produtos com os custos é enviada uma vez e só precisa ser atualizada quando mudar.</p>
       </details>
       <details>
         <summary>Preciso montar alguma planilha?</summary>
-        <p>Não. Você apenas fornece os dados e relatórios solicitados. A análise fica por conta da Finspots.</p>
+        <p><strong>Não.</strong> Você envia os dados e relatórios do jeito que vierem, como os do Mercado Livre, da Shopee ou uma planilha própria. A organização e a análise ficam por conta da Finspots.</p>
       </details>
       <details>
         <summary>Quais dados são analisados?</summary>
-        <p>Finanças, vendas, produtos, canais, clientes, marketing e outros dados necessários para entender o resultado da sua operação.</p>
+        <p>Finanças, metas, fluxo de caixa, vendas, produtos, canais, clientes e marketing.</p>
+      </details>
+      <details>
+        <summary>Preciso enviar o extrato do banco todo mês?</summary>
+        <p><strong>Sim.</strong> É com ele que o caixa do mês é conferido e a projeção é refeita. Todo banco exporta o extrato em poucos cliques, de preferência no formato OFX. Não precisa classificar nada: cada entrada e saída é organizada pela Finspots. Os extratos são usados apenas para a análise.</p>
       </details>
       <details>
         <summary>O que eu recebo?</summary>
-        <p>Um PDF personalizado e um vídeo narrado com os principais resultados, comparativos, pontos de atenção e prioridades.</p>
+        <p>Um <strong>PDF personalizado e um vídeo narrado</strong> com os resultados do mês, a comparação com o mês anterior, as metas e as prioridades.</p>
       </details>
       <details>
         <summary>Consigo comparar com os meses anteriores?</summary>
-        <p>Sim. Cada novo acompanhamento considera o histórico da operação para mostrar o que mudou e como os resultados estão evoluindo.</p>
+        <p><strong>Sim.</strong> Cada resultado é comparado com o mês anterior, e os gráficos mostram a evolução desde o início do acompanhamento.</p>
+      </details>
+      <details>
+        <summary>Como são definidas as metas?</summary>
+        <p>As metas de margem e de lucro são definidas com você, de acordo com o momento do seu negócio, e podem ser ajustadas ao longo do acompanhamento.</p>
       </details>
       <details>
         <summary>A prioridade do mês anterior é acompanhada?</summary>
-        <p>Sim. A Finspots acompanha se a prioridade anterior foi resolvida, está em andamento ou ainda precisa ser trabalhada.</p>
+        <p><strong>Sim.</strong> A prioridade definida no mês anterior aparece no relatório seguinte, para vocês conferirem juntos se ela virou resultado.</p>
       </details>
       <details>
         <summary>Posso cancelar quando quiser?</summary>
-        <p>Sim. A assinatura é recorrente e não possui prazo mínimo. Você pode cancelar quando quiser.</p>
+        <p><strong>Sim.</strong> A assinatura é recorrente e não possui prazo mínimo. Você pode cancelar quando quiser.</p>
       </details>
       <details>
         <summary>Quanto tempo demora para receber?</summary>
-        <p>A análise é entregue em até 3 dias úteis após o recebimento completo dos dados necessários.</p>
+        <p>A análise é entregue em até <strong>3 dias úteis após o recebimento completo dos dados necessários</strong>.</p>
       </details>
     </div>
   </div>
@@ -645,7 +712,7 @@
     <h2>Você já sabe onde está.</h2>
     <p class="lead" style="color:var(--branco); margin-top:8px;">Agora, acompanhe o que está acontecendo.</p>
     <p style="margin-top:24px;">Seu e-commerce muda todos os meses.</p>
-    <p style="color:var(--branco); font-weight:600; margin-top:10px;">Mudam as vendas. Mudam as margens. Mudam os produtos. Mudam os canais. Mudam os clientes. Mudam os custos.</p>
+    <p style="color:var(--branco); font-weight:600; margin-top:10px;">Mudam as vendas. Mudam as margens. Mudam os produtos. Mudam os canais. Mudam os clientes. Mudam os custos. Muda o caixa.</p>
     <p style="margin-top:20px;"><strong style="color:var(--branco);">Não trate cada mês como se fosse o primeiro.</strong></p>
     <p style="margin-top:16px;">A Finspots analisa os dados. Você entende o que mudou.</p>
     <p style="color:var(--branco); font-weight:600; margin-top:4px;">E acompanha a evolução do seu negócio.</p>
