@@ -32,12 +32,12 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  #bg-particulas {
+  #bg-fundo {
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
+    inset: 0;
     z-index: -1;
-    pointer-events: none; filter: blur(1.5px);
+    pointer-events: none;
+    background: var(--azul) url('assets/img/fundo-ondas.jpg') center / cover no-repeat;
   }
 
   a { color: inherit; }
@@ -320,7 +320,7 @@
 </style>
 </head>
 <body>
-<canvas id="bg-particulas"></canvas>
+<div id="bg-fundo" aria-hidden="true"></div>
 
 <header>
   <div class="header-inner">
@@ -659,186 +659,5 @@
   </div>
 </footer>
 
-<script>
-/**
- * Background de Partículas de Rede - Estilo Flutuante com Profundidade
- * Tom de azul: #204aa8
- * Efeito inspirado em bokeh/profundidade de campo, com movimento suave e orgânico
- */
-
-(function () {
-  const canvas = document.getElementById('bg-particulas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  // Cor base solicitada: #204aa8
-  const AZUL = { r: 32, g: 74, b: 168 };
-  // Tom mais claro da mesma família - usado só no brilho central das partículas em foco
-  const AZUL_CLARO = { r: 144, g: 165, b: 212 };
-
-  const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const config = {
-    numParticulas: 100,
-    distanciaMax: 190,
-    velocidadeBase: reduzMovimento ? 0.03 : 0.24,
-    amplitudeMax: reduzMovimento ? 0 : 34,
-    focoAlvo: 0.55,               // profundidade que fica "em foco" (efeito bokeh)
-    incrementoTempo: reduzMovimento ? 0.003 : 0.02,
-    pulsoAmplitude: reduzMovimento ? 0.04 : 0.15,
-  };
-
-  let largura, altura, particulas, sprite, tempo = 0;
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  function redimensionar() {
-    largura = canvas.width = window.innerWidth;
-    altura = canvas.height = window.innerHeight;
-  }
-
-  // Sprite pré-renderizado (gradiente radial): muito mais rápido do que
-  // desenhar um gradiente novo pra cada partícula em cada frame
-  function criarSprite() {
-    const tam = 160;
-    const c = document.createElement('canvas');
-    c.width = tam;
-    c.height = tam;
-    const sctx = c.getContext('2d');
-    const grad = sctx.createRadialGradient(tam / 2, tam / 2, 0, tam / 2, tam / 2, tam / 2);
-    grad.addColorStop(0,    `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, 1)`);
-    grad.addColorStop(0.28, `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, 0.55)`);
-    grad.addColorStop(0.6,  `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, 0.14)`);
-    grad.addColorStop(1,    `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, 0)`);
-    sctx.fillStyle = grad;
-    sctx.fillRect(0, 0, tam, tam);
-    return c;
-  }
-
-  function criarParticulas() {
-    particulas = [];
-    for (let i = 0; i < config.numParticulas; i++) {
-      // profundidade: 0 = mais longe, 1 = mais perto (efeito parallax)
-      const profundidade = Math.random();
-
-      // quanto mais longe da distância de foco, mais desfocada (bokeh)
-      const desfoqueBruto = Math.abs(profundidade - config.focoAlvo);
-      const desfoqueNorm = Math.min(1, desfoqueBruto / Math.max(config.focoAlvo, 1 - config.focoAlvo));
-      const foco = 1 - desfoqueNorm;
-
-      particulas.push({
-        x: Math.random() * largura,
-        y: Math.random() * altura,
-        vx: (Math.random() - 0.5) * config.velocidadeBase,
-        vy: (Math.random() - 0.5) * config.velocidadeBase,
-        profundidade,
-        foco,
-        raioBase: lerp(1.1, 2.6, profundidade) + Math.random() * 0.4,
-        escalaGlow: lerp(9, 3, foco) + (Math.random() - 0.5) * 1.2,
-        opacidadeBase: lerp(0.42, 0.13, desfoqueNorm) * lerp(0.75, 1, profundidade),
-        faseX: Math.random() * Math.PI * 2,
-        faseY: Math.random() * Math.PI * 2,
-        freqX: 0.15 + Math.random() * 0.2,
-        freqY: 0.15 + Math.random() * 0.2,
-        amplitude: lerp(config.amplitudeMax * 0.4, config.amplitudeMax, profundidade),
-        faseBrilho: Math.random() * Math.PI * 2,
-      });
-    }
-  }
-
-  function atualizarPosicoes() {
-    const margem = 60;
-    for (let i = 0; i < particulas.length; i++) {
-      const p = particulas[i];
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x < -margem) p.x = largura + margem;
-      if (p.x > largura + margem) p.x = -margem;
-      if (p.y < -margem) p.y = altura + margem;
-      if (p.y > altura + margem) p.y = -margem;
-    }
-  }
-
-  // Posição "flutuante" = posição base + oscilação suave em senoide (bobbing orgânico)
-  function calcularPosicoesRenderizadas() {
-    return particulas.map(p => ({
-      x: p.x + Math.sin(tempo * p.freqX + p.faseX) * p.amplitude,
-      y: p.y + Math.cos(tempo * p.freqY + p.faseY) * p.amplitude,
-    }));
-  }
-
-  function desenharLinhas(posicoes) {
-    ctx.lineWidth = 1;
-    for (let a = 0; a < particulas.length; a++) {
-      for (let b = a + 1; b < particulas.length; b++) {
-        const p1 = posicoes[a], p2 = posicoes[b];
-        const dx = p1.x - p2.x, dy = p1.y - p2.y;
-        const distSq = dx * dx + dy * dy;
-        if (distSq < config.distanciaMax * config.distanciaMax) {
-          const dist = Math.sqrt(distSq);
-          const opacidade = 0.2 * (1 - dist / config.distanciaMax);
-          ctx.strokeStyle = `rgba(${AZUL.r}, ${AZUL.g}, ${AZUL.b}, ${opacidade})`;
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.stroke();
-        }
-      }
-    }
-  }
-
-  function desenharParticulas(posicoes) {
-    for (let i = 0; i < particulas.length; i++) {
-      const p = particulas[i];
-      const pos = posicoes[i];
-
-      const pulso = 0.9 + Math.sin(tempo * 0.6 + p.faseBrilho) * config.pulsoAmplitude;
-      const opacidade = p.opacidadeBase * pulso;
-      const tamanho = p.raioBase * p.escalaGlow;
-
-      // halo suave (gradiente pré-renderizado) - dá a maciez e o efeito de profundidade
-      ctx.globalAlpha = opacidade;
-      ctx.drawImage(sprite, pos.x - tamanho / 2, pos.y - tamanho / 2, tamanho, tamanho);
-
-      // núcleo nítido - só aparece nas partículas "em foco", reforçando a profundidade
-      if (p.foco > 0.55) {
-        const intensidade = (p.foco - 0.55) / 0.45;
-        ctx.globalAlpha = intensidade * 0.8 * pulso;
-        ctx.fillStyle = `rgb(${AZUL_CLARO.r}, ${AZUL_CLARO.g}, ${AZUL_CLARO.b})`;
-        ctx.beginPath();
-        ctx.arc(pos.x, pos.y, p.raioBase * 0.55, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-    ctx.globalAlpha = 1;
-  }
-
-  function animar() {
-    tempo += config.incrementoTempo;
-    ctx.clearRect(0, 0, largura, altura);
-
-    atualizarPosicoes();
-    const posicoes = calcularPosicoesRenderizadas();
-
-    desenharLinhas(posicoes);
-    desenharParticulas(posicoes);
-
-    requestAnimationFrame(animar);
-  }
-
-  redimensionar();
-  sprite = criarSprite();
-  criarParticulas();
-
-  window.addEventListener('resize', () => {
-    redimensionar();
-    criarParticulas();
-  });
-
-  animar();
-})();
-
-</script>
 </body>
 </html>
