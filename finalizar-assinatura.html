@@ -89,7 +89,7 @@
     </div>
     <h1>Recebemos seus dados!</h1>
     <p>Falta só o último passo: a assinatura do <b>Acompanhamento Mensal Finspots</b> (R$ 1.200/mês, cancele quando quiser).</p>
-    <p>Assim que o primeiro pagamento for confirmado, começamos a análise do mês. Em até <b>3 dias úteis</b> você recebe no seu e-mail o link para acessar o <b>PDF</b> e o <b>vídeo</b>.</p>
+    <p>Assim que o primeiro pagamento for confirmado, começamos a análise do mês. Em até <b>7 dias úteis</b> você recebe no seu e-mail o link para acessar o <b>PDF</b> e o <b>vídeo</b>.</p>
 
     <a href="#" class="btn" id="btn-pagar" target="_blank" rel="noopener">Fazer a assinatura →</a>
     <p id="nota-pagar" style="margin-top:10px; font-size:12.5px; color:var(--fraco);">Checkout seguro do Mercado Pago, em uma nova aba.</p>
@@ -105,7 +105,7 @@
 <script>
 // Link do plano de assinatura criado no Mercado Pago (Planos de assinatura).
 // Enquanto estiver vazio, o botão leva para o WhatsApp.
-var LINK_ASSINATURA = '';
+var LINK_ASSINATURA = 'https://mpago.la/2shbZGE';
 var btnPagar = document.getElementById('btn-pagar');
 if (LINK_ASSINATURA) {
   btnPagar.href = LINK_ASSINATURA;
