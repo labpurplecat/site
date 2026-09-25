@@ -144,7 +144,7 @@ footer a { color: var(--laranja); }
     <div class="campo"><label for="loja">Nome da loja <span class="obrigatorio">*</span></label><input type="text" id="loja" name="Nome da loja" required></div>
     <div class="campo"><label for="responsavel">Seu nome <span class="obrigatorio">*</span></label><input type="text" id="responsavel" name="Responsável" required autocomplete="name"></div>
     <div class="campo"><label for="email">E-mail para receber o diagnóstico <span class="obrigatorio">*</span></label><input type="email" id="email" name="email" required autocomplete="email"></div>
-    <div class="campo"><label for="whatsapp">WhatsApp</label><input type="tel" id="whatsapp" name="WhatsApp" autocomplete="tel" placeholder="(00) 00000-0000"></div>
+    <div class="campo"><label for="whatsapp">WhatsApp <span class="obrigatorio">*</span></label><input type="tel" id="whatsapp" name="WhatsApp" required autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000"></div>
   </div>
   <div class="grade" style="margin-top:14px;">
     <div class="campo"><label for="segmento">O que a sua loja vende? <span class="obrigatorio">*</span></label><input type="text" id="segmento" name="O que vende" required placeholder="Ex: roupas femininas, suplementos, acessórios para pet..."><p class="dica">Usamos para comparar seus números com lojas do mesmo perfil.</p></div>
@@ -389,11 +389,13 @@ form.addEventListener('change', salvarRascunho);
 // Envio
 form.addEventListener('submit', function (ev) {
   erroEl.style.display = 'none';
-  var obrig = [['loja', 'Preencha o nome da loja.'], ['responsavel', 'Preencha o seu nome.'], ['email', ''], ['segmento', 'Conte o que a sua loja vende.'], ['periodo', 'Informe o período analisado (ex: Agosto/2026).']];
+  var obrig = [['loja', 'Preencha o nome da loja.'], ['responsavel', 'Preencha o seu nome.'], ['email', ''], ['whatsapp', ''], ['segmento', 'Conte o que a sua loja vende.'], ['periodo', 'Informe o período analisado (ex: Agosto/2026).']];
   for (var i = 0; i < obrig.length; i++) {
     var id = obrig[i][0];
     if (id === 'email') {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor('email'))) { ev.preventDefault(); mostrarErro('Confira o e-mail: é nele que você vai receber o diagnóstico.', el('email')); return; }
+    } else if (id === 'whatsapp') {
+      if (valor('whatsapp').replace(/\D/g, '').length < 10) { ev.preventDefault(); mostrarErro('Informe o seu WhatsApp com DDD.', el('whatsapp')); return; }
     } else if (!valor(id)) { ev.preventDefault(); mostrarErro(obrig[i][1], el(id)); return; }
   }
   if (form.querySelectorAll('input[name="Canais[]"]:checked').length === 0) {
