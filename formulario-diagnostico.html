@@ -257,6 +257,7 @@ var form = document.getElementById('form-diagnostico');
 form.action = DESTINO_FORMULARIO;
 var inputArquivos = document.getElementById('arquivos');
 var btnEnviar = document.getElementById('btn-enviar');
+var TEXTO_BTN_ORIGINAL = btnEnviar.textContent;
 var erroEl = document.getElementById('erro-envio');
 var blocosCanais = document.getElementById('blocos-canais');
 var canais = form.querySelectorAll('input[name="Canais[]"]');
@@ -411,6 +412,10 @@ form.addEventListener('submit', function (ev) {
   try { localStorage.removeItem(CHAVE_RASCUNHO); } catch (e) {}
   btnEnviar.disabled = true;
   btnEnviar.textContent = 'Enviando... (pode levar alguns segundos)';
+});
+// Se a pessoa voltar pelo navegador depois de enviar, destrava o botão.
+window.addEventListener('pageshow', function (ev) {
+  if (ev.persisted) { btnEnviar.disabled = false; btnEnviar.textContent = TEXTO_BTN_ORIGINAL; }
 });
 </script>
 </body>
