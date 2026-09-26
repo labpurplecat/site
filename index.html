@@ -174,6 +174,21 @@
     aspect-ratio: 1 / 1;
   }
   .hero-imagem img { width: 100%; height: 100%; object-fit: cover; }
+  /* Hero centralizado com vídeo */
+  .hero-central .wrap { display: block; text-align: center; }
+  .hero-central h1 { color: var(--laranja); font-size: clamp(28px, 4.4vw, 50px); line-height: 1.2; margin-bottom: 36px; }
+  .hero-central h1 .subtitulo { display: inline; font-size: inherit; margin: 0; color: inherit; }
+  .hero-video {
+    max-width: 720px; margin: 0 auto 32px;
+    aspect-ratio: 16 / 9; background: #0a1440;
+    border-radius: 14px; overflow: hidden;
+    border: 1.5px solid var(--laranja);
+    box-shadow: 0 0 32px rgba(255,85,0,0.28);
+  }
+  .hero-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .hero-central p { max-width: 900px; margin: 0 auto 4px; color: var(--branco); }
+  .hero-central .hero-destaque { font-weight: 600; margin-top: 14px; }
+  .hero-central .cta-area { margin-top: 30px; }
   .hero-badge {
     position: absolute;
     left: 20px; bottom: 20px;
@@ -346,21 +361,20 @@
 </header>
 
 <!-- 01 - HERO -->
-<section class="hero">
+<section class="hero hero-central">
   <div class="wrap">
-    <div>
-      <div class="kicker">Entregamos respostas, não planilhas.</div>
-      <h1>Seu e-commerce vende.</h1>
-      <div class="subtitulo">Mas será que está dando lucro?</div>
-      <p style="margin-bottom:16px;">Descubra o que realmente está acontecendo com a sua operação. A Finspots analisa seus dados financeiros e de vendas e transforma números espalhados em uma visão clara do seu negócio.</p>
-      <p style="color:var(--branco); font-weight:600;">Você fornece os dados. Nós fazemos a análise. Você recebe as respostas.</p>
-      <div class="cta-area">
-        <a href="contrato.html" class="btn btn-primario">Quero fazer meu diagnóstico →</a>
-        <div class="legenda">Diagnóstico Financeiro Finspots · Análise personalizada · PDF + vídeo</div>
-      </div>
+    <div class="kicker">Entregamos respostas, não planilhas.</div>
+    <h1>Seu e-commerce vende.<br><span class="subtitulo">Mas será que está dando lucro?</span></h1>
+    <div class="hero-video">
+      <!-- Vídeo de TESTE: troque o código depois de /embed/ pelo vídeo oficial -->
+      <iframe src="https://www.youtube-nocookie.com/embed/GoQ5f1lYmLM?rel=0" title="Vídeo do Diagnóstico Financeiro Finspots" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
-    <div class="hero-imagem">
-      <img src="assets/img/hero-diagnostico.jpg" alt="Carrinho de compras sobre relatórios financeiros, representando a análise de dados de um e-commerce">
+    <p>Descubra o que realmente está acontecendo com a sua operação.</p>
+    <p>A Finspots analisa seus dados financeiros e de vendas e transforma números espalhados em uma visão clara do seu negócio.</p>
+    <p class="hero-destaque">Você fornece os dados. Nós fazemos a análise. Você recebe as respostas.</p>
+    <div class="cta-area">
+      <a href="contrato.html" class="btn btn-primario">Quero fazer meu diagnóstico →</a>
+      <div class="legenda">Diagnóstico Financeiro Finspots · Análise personalizada · PDF + vídeo</div>
     </div>
   </div>
 </section>
@@ -373,8 +387,8 @@
     <h2>Vender não é o mesmo que lucrar.</h2>
     <p style="margin-top:20px;">Seu e-commerce pode vender todos os dias e, ainda assim, você não saber quanto realmente sobra.</p>
     <p>O dinheiro entra.</p>
-    <p>Mas também saem fornecedores, taxas, impostos, fretes, anúncios e outras despesas.</p>
-    <p>Quando tudo isso está espalhado, o faturamento deixa de contar a história completa.</p>
+    <p>Mas também sai, pra pagar os fornecedores, taxas, impostos, fretes, anúncios e outras despesas.</p>
+    <p>Quando tudo isso está espalhado, o faturamento não conta a história completa.</p>
     <p>Você sabe quanto vendeu.</p>
     <p class="lead" style="color:var(--branco); margin-top:20px;">Mas sabe quanto realmente ganhou?</p>
     <p style="margin-top:12px;">E sabe se o dinheiro vai estar na conta quando os boletos vencerem?</p>
@@ -391,7 +405,7 @@
     <p style="margin-top:36px;">O Diagnóstico Financeiro Finspots analisa os dados da sua operação, cruza as informações e identifica o que realmente importa.</p>
     <p>Você não precisa saber quais cálculos fazer.</p>
     <p>Não precisa passar horas organizando números.</p>
-    <p>E não precisa interpretar sozinho dezenas de indicadores.</p>
+    <p>E não precisa interpretar dezenas de indicadores sozinho.</p>
     <p class="lead" style="color:var(--branco); margin-top:20px;">A parte complexa fica com a Finspots.</p>
     <p style="margin-top:20px;">Você recebe uma análise clara, organizada e fácil de entender:</p>
     <p style="color:var(--branco); font-weight:600; margin-top:8px;">Como sua loja está.<br>Para onde vai o seu dinheiro.<br>Se o caixa aguenta as próximas semanas.<br>O que merece atenção.<br>E por onde começar.</p>
@@ -407,8 +421,8 @@
       <div class="passo">
         <div class="passo-num">1</div>
         <h3>Envie os dados</h3>
-        <p>Você envia as informações da sua operação do jeito que tiver: relatórios das plataformas, extratos do banco, planilhas ou os números anotados.</p>
-        <p style="margin-top:8px;">Não precisa organizar nada nem montar uma análise. Quanto mais você envia, mais completa fica a análise.</p>
+        <p>Você envia as informações da sua operação do jeito que tiver: relatórios das plataformas, extratos bancários, planilhas ou até os números anotados.</p>
+        <p style="margin-top:8px;"><strong>Não precisa organizar nada nem montar uma análise.</strong> Quanto mais informações você enviar, mais completa será a análise.</p>
       </div>
       <div class="passo">
         <div class="passo-num">2</div>
@@ -418,10 +432,10 @@
       <div class="passo">
         <div class="passo-num">3</div>
         <h3>Você recebe as respostas</h3>
-        <p>Você recebe seu <strong>PDF personalizado + vídeo narrado</strong>, com a situação da sua loja, os principais números e as 3 prioridades para agir primeiro.</p>
+        <p>Você recebe um <strong>PDF personalizado + vídeo narrado</strong>, com a situação da sua loja, os principais números e as <strong>3 prioridades para agir primeiro.</strong></p>
       </div>
     </div>
-    <p style="color:var(--branco); font-weight:600; text-align:center; margin-top:44px;">Você fornece os dados.<br>A Finspots faz a análise.<br>Você recebe as respostas.</p>
+    <p style="color:var(--branco); font-weight:600; text-align:center; margin-top:44px;">Você fornece os dados.<br><span style="color:var(--laranja);">A Finspots faz a análise.</span><br>Você recebe as respostas.</p>
   </div>
 </section>
 
@@ -429,7 +443,7 @@
 <section class="central">
   <div class="wrap">
     <h2>O que está por trás do seu resultado?</h2>
-    <p style="margin-top:20px;">Para entender se o seu e-commerce realmente lucra, não basta olhar para o faturamento. Analisamos diferentes partes da operação e cruzamos essas informações para entender o resultado como um todo.</p>
+    <p style="margin-top:20px;">Para entender se o seu e-commerce realmente lucra, não basta olhar para o faturamento.<br>Analisamos diferentes partes da operação e cruzamos essas informações para entender o resultado como um todo.</p>
 
     <div class="analise-grid">
       <div class="analise-card">
@@ -439,7 +453,7 @@
       </div>
       <div class="analise-card">
         <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="var(--laranja)"/></svg></span><span class="analise-titulo">Estrutura financeira</span></div>
-        <div class="analise-item"><h4>Ponto de equilíbrio</h4><p>Quanto sua operação precisa vender para cobrir todos os custos, e qual a sua folga até lá.</p></div>
+        <div class="analise-item"><h4>Ponto de equilíbrio</h4><p>Quanto sua operação precisa vender para cobrir todos os custos e qual é a sua folga até lá.</p></div>
       </div>
       <div class="analise-card">
         <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span><span class="analise-titulo">Vendas</span></div>
@@ -449,11 +463,11 @@
       <div class="analise-card analise-destaque">
         <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M16 14.5h2"/></svg></span><span class="analise-titulo">Caixa</span><span class="analise-tag">o dinheiro de verdade</span></div>
         <div class="analise-subgrid">
-          <div class="analise-item"><h4>Fluxo de caixa do período</h4><p>O dinheiro que de fato entrou e saiu das suas contas, conferido com o extrato do banco e separado entre operação, empréstimos e retiradas.</p></div>
+          <div class="analise-item"><h4>Fluxo de caixa do período</h4><p>O dinheiro que realmente entrou e saiu das suas contas, conferido com o extrato bancário e separado entre operação, empréstimos e retiradas.</p></div>
           <div class="analise-item"><h4>Lucro × caixa</h4><p>Se o lucro que aparece na DRE está virando dinheiro na conta ou ficando preso no caminho.</p></div>
-          <div class="analise-item"><h4>Fôlego de caixa</h4><p>Quantos dias a loja se mantém só com o dinheiro que tem hoje.</p></div>
-          <div class="analise-item"><h4>Projeção das próximas 4 semanas</h4><p>Com os repasses a liberar e as contas já marcadas, como fica o saldo semana a semana e se vai faltar dinheiro em alguma delas.</p></div>
-          <div class="analise-item"><h4>Ciclo de caixa</h4><p>Quantos dias o seu dinheiro fica preso entre pagar o fornecedor e receber do cliente, e se isso coloca o caixa em risco mesmo com lucro.</p></div>
+          <div class="analise-item"><h4>Fôlego de caixa</h4><p>Por quantos dias a loja consegue se manter apenas com o dinheiro que tem hoje.</p></div>
+          <div class="analise-item"><h4>Projeção das próximas 4 semanas</h4><p>Como fica o saldo semana a semana, considerando os repasses a receber e as contas já previstas — e se pode faltar dinheiro em alguma delas.</p></div>
+          <div class="analise-item"><h4>Ciclo de caixa</h4><p>Por quantos dias seu dinheiro fica preso entre pagar o fornecedor e receber do cliente, e se isso coloca o caixa em risco mesmo quando há lucro.</p></div>
         </div>
       </div>
 
@@ -464,7 +478,7 @@
       </div>
       <div class="analise-card">
         <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg></span><span class="analise-titulo">Régua do seu segmento</span></div>
-        <div class="analise-item"><h4>Comparação com lojas do seu perfil</h4><p>Uma margem boa para uma loja pode ser baixa para outra. Por isso, seus números são comparados com o que é saudável para negócios com o mesmo perfil de ticket e margem que o seu.</p></div>
+        <div class="analise-item"><h4>Comparação com lojas do seu perfil</h4><p>Seus números são comparados com o que é saudável para lojas com perfil semelhante de ticket e margem. Afinal, uma margem boa para uma loja pode ser baixa para outra.</p></div>
       </div>
       <div class="analise-card">
         <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span class="analise-titulo">Priorização</span></div>
@@ -484,7 +498,7 @@
     <div class="lista-icones" style="text-align:left;">
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
-        <div><h3>Sua loja está saudável?</h3><p>Uma avaliação geral da operação, na régua do seu segmento: saudável, atenção, requer ajustes ou crítico.</p></div>
+        <div><h3>Sua loja está saudável?</h3><p>Uma avaliação geral da operação, considerando a régua do seu segmento: saudável, atenção, requer ajustes ou crítico.</p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 .9 3 2.2c0 2.8-6 1.8-6 4.6 0 1.3 1.3 2.2 3 2.2s3-1.1 3-2.5"/></svg></span>
@@ -500,7 +514,7 @@
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span>
-        <div><h3>Quais canais estão contribuindo para o resultado?</h3><p>Veja quanto cada canal vende e quanto fica com as taxas de cada um.</p></div>
+        <div><h3>Quais canais estão contribuindo para o resultado?</h3><p>Veja quanto cada canal vende e quanto fica depois das taxas.</p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 002 2h1l4 4V5L6 9H5a2 2 0 00-2 2z"/><path d="M16 8a5 5 0 010 8"/></svg></span>
@@ -508,7 +522,7 @@
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span>
-        <div><h3>O que merece atenção primeiro?</h3><p>Até 3 prioridades, cada uma com a explicação do problema e o que fazer, para você saber <strong style="color:var(--branco);">por onde começar.</strong></p></div>
+        <div><h3>O que merece atenção primeiro?</h3><p>Você recebe até <strong style="color:var(--branco);">3 prioridades</strong>, cada uma com a explicação do problema e o que fazer para resolver.</p><p style="margin-top:6px;"><strong style="color:var(--branco);">Assim, você sabe por onde começar.</strong></p></div>
       </div>
     </div>
   </div>
@@ -551,7 +565,7 @@
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        <div><h3>Vídeo narrado</h3><p>Os principais achados em um vídeo curto, no formato de um noticiário feito só para a sua loja. Você assiste em poucos minutos, quando e onde quiser.</p><p style="margin-top:8px;">Sem reunião obrigatória. Sem apresentação complicada. Sem deixar você sozinho para interpretar os números.</p></div>
+        <div><h3>Vídeo narrado</h3><p>Os principais achados em um vídeo curto, no formato de um noticiário feito só para a sua loja.</p><p>Você assiste em poucos minutos, quando e onde quiser.</p><p style="margin-top:8px;"><strong style="color:var(--branco);">Sem reunião obrigatória. Sem apresentação complicada. Sem deixar você sozinho para interpretar os números.</strong></p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
@@ -607,7 +621,7 @@
       </div>
 
       <a href="contrato.html" class="btn btn-primario" style="width:100%; text-align:center; margin-top:28px;">Quero fazer meu diagnóstico →</a>
-      <p style="text-align:center; font-size:13px; margin-top:14px;">Dúvida antes de decidir? <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja); text-decoration:underline;">Fala com a gente no WhatsApp</a></p>
+      <p style="text-align:center; font-size:13px; margin-top:14px;">Dúvida antes de decidir? <a href="https://wa.me/5562996677168" target="_blank" rel="noopener" style="color:var(--laranja); text-decoration:underline;">Fale com a gente no WhatsApp</a></p>
     </div>
   </div>
 </section>
@@ -619,24 +633,27 @@
     <div class="faq">
       <details>
         <summary>Preciso entender de finanças para contratar?</summary>
-        <p><strong>Não.</strong> O relatório foi feito para ser entendido por quem não é da área: cada número vem explicado em linguagem simples, e há um glossário no final.</p>
+        <p><strong>Não.</strong> O relatório foi feito para ser entendido por quem não é da área. Cada número vem explicado em linguagem simples e há um glossário no final.</p>
       </details>
       <details>
         <summary>O que preciso enviar?</summary>
-        <p><strong>O essencial:</strong> os números do período analisado: faturamento, devoluções, custo dos produtos, frete e embalagem, custos fixos, pró-labore, número de pedidos e as vendas e comissões de cada canal. Só com eles já saem o resultado, as margens, o ponto de equilíbrio e os canais.</p>
-        <p><strong>Para a análise completa:</strong></p>
+        <p><strong>O essencial:</strong> os números do período analisado: faturamento, devoluções, custo dos produtos, frete e embalagem, custos fixos, pró-labore, número de pedidos e as vendas e comissões de cada canal.</p>
+        <p>Com esses dados, já é possível analisar o resultado, as margens, o ponto de equilíbrio e os canais.</p>
+        <p><strong>Para uma análise completa:</strong></p>
         <ul class="lista-simples">
-          <li>o extrato do período de todas as contas da empresa (banco, Mercado Pago e outras carteiras) e o que já tem data para entrar e sair nas próximas semanas, como repasses a liberar, boletos e parcelas. É com eles que saem o fluxo de caixa, o fôlego e a projeção;</li>
-          <li>o valor investido em anúncios e quantos clientes novos eles trouxeram. É com eles que sai a análise de marketing;</li>
+          <li>o extrato do período de todas as contas da empresa — banco, Mercado Pago e outras carteiras — e o que já tem data para entrar ou sair nas próximas semanas, como repasses a liberar, boletos e parcelas. É com esses dados que analisamos o fluxo de caixa, o fôlego e a projeção;</li>
+          <li>o valor investido em anúncios e quantos clientes novos eles trouxeram. É com esses dados que fazemos a análise de marketing;</li>
           <li>os prazos de recebimento e pagamento e os dados de recompra.</li>
         </ul>
-        <p>O que não for enviado fica de fora, e o relatório mostra o que faltou. Depois de aceitar os termos, o formulário mostra campo a campo o que preencher.</p>
+        <p>O que não for enviado fica de fora, e o relatório mostra o que faltou.</p>
+        <p>Depois de aceitar os termos, o formulário mostra campo a campo o que preencher.</p>
       </details>
       <details>
         <summary>Preciso enviar o extrato do banco?</summary>
         <p><strong>Não é obrigatório, mas sem ele o caixa fica de fora.</strong></p>
-        <p>O extrato é o que mostra o caixa de verdade. Sem ele, o diagnóstico analisa resultado, margens, canais e marketing, mas não mostra o fluxo de caixa, o fôlego nem a projeção das próximas semanas.</p>
-        <p>Todo banco exporta o extrato em poucos cliques, de preferência no formato OFX, e você envia do jeito que vier. Não precisa classificar nada: cada entrada e saída é organizada pela Finspots. Os extratos são usados apenas para a análise.</p>
+        <p>O extrato mostra o caixa de verdade. Sem ele, o diagnóstico analisa resultado, margens, canais e marketing, mas não mostra o fluxo de caixa, o fôlego nem a projeção das próximas semanas.</p>
+        <p>Todo banco permite exportar o extrato em poucos cliques, de preferência no formato OFX. Você envia do jeito que vier — não precisa classificar nada. A Finspots organiza cada entrada e saída.</p>
+        <p>Os extratos são usados apenas para a análise.</p>
       </details>
       <details>
         <summary>Preciso montar alguma planilha?</summary>
@@ -652,12 +669,15 @@
       </details>
       <details>
         <summary>O diagnóstico mostra comparativos e projeções?</summary>
-        <p>Ele compara os seus números com o que é saudável para lojas do seu perfil, simula quanto de lucro você ganharia se as margens subissem para a próxima faixa e projeta o seu caixa nas 4 semanas seguintes.</p>
+        <p><strong>Sim.</strong> Ele compara seus números com o que é saudável para lojas do seu perfil, simula quanto de lucro você ganharia se as margens subissem para a próxima faixa e projeta o seu caixa nas 4 semanas seguintes.</p>
         <p>Para comparar um mês com o outro e acompanhar metas, existe o <a href="mensal.html" style="color:var(--laranja); text-decoration:underline;"><strong style="color:inherit;">Acompanhamento Mensal Finspots</strong></a>.</p>
       </details>
       <details>
         <summary>Se a loja dá lucro, por que olhar o caixa?</summary>
-        <p>Porque lucro e dinheiro na conta não chegam juntos. Os marketplaces repassam depois, o fornecedor cobra antes, e a parcela do empréstimo não aparece na DRE. Uma loja pode dar lucro e ainda assim ficar sem dinheiro para pagar as contas do mês. O diagnóstico mostra as duas coisas.</p>
+        <p>Porque lucro e dinheiro na conta não chegam juntos.</p>
+        <p>Os marketplaces repassam depois, o fornecedor cobra antes e a parcela do empréstimo não aparece na DRE.</p>
+        <p>Uma loja pode dar lucro e ainda assim ficar sem dinheiro para pagar as contas do mês.</p>
+        <p><strong>O diagnóstico mostra as duas coisas.</strong></p>
       </details>
       <details>
         <summary>A Finspots substitui meu contador?</summary>
@@ -665,11 +685,11 @@
       </details>
       <details>
         <summary>Quanto tempo leva para receber?</summary>
-        <p>Até <strong>7 dias úteis após a confirmação do pagamento e o recebimento completo dos dados necessários</strong>.</p>
+        <p>Até <strong>7 dias úteis após a confirmação do pagamento e o recebimento completo dos dados necessários.</strong></p>
       </details>
       <details>
         <summary>Como funciona a garantia?</summary>
-        <p>Você tem <strong>7 dias após receber o diagnóstico</strong> para avaliar a entrega e, se decidir que o diagnóstico não é para você, solicitar o reembolso dentro desse prazo, conforme as condições da garantia.</p>
+        <p>Você tem <strong>7 dias após receber o diagnóstico</strong> para avaliar a entrega. Se decidir que o diagnóstico não é para você, pode solicitar o reembolso dentro desse prazo, conforme as condições da garantia.</p>
       </details>
     </div>
   </div>
@@ -682,7 +702,7 @@
     <p class="lead" style="color:var(--branco); margin-top:8px;">Agora precisa das respostas.</p>
     <p style="margin-top:24px;">Seu e-commerce já gera números todos os dias.</p>
     <p style="color:var(--branco); font-weight:600; margin-top:10px;">Faturamento. Vendas. Custos. Despesas. Anúncios. Taxas. Prazos. Saldo no banco.</p>
-    <p style="margin-top:20px;">O Diagnóstico Financeiro Finspots transforma tudo isso em uma visão clara da sua operação.</p>
+    <p style="margin-top:20px;">A Finspots transforma tudo isso em uma visão clara da sua operação.</p>
     <p style="color:var(--branco); font-weight:600; margin-top:16px;">Como sua loja está.<br>O que merece atenção.<br>E por onde começar.</p>
     <p class="lead" style="color:var(--branco); margin-top:20px;">Entregamos respostas, não planilhas.</p>
     <div class="cta-area" style="margin-top:28px;">
