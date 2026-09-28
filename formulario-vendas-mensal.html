@@ -133,6 +133,7 @@ b, strong { color: var(--branco); font-weight: 700; }
 <h1>Envie os dados do mês</h1>
 <p style="margin-top:12px;">Você anexa os arquivos do jeito que baixou, e a Finspots organiza o resto.</p>
 <p class="nota-rascunho">O que você digita fica salvo neste navegador até enviar.</p>
+<p class="nota-rascunho" id="nota-inicio" style="display:none;">O Acompanhamento continua de onde o seu Diagnóstico parou. As metas de margem e lucro são definidas com você pelo WhatsApp.</p>
 <div class="guia-arquivos">
 <p class="guia-titulo">O que anexar</p>
 <ul>
@@ -140,6 +141,7 @@ b, strong { color: var(--branco); font-weight: 700; }
 <li><b>Extratos:</b> o extrato do mês de todas as contas da empresa (banco, Mercado Pago e outras carteiras), de preferência em OFX.</li>
 <li><b>Custos:</b> planilha, notas ou prints com o custo dos produtos, frete, custos fixos e pró-labore do mês.</li>
 <li><b>Anúncios:</b> o relatório do mês, se anunciou.</li>
+<li><b>Produtos:</b> a lista de produtos com o custo de cada um. Só no primeiro envio ou quando mudar.</li>
 </ul>
 </div>
 </div>
@@ -169,11 +171,13 @@ b, strong { color: var(--branco); font-weight: 700; }
 <span class="subtitulo-grupo">O que não aparece nos arquivos. Se não teve, deixe em branco.</span>
 <div class="duas-colunas-campo">
 <div class="campo"><label for="anuncios">Quanto investiu em anúncios no mês</label><div class="dinheiro"><span>R$</span><input type="text" id="anuncios" name="Investimento em anúncios no mês (R$)" inputmode="decimal" placeholder="0,00"></div></div>
+<div class="campo"><label for="clientes-novos">Clientes novos no mês</label><input type="text" id="clientes-novos" name="Clientes novos no mês" inputmode="numeric" placeholder="0"><p class="dica">Quantos clientes novos os anúncios trouxeram.</p></div>
 <div class="campo"><label for="prolabore">Quanto você retirou (pró-labore)</label><div class="dinheiro"><span>R$</span><input type="text" id="prolabore" name="Pró-labore do mês (R$)" inputmode="decimal" placeholder="0,00"></div></div>
-<div class="campo"><label for="repasses">Repasses ainda a liberar</label><div class="dinheiro"><span>R$</span><input type="text" id="repasses" name="Repasses a liberar (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">O que os marketplaces ainda vão te pagar.</p></div>
-<div class="campo"><label for="estoque">Compra de estoque já marcada</label><div class="dinheiro"><span>R$</span><input type="text" id="estoque" name="Compra de estoque programada (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Pedidos a fornecedor nas próximas semanas.</p></div>
+<div class="campo"><label for="saldo">Saldo hoje, somando todas as contas</label><div class="dinheiro"><span>R$</span><input type="text" id="saldo" name="Saldo atual em conta (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Banco, Mercado Pago e outras carteiras.</p></div>
+<div class="campo"><label for="repasses">Repasses a liberar (próximas 8 semanas)</label><div class="dinheiro"><span>R$</span><input type="text" id="repasses" name="Repasses a liberar (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">O que os marketplaces ainda vão te pagar.</p></div>
+<div class="campo"><label for="estoque">Compra de estoque já marcada</label><div class="dinheiro"><span>R$</span><input type="text" id="estoque" name="Compra de estoque programada (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Pedidos a fornecedor nas próximas 8 semanas.</p></div>
 </div>
-<div class="campo"><label for="contas">Contas com data nas próximas semanas</label><textarea id="contas" name="Contas a pagar nas próximas semanas" placeholder="Ex: dia 05 boleto fornecedor R$ 4.000 · dia 10 DAS R$ 900 · dia 15 parcela empréstimo R$ 1.200"></textarea></div>
+<div class="campo"><label for="contas">Contas com data nas próximas 8 semanas</label><textarea id="contas" name="Contas a pagar nas próximas 8 semanas" placeholder="Ex: dia 05 boleto fornecedor R$ 4.000 · dia 10 DAS R$ 900 · dia 15 parcela empréstimo R$ 1.200"></textarea></div>
 <div class="campo"><label for="mudancas">O que mudou neste mês?</label><textarea id="mudancas" name="Mudanças no mês" placeholder="Ex: fiz uma promoção, troquei de fornecedor, aumentei o preço, entrei na Shopee, contratei alguém, um custo fixo mudou..."></textarea></div>
 </div>
 
@@ -228,6 +232,7 @@ var form = document.getElementById('form-vendas-mensal');
 form.action = DESTINO_FORMULARIO;
 if (/[?&]inicio=1/.test(location.search)) {
   document.getElementById('etapas').classList.add('visivel');
+  document.getElementById('nota-inicio').style.display = 'block';
   form.querySelector('input[name=_next]').value = 'https://finspots.com.br/finalizar-assinatura.html';
   form.querySelector('input[name=_subject]').value = 'Nova assinatura: Acompanhamento Mensal Finspots';
   document.getElementById('btn-enviar').textContent = 'Enviar dados e ir para a assinatura';

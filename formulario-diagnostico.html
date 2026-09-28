@@ -152,11 +152,11 @@ footer a { color: var(--laranja); }
     <div class="campo"><label for="segmento">O que a sua loja vende? <span class="obrigatorio">*</span></label><input type="text" id="segmento" name="O que vende" required placeholder="Ex: roupas femininas, suplementos, acessórios para pet..."><p class="dica">Usamos para comparar seus números com lojas do mesmo perfil.</p></div>
   </div>
   <div class="grade tres" style="margin-top:14px;">
-    <div class="campo"><label for="periodo">Período analisado <span class="obrigatorio">*</span></label><input type="text" id="periodo" name="Período" required placeholder="Ex: Agosto/2026"></div>
+    <div class="campo"><label for="periodo">Período analisado <span class="obrigatorio">*</span></label><input type="text" id="periodo" name="Período" required placeholder="Ex: março a agosto/2026"><p class="dica">De 3 a 6 meses. Quanto mais meses, mais completa a análise.</p></div>
     <div class="campo"><label for="regime">Regime tributário</label>
       <select id="regime" name="Regime tributário"><option value="">Selecione...</option><option>MEI</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option><option>Não sei</option></select></div>
     <div class="campo"><label for="tempo">Tempo de operação</label>
-      <select id="tempo" name="Tempo de operação"><option value="">Selecione...</option><option>Menos de 6 meses</option><option>6 meses a 1 ano</option><option>1 a 3 anos</option><option>Mais de 3 anos</option></select></div>
+      <select id="tempo" name="Tempo de operação"><option value="">Selecione...</option><option>3 a 6 meses</option><option>6 meses a 1 ano</option><option>1 a 3 anos</option><option>Mais de 3 anos</option></select></div>
   </div>
 </section>
 
@@ -177,7 +177,7 @@ footer a { color: var(--laranja); }
 </section>
 
 <section class="secao">
-  <div class="secao-topo"><span class="secao-num">3</span><div><h2>Números do período</h2><p>O essencial para calcular resultado, margens e ponto de equilíbrio.</p></div></div>
+  <div class="secao-topo"><span class="secao-num">3</span><div><h2>Números do período</h2><p>O essencial para calcular resultado, margens e ponto de equilíbrio. Some os meses do período; se tiver o mês a mês, anexe nos arquivos.</p></div></div>
   <p class="sub-titulo">Vendas</p>
   <div class="grade tres">
     <div class="campo"><label for="faturamento">Faturamento bruto</label><div class="dinheiro"><span>R$</span><input type="text" id="faturamento" name="Faturamento bruto (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Tudo o que vendeu, somando os canais.</p></div>
@@ -192,8 +192,8 @@ footer a { color: var(--laranja); }
   </div>
   <p class="sub-titulo">Custos fixos</p>
   <div class="grade duas">
-    <div class="campo"><label for="fixos">Custos fixos do mês</label><div class="dinheiro"><span>R$</span><input type="text" id="fixos" name="Custos fixos (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Aluguel, sistemas, funcionários, contador, internet...</p></div>
-    <div class="campo"><label for="prolabore">Pró-labore (sua retirada)</label><div class="dinheiro"><span>R$</span><input type="text" id="prolabore" name="Pró-labore (R$)" inputmode="decimal" placeholder="0,00"></div></div>
+    <div class="campo"><label for="fixos">Custos fixos por mês</label><div class="dinheiro"><span>R$</span><input type="text" id="fixos" name="Custos fixos (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Aluguel, sistemas, funcionários, contador, internet...</p></div>
+    <div class="campo"><label for="prolabore">Pró-labore por mês (sua retirada)</label><div class="dinheiro"><span>R$</span><input type="text" id="prolabore" name="Pró-labore (R$)" inputmode="decimal" placeholder="0,00"></div></div>
   </div>
   <div class="campo" style="margin-top:14px;"><label for="fixos-detalhe">Quer detalhar os custos fixos?</label><textarea id="fixos-detalhe" name="Detalhe dos custos fixos" placeholder="Ex: aluguel R$ 1.500 · Bling R$ 120 · contador R$ 400 · 1 funcionária R$ 2.200"></textarea></div>
 </section>
@@ -213,7 +213,7 @@ footer a { color: var(--laranja); }
   <div class="secao-topo"><span class="secao-num">5</span><div><h2>Marketing, clientes e prazos <span class="tag-opcional">opcional</span></h2><p>Com isso sai a análise de anúncios, recompra e ciclo de caixa.</p></div></div>
   <div class="grade duas">
     <div class="campo"><label for="anuncios">Investimento em anúncios</label><div class="dinheiro"><span>R$</span><input type="text" id="anuncios" name="Investimento em anúncios (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Meta, Google, Mercado Ads, Shopee Ads...</p></div>
-    <div class="campo"><label for="clientes-novos">Clientes novos no período</label><input type="text" id="clientes-novos" name="Clientes novos no período" inputmode="numeric" placeholder="0"></div>
+    <div class="campo"><label for="clientes-novos">Clientes novos no período</label><input type="text" id="clientes-novos" name="Clientes novos no período" inputmode="numeric" placeholder="0"><p class="dica">Quantos clientes novos os anúncios e as vendas trouxeram.</p></div>
     <div class="campo"><label for="recompra">Clientes que compraram de novo</label><input type="text" id="recompra" name="Clientes que recompraram" inputmode="numeric" placeholder="0"><p class="dica">Quantos já tinham comprado antes.</p></div>
     <div class="campo"><label for="prazo-receb">Prazo médio para receber das vendas</label><div class="sufixo"><input type="text" id="prazo-receb" name="Prazo médio de recebimento (dias)" inputmode="numeric" placeholder="0"><span>dias</span></div></div>
     <div class="campo"><label for="prazo-forn">Prazo para pagar o fornecedor</label><div class="sufixo"><input type="text" id="prazo-forn" name="Prazo de pagamento ao fornecedor (dias)" inputmode="numeric" placeholder="0"><span>dias</span></div></div>
