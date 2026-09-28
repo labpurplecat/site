@@ -254,6 +254,18 @@
   .item-icone .sub-item { margin-top: 10px; }
   .item-icone .sub-item:first-of-type { margin-top: 0; }
 
+  .icone.num { font-weight: 800; font-size: 14px; color: var(--laranja); letter-spacing: 0.3px; }
+  .nota-transparencia { font-size: 14px; color: var(--fraco); margin-top: 18px; }
+
+  /* ---------- Dados de mercado (seção do problema) ---------- */
+  .dados-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 34px auto 26px; text-align: left; }
+  @media (min-width: 720px) { .dados-grid { grid-template-columns: repeat(3, 1fr); } }
+  .dado { background: rgba(0,3,27,0.45); border: 1px solid rgba(107,118,168,0.28); border-top: 3px solid var(--laranja); border-radius: 14px; padding: 20px 20px 16px; }
+  .dado-num { font-size: 25px; white-space: nowrap; font-weight: 800; color: var(--laranja); line-height: 1.1; letter-spacing: -0.5px; }
+  .central .dado p { font-size: 14.5px; color: var(--suave); margin: 8px 0 0; }
+  .central .dado .dado-fonte { font-size: 11.5px; color: var(--fraco); margin-top: 10px; }
+  .dados-fontes { font-size: 11.5px; color: var(--fraco); }
+
   /* ---------- Passos numerados (só onde é sequência de verdade) ---------- */
 
   .passos { display: grid; gap: 36px; margin-top: 44px; }
@@ -450,6 +462,12 @@
     <p>Você sabe quanto vendeu.</p>
     <p class="lead" style="color:var(--branco); margin-top:20px;">Mas sabe quanto realmente ganhou?</p>
     <p style="margin-top:12px;">E sabe se o dinheiro vai estar na conta quando os boletos vencerem?</p>
+    <div class="dados-grid">
+      <div class="dado"><div class="dado-num">6 em cada 10</div><p>empresas abertas no Brasil fecham as portas em até 5 anos.</p><p class="dado-fonte">IBGE, Demografia das Empresas: só 37,3% das empresas abertas em 2017 seguiam ativas em 2022.</p></div>
+      <div class="dado"><div class="dado-num">22%</div><p>dos donos de negócios que fecharam apontam a falta de capital de giro, o dinheiro para manter a operação rodando, como o principal motivo.</p><p class="dado-fonte">Sebrae, pesquisa Sobrevivência de Empresas (2020).</p></div>
+      <div class="dado"><div class="dado-num">5 em cada 10</div><p>pequenos empreendedores têm controle financeiro precário, e 1 em cada 10 não faz controle nenhum.</p><p class="dado-fonte">Sebrae, pesquisa Hábitos Financeiros (2025).</p></div>
+    </div>
+    <p class="lead" style="color:var(--branco);">Quando o controle é frágil, o problema costuma aparecer no caixa antes de aparecer no faturamento.</p>
     <p style="margin-top:28px;">O problema não é falta de dados.</p>
     <p class="lead" style="color:var(--branco);">É falta de clareza.</p>
   </div>
@@ -494,59 +512,46 @@
       <div class="passo">
         <div class="passo-num">3</div>
         <h3>Você recebe as respostas</h3>
-        <p>Você recebe um <strong>PDF personalizado + vídeo narrado</strong>, com a situação da sua loja, os principais números e as <strong>3 prioridades para agir primeiro.</strong></p>
+        <p>Você recebe um <strong>PDF personalizado + vídeo narrado</strong>, com as <strong>respostas para 8 perguntas</strong> sobre a sua loja e as <strong>prioridades para agir primeiro.</strong></p>
       </div>
     </div>
     <p style="color:var(--branco); font-weight:600; text-align:center; margin-top:44px;">Você fornece os dados.<br><span style="color:var(--laranja);">A Finspots faz a análise.</span><br>Você recebe as respostas.</p>
   </div>
 </section>
 
-<!-- 05 - O QUE ANALISAMOS -->
+<!-- 05 - O QUE ANALISAMOS (resumo da parte técnica) -->
 <section class="central">
   <div class="wrap">
     <h2>O que está por trás do seu resultado?</h2>
-    <p style="margin-top:20px;">Para entender se o seu e-commerce realmente lucra, não basta olhar para o faturamento.<br>Analisamos diferentes partes da operação e cruzamos essas informações para entender o resultado como um todo.</p>
+    <p style="margin-top:20px;">Faturamento não conta a história toda. Nos bastidores, cruzamos as principais partes da operação:</p>
 
     <div class="analise-grid">
       <div class="analise-card">
-        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span><span class="analise-titulo">Resultado financeiro</span></div>
-        <div class="analise-item"><h4>DRE</h4><p>Organiza receitas, custos e despesas, do faturamento até o lucro, para mostrar o resultado real da operação.</p></div>
-        <div class="analise-item"><h4>Margem de contribuição e margem líquida</h4><p>Quanto sobra de cada venda para pagar a estrutura, e quanto vira lucro de verdade no fim do mês.</p></div>
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span><span class="analise-titulo">Resultado</span></div>
+        <div class="analise-item"><p>DRE, margens e ponto de equilíbrio: o caminho do faturamento até o lucro.</p></div>
       </div>
       <div class="analise-card">
-        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="var(--laranja)"/></svg></span><span class="analise-titulo">Estrutura financeira</span></div>
-        <div class="analise-item"><h4>Ponto de equilíbrio</h4><p>Quanto sua operação precisa vender para cobrir todos os custos e qual é a sua folga até lá.</p></div>
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span><span class="analise-titulo">Vendas e canais</span></div>
+        <div class="analise-item"><p>Quanto cada canal vende e quanto sobra depois das taxas, comissões e anúncios.</p></div>
       </div>
-      <div class="analise-card">
-        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span><span class="analise-titulo">Vendas</span></div>
-        <div class="analise-item"><h4>Análise por canal</h4><p>Quanto cada canal vende e quanto fica com as taxas e comissões de cada um.</p></div>
-      </div>
-
-      <div class="analise-card analise-destaque">
-        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M16 14.5h2"/></svg></span><span class="analise-titulo">Caixa</span><span class="analise-tag">o dinheiro de verdade</span></div>
-        <div class="analise-subgrid">
-          <div class="analise-item"><h4>Fluxo de caixa do período</h4><p>O dinheiro que realmente entrou e saiu das suas contas, conferido com o extrato bancário e separado entre operação, empréstimos e retiradas.</p></div>
-          <div class="analise-item"><h4>Lucro × caixa</h4><p>Se o lucro que aparece na DRE está virando dinheiro na conta ou ficando preso no caminho.</p></div>
-          <div class="analise-item"><h4>Fôlego de caixa</h4><p>Por quantos dias a loja consegue se manter apenas com o dinheiro que tem hoje.</p></div>
-          <div class="analise-item"><h4>Projeção das próximas 4 semanas</h4><p>Como fica o saldo semana a semana, considerando os repasses a receber e as contas já previstas, e se pode faltar dinheiro em alguma delas.</p></div>
-          <div class="analise-item"><h4>Ciclo de caixa</h4><p>Por quantos dias seu dinheiro fica preso entre pagar o fornecedor e receber do cliente, e se isso coloca o caixa em risco mesmo quando há lucro.</p></div>
-        </div>
-      </div>
-
       <div class="analise-card">
         <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 002 2h1l4 4V5L6 9H5a2 2 0 00-2 2z"/><path d="M16 8a5 5 0 010 8"/></svg></span><span class="analise-titulo">Marketing e clientes</span></div>
-        <div class="analise-item"><h4>ROAS, CAC e LTV/CAC</h4><p>Se os anúncios estão se pagando, quanto custa conquistar cada cliente e quanto ele devolve ao longo do tempo.</p></div>
-        <div class="analise-item"><h4>Ticket médio e recompra</h4><p>Quanto cada cliente gasta e quantos voltam a comprar.</p></div>
+        <div class="analise-item"><p>Se os anúncios se pagam, quanto custa cada cliente novo e quanto ele devolve ao longo do tempo.</p></div>
       </div>
       <div class="analise-card">
-        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg></span><span class="analise-titulo">Régua do seu segmento</span></div>
-        <div class="analise-item"><h4>Comparação com lojas do seu perfil</h4><p>Seus números são comparados com o que é saudável para lojas com perfil semelhante de ticket e margem. Afinal, uma margem boa para uma loja pode ser baixa para outra.</p></div>
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><path d="M16 14.5h2"/></svg></span><span class="analise-titulo">Caixa</span></div>
+        <div class="analise-item"><p>O dinheiro que de fato entrou e saiu, conferido com o extrato, o fôlego e a projeção das próximas 4 semanas.</p></div>
       </div>
       <div class="analise-card">
-        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span class="analise-titulo">Priorização</span></div>
-        <div class="analise-item"><h4>Prioridades por impacto e urgência</h4><p>Os pontos encontrados são ordenados pelo impacto no resultado e pela urgência, para mostrar <strong>o que resolver primeiro, segundo e terceiro.</strong></p></div>
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="1"/><path d="M6 8v3M10 8v4M14 8v3M18 8v4"/></svg></span><span class="analise-titulo">Seu perfil</span></div>
+        <div class="analise-item"><p>Seus números comparados com o que é saudável para lojas com ticket e margem parecidos com os seus.</p></div>
+      </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span class="analise-titulo">Prioridades</span></div>
+        <div class="analise-item"><p>O que foi encontrado, em ordem de impacto e urgência: o que resolver primeiro, segundo e terceiro.</p></div>
       </div>
     </div>
+    <p style="color:var(--branco); font-weight:600; margin-top:32px;">Toda essa análise fica com a Finspots. Você recebe as respostas.</p>
     <div class="cta-meio">
       <a href="contrato.html" class="btn btn-primario">Quero fazer meu diagnóstico →</a>
       <a href="#exemplo" class="btn btn-secundario">Ver um exemplo</a>
@@ -554,43 +559,49 @@
   </div>
 </section>
 
-<!-- 06 - O QUE VOCÊ DESCOBRE -->
+<!-- 06 - O QUE VOCÊ DESCOBRE (as 8 perguntas do diagnóstico) -->
 <section class="bg-fundo central">
-  <div class="wrap-estreito">
+  <div class="wrap">
     <h2>No fim, a pergunta é simples:</h2>
     <p class="lead" style="color:var(--branco); margin-top:8px;">O que está acontecendo com o meu e-commerce?</p>
-    <p style="margin-top:20px;">O diagnóstico transforma os números da sua operação em respostas claras.</p>
+    <p style="margin-top:20px;">O diagnóstico responde em 8 perguntas, na mesma ordem do relatório e do vídeo:</p>
 
-    <div class="lista-icones" style="text-align:left;">
+    <div class="lista-icones duas-colunas" style="text-align:left;">
       <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
-        <div><h3>Sua loja está saudável?</h3><p>Uma avaliação geral da operação, considerando a régua do seu segmento: saudável, atenção, requer ajustes ou crítico.</p></div>
+        <span class="icone num">01</span>
+        <div><h3>Qual é o resultado financeiro do negócio?</h3><p>Receita, margens e se a operação fecha com lucro ou prejuízo.</p></div>
       </div>
       <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 .9 3 2.2c0 2.8-6 1.8-6 4.6 0 1.3 1.3 2.2 3 2.2s3-1.1 3-2.5"/></svg></span>
-        <div><h3>De cada R$ 100 vendidos, quanto sobra para você?</h3><p>Veja quanto vai para impostos, produto, frete e comissões, estrutura e quanto vira lucro.</p></div>
+        <span class="icone num">02</span>
+        <div><h3>Como o dinheiro que entra se transforma em resultado?</h3><p>De cada R$ 100 vendidos, quanto vai para produto, impostos, frete, comissões e estrutura, e quanto sobra.</p></div>
       </div>
       <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="var(--laranja)"/></svg></span>
-        <div><h3>Quanto você precisa vender para a operação se pagar?</h3><p>Tenha uma referência clara do seu ponto de equilíbrio.</p></div>
+        <span class="icone num">03</span>
+        <div><h3>Qual é o nível de vendas necessário para sustentar a operação?</h3><p>O seu ponto de equilíbrio e a folga que você tem até ele.</p></div>
       </div>
       <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
-        <div><h3>O dinheiro vai dar para as próximas semanas?</h3><p>Veja quantos dias de fôlego a loja tem e como fica o saldo semana a semana no próximo mês, antes de o aperto chegar.</p></div>
+        <span class="icone num">04</span>
+        <div><h3>Como as vendas e os canais contribuem para o resultado?</h3><p>Quanto cada canal vende, quanto sobra depois das taxas e se o anúncio de cada um se paga.</p></div>
       </div>
       <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span>
-        <div><h3>Quais canais estão contribuindo para o resultado?</h3><p>Veja quanto cada canal vende e quanto fica depois das taxas.</p></div>
+        <span class="icone num">05</span>
+        <div><h3>Como o investimento em marketing está contribuindo?</h3><p>O retorno dos anúncios e da marca, e se o investimento cabe no que a operação aguenta.</p></div>
       </div>
       <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M3 11v2a2 2 0 002 2h1l4 4V5L6 9H5a2 2 0 00-2 2z"/><path d="M16 8a5 5 0 010 8"/></svg></span>
-        <div><h3>O marketing está trazendo retorno?</h3><p>Entenda se os anúncios se pagam e quanto custa conquistar cada cliente.</p></div>
+        <span class="icone num">06</span>
+        <div><h3>Como está a relação entre aquisição e valor do cliente?</h3><p>Quanto custa conquistar um cliente e quanto ele deixa de margem ao longo do tempo.</p></div>
       </div>
       <div class="item-icone">
-        <span class="icone"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span>
-        <div><h3>O que merece atenção primeiro?</h3><p>Você recebe até <strong style="color:var(--branco);">3 prioridades</strong>, cada uma com a explicação do problema e o que fazer para resolver.</p><p style="margin-top:6px;"><strong style="color:var(--branco);">Assim, você sabe por onde começar.</strong></p></div>
+        <span class="icone num">07</span>
+        <div><h3>Como o resultado financeiro se relaciona com o caixa?</h3><p>Se o lucro está virando dinheiro na conta, quantos dias de fôlego você tem e como fica o saldo nas próximas 4 semanas.</p></div>
+      </div>
+      <div class="item-icone">
+        <span class="icone num">08</span>
+        <div><h3>O que merece atenção e quais são as prioridades?</h3><p>Os alertas e até 3 prioridades, em ordem, com o que fazer em cada uma.</p></div>
       </div>
     </div>
+    <p style="color:var(--branco); font-weight:600; margin-top:36px;">Cada resposta vem com os números principais, um gráfico, o que explica o resultado, o que isso significa e o que fazer.</p>
+    <p class="nota-transparencia">Se algum dado não for enviado, a pergunta aparece como análise não realizada, com o motivo. Nada é inventado para preencher espaço.</p>
   </div>
 </section>
 
@@ -619,19 +630,16 @@
           <h3>PDF personalizado</h3>
           <p>Seu diagnóstico em um relatório visual, feito para ser lido sem precisar entender de finanças:</p>
           <ul class="lista-simples">
-            <li>resumo da sua loja em uma página</li>
-            <li>para onde vai cada R$ 100 vendidos</li>
-            <li>suas margens na régua do seu segmento</li>
-            <li>fluxo de caixa: o que entrou e saiu, fôlego e projeção das próximas 4 semanas</li>
-            <li>marketing e canais</li>
-            <li>plano de ação com as prioridades e o que fazer em cada uma</li>
-            <li>glossário para consultar sempre que precisar</li>
+            <li>visão geral com a resposta curta de cada pergunta</li>
+            <li>uma página para cada uma das 8 perguntas, com números, gráfico e o que fazer</li>
+            <li>alertas, prioridades e a situação da loja resumida em uma frase</li>
+            <li>notas da análise: o que foi analisado, com quais dados, e os termos explicados</li>
           </ul>
         </div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        <div><h3>Vídeo narrado</h3><p>Os principais achados em um vídeo curto, no formato de um noticiário feito só para a sua loja.</p><p>Você assiste em poucos minutos, quando e onde quiser.</p><p style="margin-top:8px;"><strong style="color:var(--branco);">Sem reunião obrigatória. Sem apresentação complicada. Sem deixar você sozinho para interpretar os números.</strong></p></div>
+        <div><h3>Vídeo narrado</h3><p>Os principais achados em um vídeo curto: um card para cada pergunta, narrado em linguagem simples.</p><p>Você assiste em poucos minutos, quando e onde quiser.</p><p style="margin-top:8px;"><strong style="color:var(--branco);">Sem reunião obrigatória. Sem apresentação complicada. Sem deixar você sozinho para interpretar os números.</strong></p></div>
       </div>
       <div class="item-icone">
         <span class="icone"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
@@ -710,7 +718,7 @@
 
       <p style="color:var(--branco); font-weight:600; margin-top:24px;">Você recebe:</p>
       <ul class="lista-check" style="text-align:left;">
-        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Situação geral da sua loja, na régua do seu segmento</span></li>
+        <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Respostas para as 8 perguntas sobre a sua loja</span></li>
         <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Análise financeira, de vendas e de marketing</span></li>
         <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Fluxo de caixa conferido com o extrato e projeção das próximas 4 semanas</span></li>
         <li><span class="check-marca"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span><span>Até 3 prioridades, com o que fazer em cada uma</span></li>
@@ -802,7 +810,7 @@
     <div class="sobre-pilares">
       <div class="pilar"><h3>Processo padronizado</h3><p>Cada diagnóstico segue o mesmo método e o mesmo padrão de qualidade.</p></div>
       <div class="pilar"><h3>No seu tempo</h3><p>PDF e vídeo para ver quando quiser, sem reunião e sem pressão.</p></div>
-      <div class="pilar"><h3>Profundidade de consultoria</h3><p>O que aconteceu, por que aconteceu, o que tende a acontecer e o que fazer.</p></div>
+      <div class="pilar"><h3>Profundidade de consultoria</h3><p>O que aconteceu, por que aconteceu, o que isso significa e o que fazer.</p></div>
     </div>
     <p class="lead" style="color:var(--branco); margin-top:36px;">Entregamos respostas, não planilhas.</p>
     <div class="cta-meio">
@@ -819,7 +827,7 @@
     <div class="faq">
       <details>
         <summary>Preciso entender de finanças para contratar?</summary>
-        <p><strong>Não.</strong> O relatório foi feito para ser entendido por quem não é da área. Cada número vem explicado em linguagem simples e há um glossário no final.</p>
+        <p><strong>Não.</strong> O relatório foi feito para ser entendido por quem não é da área. Cada número vem explicado em linguagem simples, e os termos usados estão explicados no final.</p>
       </details>
       <details>
         <summary>O que preciso enviar?</summary>
@@ -866,7 +874,7 @@
       </details>
       <details>
         <summary>O diagnóstico mostra comparativos e projeções?</summary>
-        <p><strong>Sim.</strong> Ele compara seus números com o que é saudável para lojas do seu perfil, simula quanto de lucro você ganharia se as margens subissem para a próxima faixa e projeta o seu caixa nas 4 semanas seguintes.</p>
+        <p><strong>Sim.</strong> Ele compara seus números com o que é saudável para lojas do seu perfil, mostra quanto você precisa vender para a operação se pagar e projeta o seu caixa nas 4 semanas seguintes.</p>
         <p>Para comparar um mês com o outro e acompanhar metas, existe o <a href="mensal.html" style="color:var(--laranja); text-decoration:underline;"><strong style="color:inherit;">Acompanhamento Mensal Finspots</strong></a>.</p>
       </details>
       <details>
