@@ -142,7 +142,7 @@
 
   <!-- ⚠️ Troque SEU_EMAIL_AQUI pelo e-mail (ou pelo código) do seu FormSubmit -->
   <form id="form" action="https://formsubmit.co/labfinspots@gmail.com" method="POST" enctype="multipart/form-data" novalidate>
-    <input type="hidden" name="_subject" id="assunto" value="Mensal">
+    <input type="hidden" name="_subject" id="assunto" value="Acompanhamento Mensal Finspots">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_next" value="https://finspots.com.br/obrigado.html">
     <input type="text" name="_honey" class="escondido" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -548,7 +548,7 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
     return e;
   }, function () {
     $("#h-mes").value = F.MESES[+$("#mes").value] + "/" + $("#ano").value;
-    $("#assunto").value = "Mensal " + $("#h-mes").value + ": " + $("#loja").value.trim();
+    $("#assunto").value = "Acompanhamento Mensal Finspots " + $("#h-mes").value + ": " + $("#loja").value.trim();
   });
 })();
 </script>
