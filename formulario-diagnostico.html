@@ -133,7 +133,7 @@
   <h1>Vamos começar o seu <span>diagnóstico</span></h1>
   <p class="intro">Responda com calma e do seu jeito. Tem relatório pronto do sistema? É só anexar. Prefere digitar? Preencha os campos. O que você não tiver, pode deixar em branco.</p>
   <div class="pilulas">
-    <span class="pilula">Essencial: dados da loja, período, resultado e vendas</span>
+    <span class="pilula">Essencial: dados da loja, período, regime, resultado e vendas</span>
     <span class="pilula cinza">O restante é opcional</span>
   </div>
 
@@ -141,8 +141,8 @@
     <small>Pode fechar e voltar depois. Só os arquivos anexados precisam ser escolhidos de novo.</small></p>
 
   <!-- ⚠️ Troque SEU_EMAIL_AQUI pelo e-mail (ou pelo código) do seu FormSubmit -->
-  <form id="form" action="https://formsubmit.co/labfinspots@gmail.com" method="POST" enctype="multipart/form-data" novalidate>
-    <input type="hidden" name="_subject" id="assunto" value="Diagnóstico Financeiro Finspots">
+  <form id="form" action="https://formsubmit.co/SEU_EMAIL_AQUI" method="POST" enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="_subject" id="assunto" value="Novo diagnóstico">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_next" value="https://finspots.com.br/obrigado.html">
     <input type="text" name="_honey" class="escondido" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -202,6 +202,25 @@
           <select id="fim-mes" aria-label="Mês final"></select><select id="fim-ano" aria-label="Ano final"></select>
         </div>
         <span class="dica" id="periodo-txt" style="margin-top:8px"></span>
+      </div>
+
+      <div class="campo">
+        <span class="t">Regime tributário</span>
+        <div class="chips">
+          <label><input type="radio" name="Regime tributário" value="MEI" data-abre="c-das" data-fecha="c-aliq"><span>MEI</span></label>
+          <label><input type="radio" name="Regime tributário" value="Simples Nacional" data-abre="c-aliq" data-fecha="c-das"><span>Simples Nacional</span></label>
+          <label><input type="radio" name="Regime tributário" value="Lucro Presumido" data-abre="c-aliq" data-fecha="c-das"><span>Lucro Presumido</span></label>
+        </div>
+        <div class="condicional" id="c-aliq">
+          <label class="t" for="aliq">Alíquota de imposto <span class="opc">(se souber)</span></label>
+          <span class="dica">A porcentagem que você paga sobre as vendas. Está na guia do DAS ou com o contador.</span>
+          <input type="text" id="aliq" name="Alíquota de imposto (se souber)" inputmode="decimal" placeholder="ex.: 6%">
+        </div>
+        <div class="condicional" id="c-das">
+          <label class="t" for="das">Valor do DAS por mês</label>
+          <span class="dica">O boleto mensal do MEI.</span>
+          <div class="rs"><input type="text" id="das" name="Valor do DAS por mês" inputmode="decimal" placeholder="ex.: 81,05"></div>
+        </div>
       </div>
     </fieldset>
 
@@ -704,6 +723,7 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
       if (!F.preenchido($(c[0]))) e.push("Parte 1: " + c[1] + ".");
     });
     if (!periodoOk()) e.push("Parte 1: período de 3 a 6 meses.");
+    if (!$('input[name="Regime tributário"]:checked')) e.push("Parte 1: regime tributário.");
     var modoFin = $('input[name="grp-fin"]:checked').value;
     if (modoFin === "arquivo" && !F.temArquivo("#f-dre")) e.push("Parte 2: anexe a DRE ou planilha financeira (ou escolha preencher aqui).");
     if (modoFin === "mao") {
@@ -722,7 +742,7 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
     var ms = meses();
     $("#h-periodo").value = F.MESES[ms[0][0]] + (ms[0][1] !== ms[ms.length - 1][1] ? "/" + ms[0][1] : "") + " a "
                           + F.MESES[ms[ms.length - 1][0]] + "/" + ms[ms.length - 1][1];
-    $("#assunto").value = "Diagnóstico Financeiro Finspots: " + $("#loja").value.trim();
+    $("#assunto").value = "Novo diagnóstico: " + $("#loja").value.trim();
     $$("#paineis-fin input[readonly]").forEach(function (i) { if (!i.value) i.disabled = true; });
   });
 })();
