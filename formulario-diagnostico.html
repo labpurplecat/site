@@ -141,7 +141,7 @@
     <small>Pode fechar e voltar depois. Só os arquivos anexados precisam ser escolhidos de novo.</small></p>
 
   <!-- ⚠️ Troque SEU_EMAIL_AQUI pelo e-mail (ou pelo código) do seu FormSubmit -->
-  <form id="form" action="https://formsubmit.co/labfinspots@gmail.com" method="POST" enctype="multipart/form-data" novalidate>
+  <form id="form" action="#" method="POST" enctype="multipart/form-data" novalidate>
     <input type="hidden" name="_subject" id="assunto" value="Novo diagnóstico">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_next" value="https://finspots.com.br/obrigado.html">
@@ -482,6 +482,43 @@
       F.$$("input[type=file]", this).forEach(function (i) { if (!i.files.length) i.disabled = true; });
       F.$$("input[type=checkbox]:not([name])", this).forEach(function (c) { c.disabled = true; });
       var b = F.$("#btn"); b.disabled = true; b.textContent = "Enviando…";
+      e.preventDefault();
+      F.enviar(this, b, box);
+    });
+  };
+
+  // ---------- envio para o Google (Apps Script): respostas na planilha, anexos no Drive, aviso por e-mail
+  F.ENDPOINT = "https://script.google.com/macros/s/AKfycbyIjo86B3ZhrhUD2ViWpwalKcQS2ayoFez2tldKtpSfTJmV8Yazib6NxAJRjaaze5R6/exec";
+  function base64(file) {
+    return new Promise(function (ok, erro) {
+      var r = new FileReader();
+      r.onload = function () { ok(String(r.result).split(",")[1] || ""); };
+      r.onerror = function () { erro(r.error); };
+      r.readAsDataURL(file);
+    });
+  }
+  F.enviar = function (form, b, box) {
+    var campos = [], esperas = [];
+    new FormData(form).forEach(function (v, k) {
+      if (v instanceof File) {
+        if (!v.name || !v.size) return;
+        esperas.push(base64(v).then(function (d) { return { campo: k, nome: v.name, tipo: v.type, base64: d }; }));
+      } else campos.push([k, v]);
+    });
+    var proximo = (F.$('input[name="_next"]', form) || {}).value || "obrigado.html";
+    Promise.all(esperas).then(function (arquivos) {
+      return fetch(F.ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+                                 body: JSON.stringify({ campos: campos, arquivos: arquivos }) });
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j || !j.ok) throw new Error((j && j.erro) || "falha no envio");
+      if (F.limparSalvo) F.limparSalvo();
+      location.href = proximo;
+    }).catch(function () {
+      F.$$("input, select, textarea", form).forEach(function (c) { if (!c.readOnly) c.disabled = false; });
+      F.sincronizar();
+      b.disabled = false; b.textContent = "Enviar para a Finspots";
+      box.innerHTML = "Não conseguimos enviar agora. Suas respostas continuam salvas neste aparelho: tente de novo em alguns minutos"
+        + " ou <a href=\"https://wa.me/5562996677168?text=Oi!%20Tive%20um%20problema%20para%20enviar%20o%20formul%C3%A1rio.\">chame no WhatsApp</a>.";
     });
   };
 
