@@ -127,20 +127,16 @@
     padding: 16px; background: rgba(0,3,27,.82); backdrop-filter: blur(4px); }
   .carregando.mostrar { display: flex; animation: aparece .25s ease-out; }
   .carregando .caixa { max-width: 380px; width: 100%; text-align: center; background: var(--azul); border: 1px solid var(--borda);
-    border-radius: 18px; padding: 32px 24px 26px; box-shadow: 0 20px 60px rgba(0,0,0,.45); }
-  .carregando .anel { width: 58px; height: 58px; margin: 0 auto 18px; border-radius: 50%;
-    border: 4px solid var(--laranja-fraco); border-top-color: var(--laranja); animation: gira .9s linear infinite; }
-  .carregando .titulo { font-size: 18px; font-weight: 600; color: var(--branco); margin: 0 0 6px; }
-  .carregando .etapa { font-size: 14.5px; color: var(--suave); margin: 0 0 16px; min-height: 1.4em; transition: opacity .3s; }
+    border-radius: 18px; padding: 28px 24px 24px; box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+  .carregando .titulo { font-size: 17px; font-weight: 600; color: var(--branco); margin: 0 0 18px; }
   .carregando .barra { height: 6px; border-radius: 999px; background: var(--campo); overflow: hidden; margin-bottom: 14px; }
   .carregando .barra span { display: block; height: 100%; width: 40%; border-radius: 999px; background: var(--laranja);
-    animation: corre 1.4s ease-in-out infinite; }
+    animation: corre 1.8s ease-in-out infinite; }
   .carregando small { display: block; font-size: 12.5px; color: var(--fraco); }
-  @keyframes gira { to { transform: rotate(360deg); } }
   @keyframes corre { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
   @keyframes aparece { from { opacity: 0; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
-    .carregando .anel, .carregando .barra span { animation-duration: 3s; }
+    .carregando .barra span { animation-duration: 3s; }
   }
 </style>
 </head>
@@ -469,29 +465,20 @@
       r.readAsDataURL(file);
     });
   }
-  // tela de "enviando", com mensagens que mudam para não parecer travado
-  F.carregando = function (nArquivos) {
+  // tela de "enviando": só uma barra correndo, para não parecer travado
+  F.carregando = function () {
     var el = F.$("#carregando");
     if (!el) {
       el = document.createElement("div");
       el.id = "carregando"; el.className = "carregando";
       el.setAttribute("role", "status"); el.setAttribute("aria-live", "polite");
-      el.innerHTML = '<div class="caixa"><div class="anel"></div><p class="titulo">Enviando suas informações</p>'
-        + '<p class="etapa"></p><div class="barra"><span></span></div>'
+      el.innerHTML = '<div class="caixa"><p class="titulo">Enviando suas informações…</p>'
+        + '<div class="barra"><span></span></div>'
         + '<small>Pode levar até 1 minuto. Não feche nem atualize esta página.</small></div>';
       document.body.appendChild(el);
     }
-    var etapas = (nArquivos ? ["Preparando " + nArquivos + (nArquivos > 1 ? " arquivos…" : " arquivo…")] : [])
-      .concat(["Enviando para a Finspots…", "Guardando suas respostas com segurança…", "Quase lá…", "Só mais um instante…"]);
-    var txt = F.$(".etapa", el), i = 0;
-    txt.textContent = etapas[0];
     el.classList.add("mostrar");
-    var t = setInterval(function () {
-      if (i >= etapas.length - 1) return;
-      i++; txt.style.opacity = 0;
-      setTimeout(function () { txt.textContent = etapas[i]; txt.style.opacity = 1; }, 300);
-    }, 4000);
-    return { fechar: function () { clearInterval(t); el.classList.remove("mostrar"); } };
+    return { fechar: function () { el.classList.remove("mostrar"); } };
   };
 
   F.enviar = function (form, b, box) {
@@ -503,7 +490,7 @@
       } else campos.push([k, v]);
     });
     var proximo = (F.$('input[name="_next"]', form) || {}).value || "obrigado.html";
-    var tela = F.carregando(esperas.length);
+    var tela = F.carregando();
     Promise.all(esperas).then(function (arquivos) {
       return fetch(F.ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
                                  body: JSON.stringify({ campos: campos, arquivos: arquivos }) });
