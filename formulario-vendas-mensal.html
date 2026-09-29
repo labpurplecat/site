@@ -3,335 +3,554 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Finspots | Envie os dados do mês</title>
+<title>Formulário do Mensal · Finspots</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="Upload mensal de vendas e financeiro para o Acompanhamento Mensal Finspots.">
-<link rel="icon" type="image/png" href="assets/img/finspots-favicon.png">
+<link rel="icon" href="assets/img/finspots-favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
---azul: #071730;
---quase-preto: #00031B;
---laranja: #FF5500;
---laranja-fraco: rgba(255,85,0,0.13);
---branco: #FFFFFF;
---suave: #D8E1F6;
---fraco: #6B76A8;
---borda: rgba(255,255,255,0.09);
---borda-forte: rgba(255,255,255,0.16);
---verde: #2ECC71;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-background-color: var(--azul); color: var(--branco);
-line-height: 1.55; -webkit-font-smoothing: antialiased;
-}
-a { color: inherit; }
-:focus-visible { outline: 2px solid var(--laranja); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  :root {
+    --azul: #04152e; --quase-preto: #00031B; --laranja: #FF5500; --laranja-fraco: rgba(255,85,0,0.13);
+    --branco: #FFFFFF; --suave: #D8E1F6; --fraco: #8F9AC8; --borda: rgba(255,255,255,0.12);
+    --campo: rgba(255,255,255,0.05); --erro: #FF8A8A; --ok: #07C480;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+         background: var(--azul) url('assets/img/fundo-ondas.jpg') center / cover fixed no-repeat;
+         color: var(--branco); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  :focus-visible { outline: 2px solid var(--laranja); outline-offset: 3px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 16px 72px; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 36px; }
+  header img { height: 34px; width: auto; }
+  header a { color: var(--fraco); font-size: 13px; text-decoration: none; text-align: right; }
+  h1 { font-size: clamp(26px, 5vw, 34px); line-height: 1.25; font-weight: 700; }
+  h1 span { color: var(--laranja); }
+  .intro { color: var(--suave); margin: 14px 0 10px; }
+  .pilulas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pilula { font-size: 12.5px; border-radius: 999px; padding: 4px 12px; background: var(--laranja-fraco); color: var(--laranja); }
+  .pilula.cinza { background: rgba(255,255,255,.06); color: var(--suave); }
 
-.wrap-estreito { max-width: 680px; margin: 0 auto; padding: 0 24px; }
-section { padding: 56px 0; }
-.central { text-align: center; }
+  fieldset { border: 1px solid var(--borda); border-radius: 16px; padding: 24px 20px 8px; margin-top: 26px;
+             background: rgba(0,3,27,0.55); backdrop-filter: blur(4px); min-width: 0; }
+  legend { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; padding: 0 8px; }
+  legend .n { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--laranja); color: var(--laranja);
+              display: grid; place-items: center; font-size: 15px; flex: none; }
+  .nivel { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+           border-radius: 6px; padding: 2px 8px; margin-left: 4px; vertical-align: middle; }
+  .nivel.ess { background: var(--laranja); color: #fff; }
+  .nivel.comp { border: 1px solid var(--laranja); color: var(--laranja); }
+  .nivel.opc { border: 1px solid var(--borda); color: var(--fraco); }
+  .ajuda-sec { color: var(--fraco); font-size: 14px; margin: -2px 0 18px; }
+  .serve { color: var(--suave); font-size: 13px; background: rgba(255,255,255,.04); border-radius: 10px;
+           padding: 10px 12px; margin: 4px 0 18px; }
+  .serve b { color: var(--laranja); font-weight: 600; }
 
-h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; line-height: 1.2; letter-spacing: -0.4px; }
-h2 { font-size: 19px; font-weight: 700; }
-p { color: var(--suave); font-size: 15px; }
+  .campo { margin-bottom: 18px; }
+  .t { display: block; font-weight: 500; font-size: 15px; margin-bottom: 6px; }
+  .dica { display: block; color: var(--fraco); font-size: 13px; margin: -2px 0 8px; }
+  .opc { color: var(--fraco); font-weight: 400; font-size: 13px; }
+  input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea {
+    width: 100%; font: inherit; font-size: 16px; color: var(--branco); background: var(--campo);
+    border: 1px solid var(--borda); border-radius: 10px; padding: 11px 13px; }
+  select option { color: #04152e; }
+  textarea { min-height: 110px; resize: vertical; }
+  input::placeholder, textarea::placeholder { color: #66709B; }
+  input:focus, select:focus, textarea:focus { border-color: var(--laranja); outline: none; }
+  input[readonly] { background: transparent; border-style: dashed; color: var(--suave); }
+  .rs { position: relative; }
+  .rs::before { content: "R$"; position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+                color: var(--fraco); font-size: 15px; pointer-events: none; }
+  .rs input { padding-left: 42px; }
+  .linha { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .linha3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .linha4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  @media (max-width: 600px) { .linha, .linha3 { grid-template-columns: 1fr; } .linha4 { grid-template-columns: 1fr 1fr; } }
 
-.btn {
-display: inline-block; font-family: inherit; font-size: 15px; font-weight: 600;
-text-decoration: none; padding: 15px 30px; border-radius: 10px; border: none; cursor: pointer;
-}
-.btn-primario { background: var(--laranja); color: var(--branco); width: 100%; }
-.btn-primario:disabled { background: var(--fraco); cursor: not-allowed; opacity: 0.6; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips label { cursor: pointer; }
+  .chips input { position: absolute; opacity: 0; pointer-events: none; }
+  .chips span { display: inline-block; border: 1px solid var(--borda); border-radius: 999px; padding: 8px 15px;
+                font-size: 14px; color: var(--suave); transition: all .15s; }
+  .chips input:checked + span { border-color: var(--laranja); color: var(--branco); background: var(--laranja-fraco); }
+  .chips input:focus-visible + span { outline: 2px solid var(--laranja); outline-offset: 2px; }
 
-header { padding: 26px 0; text-align: center; }
-.logo { font-size: 21px; font-weight: 800; letter-spacing: -0.3px; text-decoration: none; display: inline-block; }
-.logo img { height: 42px; }
+  .condicional { display: none; margin-top: 14px; }
+  .condicional.aberto { display: block; }
+  .recuo { padding-left: 14px; border-left: 2px solid var(--laranja-fraco); }
 
-.selo-mes {
-display: inline-flex; align-items: center; gap: 8px; background: var(--laranja-fraco); color: var(--laranja);
-font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 20px; margin-top: 18px;
-}
+  .arquivo { border: 1px dashed var(--borda); border-radius: 12px; padding: 13px; margin-bottom: 12px; }
+  .arquivo input { font: inherit; font-size: 14px; color: var(--suave); width: 100%; }
+  .arquivo input::file-selector-button { font: inherit; font-size: 14px; border: 1px solid var(--laranja);
+      background: transparent; color: var(--branco); border-radius: 8px; padding: 7px 14px; margin-right: 10px; cursor: pointer; }
+  .arquivo .t { margin-bottom: 2px; }
+  .tamanho { position: sticky; bottom: 10px; z-index: 5; display: none; margin-top: 18px; text-align: center; font-size: 13px;
+             background: rgba(0,3,27,.92); border: 1px solid var(--borda); border-radius: 999px; padding: 7px 14px; color: var(--suave); }
+  .tamanho.mostrar { display: block; }
+  .tamanho.alto { color: var(--erro); border-color: var(--erro); }
 
-.aviso-erro {
-background: rgba(255,85,0,0.1); border: 1px solid var(--laranja); border-radius: 10px;
-padding: 14px 18px; font-size: 13.5px; color: var(--branco); margin-bottom: 24px; text-align: left; display: none;
-}
+  .abas { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .abas button { font: inherit; font-size: 14px; background: transparent; color: var(--suave); border: 1px solid var(--borda);
+                 border-radius: 8px; padding: 7px 13px; cursor: pointer; width: auto; max-width: none; }
+  .abas button.ativa { border-color: var(--laranja); color: #fff; background: var(--laranja-fraco); }
+  .abas button .ok { color: var(--ok); margin-left: 4px; }
+  .painel-mes { display: none; } .painel-mes.ativo { display: block; }
+  .grupo { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--laranja); font-weight: 600;
+           margin: 6px 0 10px; }
+  .mini { font: inherit; font-size: 13px; background: transparent; color: var(--suave); border: 1px solid var(--borda);
+          border-radius: 8px; padding: 6px 12px; cursor: pointer; width: auto; max-width: none; margin-bottom: 14px; }
+  .mini:hover { border-color: var(--laranja); color: #fff; }
+  .bloco-canal { border: 1px solid var(--borda); border-radius: 12px; padding: 14px 14px 0; margin-bottom: 12px; }
+  .bloco-canal .nome { font-weight: 600; margin-bottom: 10px; }
+  .vazio { color: var(--fraco); font-size: 14px; font-style: italic; margin-bottom: 16px; }
 
-.form-grupo { margin-bottom: 32px; text-align: left; }
-.form-grupo .titulo-grupo { display: block; font-size: 15px; font-weight: 700; color: var(--branco); margin-bottom: 6px; }
-.form-grupo .subtitulo-grupo { display: block; font-size: 13px; color: var(--suave); margin-bottom: 16px; }
-.campo { margin-bottom: 16px; }
-.campo .obrigatorio { color: var(--laranja); }
-.campo label { display: block; font-size: 13px; color: var(--suave); margin-bottom: 6px; }
-.campo input[type=text], .campo input[type=number], .campo input[type=email] {
-width: 100%; background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px;
-padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px;
-}
-.campo textarea { width: 100%; background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 8px; padding: 12px 14px; color: var(--branco); font-family: inherit; font-size: 14px; min-height: 90px; resize: vertical; }
-.campo .dica { font-size: 11.5px; color: var(--fraco); margin-top: 5px; }
-.dinheiro { position: relative; }
-.dinheiro span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--fraco); font-size: 14px; pointer-events: none; }
-.dinheiro input { padding-left: 40px !important; }
-.duas-colunas-campo { display: grid; gap: 14px; }
-@media (min-width: 560px) { .duas-colunas-campo { grid-template-columns: 1fr 1fr; } }
+  .enviar { margin-top: 30px; text-align: center; }
+  .btn { font: inherit; font-weight: 600; font-size: 16px; background: var(--laranja); color: #fff; border: none;
+         border-radius: 10px; padding: 16px 40px; cursor: pointer; width: 100%; max-width: 360px; }
+  .btn:disabled { opacity: .6; cursor: wait; }
+  .lgpd { color: var(--fraco); font-size: 13px; margin-top: 14px; }
+  .lgpd a { color: var(--suave); }
+  .aviso-erro { color: var(--erro); font-size: 14px; margin-top: 12px; text-align: left; }
+  .aviso-erro ul { margin: 6px 0 0 18px; }
+  .escondido { position: absolute; left: -9999px; }
+  .linha > .campo, .linha3 > .campo, .linha4 > .campo { display: flex; flex-direction: column; justify-content: flex-end; }
+  .proximo { display: flex; justify-content: flex-end; margin: -4px 0 12px; }
+  @media (max-width: 480px) { legend { font-size: 16px; gap: 10px; flex-wrap: wrap; } fieldset { padding: 20px 14px 6px; } }
+  .salvo { display: none; font-size: 13px; color: var(--ok); margin-top: 12px; }
+  .salvo.mostrar { display: block; }
+  .salvo a { color: var(--fraco); margin-left: 6px; }
+  .salvo small { display: block; color: var(--fraco); font-size: 12px; margin-top: 2px; }
 
-.upload-area { background: rgba(0,3,27,0.72); border: 1.5px dashed var(--borda-forte); border-radius: 12px; padding: 22px 18px; text-align: center; margin-bottom: 14px; }
-.upload-area p { font-size: 14px; }
-.upload-area input[type=file] { margin-top: 12px; color: var(--suave); font-size: 13px; max-width: 100%; }
-.upload-area .exemplos { font-size: 12px; color: var(--fraco); margin-top: 10px; }
-.lista-arquivos { list-style: none; margin-top: 12px; text-align: left; font-size: 12.5px; color: var(--suave); display: grid; gap: 4px; word-break: break-all; }
-.lista-arquivos:empty { display: none; }
-.nota-limite { font-size: 12px; color: var(--fraco); margin-top: 4px; text-align: left; }
-.nota-limite a { color: var(--laranja); }
-#tamanho-total { font-size: 12.5px; margin-top: 6px; text-align: left; }
-
-.etapas { display: none; justify-content: center; align-items: center; gap: 8px; margin: 0 0 22px; font-size: 12.5px; color: var(--fraco); flex-wrap: wrap; }
-.etapas.visivel { display: flex; }
-.etapa { display: flex; align-items: center; gap: 7px; }
-.etapa .n { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11.5px; border: 1px solid var(--borda-forte); }
-.etapa.feita .n { background: rgba(46,204,113,0.15); border-color: rgba(46,204,113,0.4); color: var(--verde); }
-.etapa.atual { color: var(--branco); font-weight: 600; }
-.etapa.atual .n { background: var(--laranja); border-color: var(--laranja); color: var(--branco); }
-.etapas .traco { width: 22px; height: 1px; background: var(--borda-forte); }
-.nota-rascunho { font-size: 12.5px; color: var(--fraco); margin-top: 8px; }
-footer a { color: var(--laranja); }
-
-.guia-arquivos { background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 12px; padding: 18px 20px; margin-top: 22px; text-align: left; }
-.guia-arquivos .guia-titulo { color: var(--branco); font-weight: 700; font-size: 14px; margin-bottom: 8px; }
-.guia-arquivos ul { padding-left: 18px; display: grid; gap: 6px; }
-.guia-arquivos li { font-size: 13.5px; color: var(--suave); }
-.guia-arquivos b { color: var(--branco); }
-.lista-instrucoes { text-align: left; font-size: 13.5px; color: var(--suave); padding-left: 18px; margin-top: 10px; }
-.lista-instrucoes li { margin-bottom: 6px; }
-.lista-instrucoes b { color: var(--branco); }
-
-footer { padding: 30px 0; text-align: center; font-size: 13px; color: var(--fraco); }
-b, strong { color: var(--branco); font-weight: 700; }
-#bg-fundo { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--azul) url('assets/img/fundo-ondas.jpg') center / cover no-repeat; }
 </style>
 </head>
 <body>
-<div id="bg-fundo" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <img src="assets/img/finspots-logo.png" alt="Finspots">
+    <a href="https://wa.me/5562996677168?text=Oi!%20Tenho%20uma%20d%C3%BAvida%20no%20formul%C3%A1rio%20do%20mensal.">Dúvida?<br>Chama no WhatsApp</a>
+  </header>
 
-<header>
-<a href="index.html" class="logo"><img src="assets/img/finspots-logo.png" alt="Finspots" style="height:42px;"></a>
-</header>
+  <h1 id="titulo">Hora de fechar o <span>mês</span></h1>
+  <p class="intro">Envie os números do mês que acabou de fechar. Pode anexar os relatórios do sistema ou digitar aqui. E se aconteceu algo diferente no mês, conta pra gente no final.</p>
+  <div class="pilulas">
+    <span class="pilula">Essencial: resultado e vendas</span>
+    <span class="pilula cinza">O restante é opcional</span>
+  </div>
 
-<section class="central" style="padding-bottom:0;">
-<div class="wrap-estreito">
-<div class="etapas" id="etapas" aria-label="Etapas da assinatura">
-<div class="etapa feita"><span class="n">✓</span>Termos</div><span class="traco"></span>
-<div class="etapa atual"><span class="n">2</span>Dados do mês</div><span class="traco"></span>
-<div class="etapa"><span class="n">3</span>Assinatura</div>
-</div>
-<h1>Envie os dados do mês</h1>
-<p style="margin-top:12px;">Você anexa os arquivos do jeito que baixou, e a Finspots organiza o resto.</p>
-<p class="nota-rascunho">O que você digita fica salvo neste navegador até enviar.</p>
-<p class="nota-rascunho" id="nota-inicio" style="display:none;">O Acompanhamento continua de onde o seu Diagnóstico parou. As metas de margem e lucro são definidas com você pelo WhatsApp.</p>
-<div class="guia-arquivos">
-<p class="guia-titulo">O que anexar</p>
-<ul>
-<li><b>Vendas:</b> o relatório de pedidos do mês de cada canal (Mercado Livre, Shopee, site...).</li>
-<li><b>Extratos:</b> o extrato do mês de todas as contas da empresa (banco, Mercado Pago e outras carteiras), de preferência em OFX.</li>
-<li><b>Custos:</b> planilha, notas ou prints com o custo dos produtos, frete, custos fixos e pró-labore do mês.</li>
-<li><b>Anúncios:</b> o relatório do mês, se anunciou.</li>
-<li><b>Produtos:</b> a lista de produtos com o custo de cada um. Só no primeiro envio ou quando mudar.</li>
-</ul>
-</div>
-</div>
-</section>
+  <p class="salvo" id="salvo"><span></span><a href="#" id="apagar-salvo">Começar de novo</a>
+    <small>Pode fechar e voltar depois. Só os arquivos anexados precisam ser escolhidos de novo.</small></p>
 
-<section style="padding-top:32px;">
-<div class="wrap-estreito">
+  <!-- ⚠️ Troque SEU_EMAIL_AQUI pelo e-mail (ou pelo código) do seu FormSubmit -->
+  <form id="form" action="https://formsubmit.co/SEU_EMAIL_AQUI" method="POST" enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="_subject" id="assunto" value="Mensal">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_next" value="https://finspots.com.br/obrigado.html">
+    <input type="text" name="_honey" class="escondido" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input type="hidden" name="Formulário" value="Mensal">
+    <input type="hidden" name="Mês de referência" id="h-mes">
+    <input type="hidden" name="O que aconteceu no mês" id="h-eventos">
 
-<p class="aviso-erro" id="erro-envio"></p>
+    <!-- 1 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">1</span>Mês de referência <span class="nivel ess">Essencial</span></legend>
+      <div id="quem">
+        <div class="linha">
+          <div class="campo"><label class="t" for="loja">Nome da loja</label>
+            <input type="text" id="loja" name="Nome da loja" required></div>
+          <div class="campo"><label class="t" for="email">Seu e-mail</label>
+            <input type="email" id="email" name="email" autocomplete="email"></div>
+        </div>
+      </div>
+      <div class="campo">
+        <span class="t">Qual mês você está mandando?</span>
+        <div class="linha"><select id="mes" aria-label="Mês"></select><select id="ano" aria-label="Ano"></select></div>
+      </div>
+    </fieldset>
 
-<form id="form-vendas-mensal" method="POST" enctype="multipart/form-data" novalidate>
-<input type="hidden" name="_subject" value="Dados do mês: Acompanhamento Mensal Finspots">
-<input type="hidden" name="_template" value="table">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_next" value="https://finspots.com.br/obrigado.html">
-<input type="text" name="_honey" style="position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <!-- 2 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">2</span>Resultado financeiro do mês <span class="nivel ess">Essencial</span></legend>
+            <div class="campo">
+        <span class="t">Como prefere mandar?</span>
+        <div class="chips">
+          <label><input type="radio" name="grp-fin" value="arquivo" data-abre="fin-arq" data-fecha="fin-mao" checked><span>Tenho DRE ou relatório financeiro</span></label>
+          <label><input type="radio" name="grp-fin" value="mao" data-abre="fin-mao" data-fecha="fin-arq"><span>Prefiro preencher aqui</span></label>
+        </div>
+      </div>
+      <div class="condicional" id="fin-arq">
+        <div class="arquivo"><label class="t" for="f-dre">DRE ou relatório financeiro do mês</label>
+          <span class="dica">PDF, Excel ou CSV.</span>
+          <input type="file" id="f-dre" name="DRE" multiple accept=".pdf,.xlsx,.xls,.csv,.ods,.png,.jpg,.jpeg"></div>
+      </div>
+      <div class="condicional" id="fin-mao">
+        <div class="linha">
+          <div class="campo"><label class="t" for="r-rec">Receita</label><span class="dica">tudo o que vendeu no mês</span>
+            <div class="rs"><input type="text" id="r-rec" name="Receita do mês" inputmode="decimal"></div></div>
+          <div class="campo"><label class="t" for="r-cus">Custos</label><span class="dica">produtos, taxas, frete, embalagem e impostos</span>
+            <div class="rs"><input type="text" id="r-cus" name="Custos do mês" inputmode="decimal"></div></div>
+        </div>
+        <div class="linha">
+          <div class="campo"><label class="t" for="r-des">Despesas</label><span class="dica">folha, pró-labore, aluguel, sistemas, contador, anúncios</span>
+            <div class="rs"><input type="text" id="r-des" name="Despesas do mês" inputmode="decimal"></div></div>
+          <div class="campo"><label class="t" for="r-res">Resultado</label><span class="dica">calculado; corrija se o seu for diferente</span>
+            <div class="rs"><input type="text" id="r-res" name="Resultado do mês" inputmode="decimal"></div></div>
+        </div>
+      </div>
+    </fieldset>
 
-<div class="form-grupo">
-<span class="titulo-grupo">Identificação</span>
-<div class="campo"><label for="loja">Nome da loja <span class="obrigatorio">*</span></label><input type="text" id="loja" name="Nome da loja" required></div>
-<div class="campo"><label for="email">Seu e-mail <span class="obrigatorio">*</span></label><input type="email" id="email" name="email" required autocomplete="email"></div>
-<div class="campo"><label for="mes">Mês de referência <span class="obrigatorio">*</span></label><input type="text" id="mes" name="Mês de referência" required></div>
-</div>
+    <!-- 3 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">3</span>Vendas do mês <span class="nivel ess">Essencial</span></legend>
+            <div class="campo">
+        <span class="t">Como prefere mandar?</span>
+        <div class="chips">
+          <label><input type="radio" name="grp-ven" value="arquivo" data-abre="ven-arq" data-fecha="ven-mao" checked><span>Tenho o relatório de vendas</span></label>
+          <label><input type="radio" name="grp-ven" value="mao" data-abre="ven-mao" data-fecha="ven-arq"><span>Prefiro preencher aqui</span></label>
+        </div>
+      </div>
+      <div class="condicional" id="ven-arq">
+        <div class="arquivo"><label class="t" for="f-vendas">Relatório de vendas do mês</label>
+          <span class="dica">De cada canal, do jeito que o sistema exporta. Se ele traz produto e canal, já serve para a parte 4.</span>
+          <input type="file" id="f-vendas" name="Vendas" multiple accept=".csv,.xlsx,.xls,.ods"></div>
+      </div>
+      <div class="condicional" id="ven-mao">
+        <div class="linha">
+          <div class="campo"><label class="t" for="v-fat">Faturamento</label><div class="rs"><input type="text" id="v-fat" name="Faturamento do mês" inputmode="decimal"></div></div>
+          <div class="campo"><label class="t" for="v-dev">Devoluções e cancelamentos</label><div class="rs"><input type="text" id="v-dev" name="Devoluções e cancelamentos do mês" inputmode="decimal"></div></div>
+        </div>
+        <div class="linha3">
+          <div class="campo"><label class="t" for="v-ped">Pedidos</label><input type="text" id="v-ped" name="Pedidos do mês" inputmode="numeric"></div>
+          <div class="campo"><label class="t" for="v-uni">Unidades vendidas</label><input type="text" id="v-uni" name="Unidades vendidas no mês" inputmode="numeric"></div>
+          <div class="campo"><label class="t" for="v-tic">Ticket médio <span class="opc">(se tiver)</span></label><div class="rs"><input type="text" id="v-tic" name="Ticket médio do mês" inputmode="decimal"></div></div>
+        </div>
+      </div>
+    </fieldset>
 
-<div class="form-grupo">
-<span class="titulo-grupo">Sobre o mês</span>
-<span class="subtitulo-grupo">O que não aparece nos arquivos. Se não teve, deixe em branco.</span>
-<div class="duas-colunas-campo">
-<div class="campo"><label for="anuncios">Quanto investiu em anúncios no mês</label><div class="dinheiro"><span>R$</span><input type="text" id="anuncios" name="Investimento em anúncios no mês (R$)" inputmode="decimal" placeholder="0,00"></div></div>
-<div class="campo"><label for="clientes-novos">Clientes novos no mês</label><input type="text" id="clientes-novos" name="Clientes novos no mês" inputmode="numeric" placeholder="0"><p class="dica">Quantos clientes novos os anúncios trouxeram.</p></div>
-<div class="campo"><label for="prolabore">Quanto você retirou (pró-labore)</label><div class="dinheiro"><span>R$</span><input type="text" id="prolabore" name="Pró-labore do mês (R$)" inputmode="decimal" placeholder="0,00"></div></div>
-<div class="campo"><label for="saldo">Saldo hoje, somando todas as contas</label><div class="dinheiro"><span>R$</span><input type="text" id="saldo" name="Saldo atual em conta (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Banco, Mercado Pago e outras carteiras.</p></div>
-<div class="campo"><label for="repasses">Repasses a liberar (próximas 8 semanas)</label><div class="dinheiro"><span>R$</span><input type="text" id="repasses" name="Repasses a liberar (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">O que os marketplaces ainda vão te pagar.</p></div>
-<div class="campo"><label for="estoque">Compra de estoque já marcada</label><div class="dinheiro"><span>R$</span><input type="text" id="estoque" name="Compra de estoque programada (R$)" inputmode="decimal" placeholder="0,00"></div><p class="dica">Pedidos a fornecedor nas próximas 8 semanas.</p></div>
-</div>
-<div class="campo"><label for="contas">Contas com data nas próximas 8 semanas</label><textarea id="contas" name="Contas a pagar nas próximas 8 semanas" placeholder="Ex: dia 05 boleto fornecedor R$ 4.000 · dia 10 DAS R$ 900 · dia 15 parcela empréstimo R$ 1.200"></textarea></div>
-<div class="campo"><label for="mudancas">O que mudou neste mês?</label><textarea id="mudancas" name="Mudanças no mês" placeholder="Ex: fiz uma promoção, troquei de fornecedor, aumentei o preço, entrei na Shopee, contratei alguém, um custo fixo mudou..."></textarea></div>
-</div>
+    <!-- 4 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">4</span>Produtos e canais <span class="nivel opc">Opcional</span></legend>
+            <div class="arquivo"><label class="t" for="f-prod">Relatório de vendas por produto e/ou por canal</label>
+        <span class="dica">Se o relatório de vendas da parte 3 já mostra produto e canal, pode pular esta parte.</span>
+        <input type="file" id="f-prod" name="Produtos e canais" multiple accept=".csv,.xlsx,.xls,.ods,.pdf"></div>
+    </fieldset>
 
-<div class="form-grupo">
-<span class="titulo-grupo">Vendas do mês</span>
-<span class="subtitulo-grupo">O relatório de pedidos que você baixa da própria plataforma de vendas, ou sua planilha de controle.</span>
-<div class="upload-area">
-<p><strong>Relatórios de vendas</strong></p>
-<p class="exemplos" style="margin-top:4px;">Um arquivo por canal, pode anexar vários.</p>
-<input type="file" name="attachment" class="arquivos" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.png,.jpg,.jpeg,.zip">
-<ul class="lista-arquivos"></ul>
-<p class="exemplos">Exemplos: relatório de vendas do Mercado Livre, da Shopee, da Shopify, ou sua própria planilha de pedidos.</p>
-</div>
-<ul class="lista-instrucoes">
-<li>Não precisa organizar nada, manda como baixou da plataforma.</li>
-<li>Pra gente identificar produto, cliente e canal certinho, o arquivo precisa ter pelo menos: <b>o nome/código do produto</b>, <b>um identificador do comprador</b> (email, ID, CPF/telefone) e <b>o valor da venda</b>.</li>
-</ul>
-</div>
+    <!-- 5 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">5</span>Clientes <span class="nivel opc">Opcional</span></legend>
+      <p class="ajuda-sec">Só os números deste mês. Se o relatório de vendas já mostra quem comprou, pode pular esta parte.</p>
+      <div class="arquivo"><label class="t" for="f-cli">Relatório de clientes do mês <span class="opc">(se tiver)</span></label>
+        <input type="file" id="f-cli" name="Clientes" multiple accept=".csv,.xlsx,.xls,.ods,.pdf"></div>
+      <span class="t">Ou o que souber</span>
+      <div class="linha3">
+        <div class="campo"><label class="dica" for="c-nov">Clientes novos</label><input type="text" id="c-nov" name="Clientes novos no mês" inputmode="numeric"></div>
+        <div class="campo"><label class="dica" for="c-rec">Clientes recorrentes</label><input type="text" id="c-rec" name="Clientes recorrentes no mês" inputmode="numeric"></div>
+        <div class="campo"><label class="dica" for="c-tot">Total de clientes</label><input type="text" id="c-tot" name="Total de clientes no mês" inputmode="numeric"></div>
+      </div>
+      <div class="campo"><label class="dica" for="c-out">Recompra ou outro dado novo do mês</label>
+        <input type="text" id="c-out" name="Clientes: outros dados do mês" placeholder="ex.: 40 clientes usaram o cupom de volta"></div>
+    </fieldset>
 
-<div class="form-grupo">
-<span class="titulo-grupo">Financeiro do mês</span>
-<span class="subtitulo-grupo">Extratos, custos e relatório de anúncios.</span>
-<div class="upload-area">
-<p><strong>Extratos, custos e anúncios</strong></p>
-<p class="exemplos" style="margin-top:4px;">Pode anexar vários.</p>
-<input type="file" name="attachment_financeiro" class="arquivos" multiple accept=".csv,.txt,.xlsx,.xls,.ods,.pdf,.ofx,.png,.jpg,.jpeg,.zip">
-<ul class="lista-arquivos"></ul>
-<p class="exemplos">Exemplos: extrato bancário (de preferência OFX), relatório de anúncios, planilha de custos fixos/variáveis.</p>
-</div>
-<p id="tamanho-total"></p>
-<p class="nota-limite">Limite de 10 MB somando os arquivos das duas caixas. Se passar, mande o resto pelo <a href="https://wa.me/5562996677168" target="_blank" rel="noopener">WhatsApp</a>.</p>
-</div>
+    <!-- 6 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">6</span>Caixa <span class="nivel opc">Opcional</span></legend>
+      <p class="ajuda-sec">Pode mandar em OFX, CSV, PDF ou Excel.</p>
+      <div class="arquivo"><label class="t" for="f-ext">Extratos bancários do mês</label>
+        <input type="file" id="f-ext" name="Extratos" multiple accept=".ofx,.csv,.xlsx,.xls,.pdf"></div>
+      <div class="arquivo"><label class="t" for="f-cart">Extratos de carteiras e contas de recebimento <span class="opc">(quando tiver)</span></label>
+        <input type="file" id="f-cart" name="Extratos de carteiras" multiple accept=".ofx,.csv,.xlsx,.xls,.pdf"></div>
+      <div class="arquivo"><label class="t" for="f-cp">Contas a receber, contas a pagar e repasses pendentes</label>
+        <input type="file" id="f-cp" name="Contas a receber e a pagar" multiple accept=".csv,.xlsx,.xls,.pdf,.png,.jpg,.jpeg"></div>
+      <div class="campo"><label class="t" for="futuro">Compromissos futuros importantes <span class="opc">(quando tiver)</span></label>
+        <input type="text" id="futuro" name="Compromissos futuros" placeholder="ex.: compra grande de estoque em outubro"></div>
+    </fieldset>
 
-<button type="submit" class="btn btn-primario" id="btn-enviar">Enviar dados do mês</button>
-</form>
-</div>
-</section>
+    <!-- 7 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">7</span>Metas do mês <span class="nivel opc">Opcional</span></legend>
+      <div class="campo">
+        <span class="t">Você tem metas para este mês?</span>
+        <div class="chips">
+          <label><input type="radio" name="grp-meta" value="sim" data-abre="metas"><span>Sim</span></label>
+          <label><input type="radio" name="grp-meta" value="nao" data-fecha="metas" checked><span>Não</span></label>
+        </div>
+      </div>
+      <div class="condicional" id="metas">
+                <div class="linha3">
+          <div class="campo"><label class="dica" for="m-fat">Meta de faturamento</label><div class="rs"><input type="text" id="m-fat" name="Meta de faturamento" inputmode="decimal"></div></div>
+          <div class="campo"><label class="dica" for="m-ped">Meta de pedidos</label><input type="text" id="m-ped" name="Meta de pedidos" inputmode="numeric"></div>
+          <div class="campo"><label class="dica" for="m-res">Meta de resultado</label><div class="rs"><input type="text" id="m-res" name="Meta de resultado" inputmode="decimal"></div></div>
+        </div>
+        <div class="campo"><label class="dica" for="m-out">Outras metas</label>
+          <input type="text" id="m-out" name="Outras metas" placeholder="ex.: margem de 35%, 50 clientes novos"></div>
+      </div>
+    </fieldset>
 
-<footer>
-<div>Finspots: os dados enviados aqui são usados exclusivamente para gerar sua análise mensal. <a href="privacidade.html">Política de privacidade</a></div>
-</footer>
+    <!-- 8 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">8</span>Marketing <span class="nivel opc">Opcional</span></legend>
+            <div class="campo">
+        <span class="t">Investiu em anúncios neste mês?</span>
+        <div class="chips">
+          <label><input type="radio" name="grp-mkt" value="sim" data-abre="mkt"><span>Sim</span></label>
+          <label><input type="radio" name="grp-mkt" value="nao" data-fecha="mkt" checked><span>Não</span></label>
+        </div>
+      </div>
+      <div class="condicional" id="mkt">
+        <div class="arquivo"><label class="t" for="f-ads">Relatórios de marketing do mês</label>
+          <span class="dica">Meta Ads, Google Ads, Marketplace Ads e outros que tiver.</span>
+          <input type="file" id="f-ads" name="Anuncios" multiple accept=".csv,.xlsx,.xls,.pdf,.png,.jpg,.jpeg"></div>
+        <span class="t" style="margin-top:6px">Ou o investimento de cada um <span class="opc">(o que souber)</span></span>
+        <div id="grade-mkt"></div>
+      </div>
+    </fieldset>
+
+    <!-- 9 ---------------------------------------------------------------->
+    <fieldset>
+      <legend><span class="n">9</span>O que aconteceu neste mês? <span class="nivel opc">Opcional</span></legend>
+            <div class="campo">
+        <span class="t">Aconteceu alguma coisa que possa ter influenciado os resultados?</span>
+        <div class="chips" data-junta="h-eventos">
+          <label><input type="checkbox" value="Promoção"><span>Promoção</span></label>
+          <label><input type="checkbox" value="Alteração de preço"><span>Alteração de preço</span></label>
+          <label><input type="checkbox" value="Novo produto"><span>Novo produto</span></label>
+          <label><input type="checkbox" value="Novo canal"><span>Novo canal</span></label>
+          <label><input type="checkbox" value="Produto sem estoque"><span>Produto sem estoque</span></label>
+          <label><input type="checkbox" value="Troca de fornecedor"><span>Troca de fornecedor</span></label>
+          <label><input type="checkbox" value="Campanha"><span>Campanha</span></label>
+          <label><input type="checkbox" value="Sazonalidade"><span>Sazonalidade</span></label>
+          <label><input type="checkbox" value="Problema operacional"><span>Problema operacional</span></label>
+          <label><input type="checkbox" value="Mudança de estratégia"><span>Mudança de estratégia</span></label>
+        </div>
+      </div>
+      <div class="campo"><label class="t" for="ctx">Conte o que aconteceu</label>
+        <textarea id="ctx" name="O que aconteceu neste mês" placeholder="ex.: Fiz uma promoção de Dia dos Pais e o fornecedor atrasou a entrega por 10 dias."></textarea></div>
+      <div class="campo"><label class="t" for="duv">Tem alguma dúvida ou pergunta sobre este mês? <span class="opc">(opcional)</span></label>
+        <span class="dica">Respondemos no seu relatório do mês.</span>
+        <textarea id="duv" name="Qual sua maior dúvida ou problema hoje?" placeholder="ex.: Vale a pena continuar na Shopee?"></textarea></div>
+    </fieldset>
+
+    <p class="tamanho" id="tamanho"></p>
+    <div class="enviar">
+      <button type="submit" class="btn" id="btn">Enviar os números do mês</button>
+      <div class="aviso-erro" id="erro" role="alert"></div>
+      <p class="lgpd">Seus dados são usados só para o seu acompanhamento. Veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
+    </div>
+  </form>
+</div>
 
 <script>
-// Mesmo endereço do FormSubmit usado no formulário do Diagnóstico.
-var DESTINO_FORMULARIO = 'https://formsubmit.co/labfinspots@gmail.com';
-var LIMITE_MB = 10;
-var NOMES_MES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+(function () {
+  var F = window.F = {};
+  F.MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  F.curto = function (m, a) { return F.MESES[m].slice(0, 3) + "/" + a; };
+  F.$ = function (s, el) { return (el || document).querySelector(s); };
+  F.$$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
 
-var CHAVE_RASCUNHO = 'finspots-rascunho-mensal';
-
-var form = document.getElementById('form-vendas-mensal');
-form.action = DESTINO_FORMULARIO;
-if (/[?&]inicio=1/.test(location.search)) {
-  document.getElementById('etapas').classList.add('visivel');
-  document.getElementById('nota-inicio').style.display = 'block';
-  form.querySelector('input[name=_next]').value = 'https://finspots.com.br/finalizar-assinatura.html';
-  form.querySelector('input[name=_subject]').value = 'Nova assinatura: Acompanhamento Mensal Finspots';
-  document.getElementById('btn-enviar').textContent = 'Enviar dados e ir para a assinatura';
-}
-// Campos de dinheiro: só números, vírgula e ponto; formata ao sair.
-function formatarReais(txt) {
-  var limpo = txt.replace(/[^\d,.]/g, '');
-  if (!limpo) return '';
-  var num;
-  if (limpo.indexOf(',') >= 0) num = parseFloat(limpo.replace(/\./g, '').replace(',', '.'));
-  else if (/\.\d{1,2}$/.test(limpo)) num = parseFloat(limpo);
-  else num = parseFloat(limpo.replace(/\./g, ''));
-  if (isNaN(num)) return txt;
-  return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-form.querySelectorAll('.dinheiro input').forEach(function (inp) {
-  inp.addEventListener('input', function () { inp.value = inp.value.replace(/[^\d,.]/g, ''); });
-  inp.addEventListener('blur', function () { inp.value = formatarReais(inp.value); });
-});
-form.addEventListener('submit', function () {
-  form.querySelectorAll('.dinheiro input').forEach(function (inp) { inp.value = formatarReais(inp.value); });
-});
-
-var btnEnviar = document.getElementById('btn-enviar');
-var TEXTO_BTN_ORIGINAL = btnEnviar.textContent;
-var erroEl = document.getElementById('erro-envio');
-var inputsArquivos = form.querySelectorAll('input.arquivos');
-
-// Arquivos: lista o que foi anexado em cada caixa e soma o total.
-function totalMb() {
-  var t = 0;
-  inputsArquivos.forEach(function (inp) { Array.prototype.forEach.call(inp.files, function (a) { t += a.size; }); });
-  return t / 1024 / 1024;
-}
-function mb(bytes) { return (bytes / 1024 / 1024).toFixed(1).replace('.', ',') + ' MB'; }
-inputsArquivos.forEach(function (inp) {
-  inp.addEventListener('change', function () {
-    var lista = inp.parentNode.querySelector('.lista-arquivos');
-    lista.innerHTML = '';
-    Array.prototype.forEach.call(inp.files, function (a) {
-      var li = document.createElement('li');
-      li.textContent = '📎 ' + a.name + ' (' + mb(a.size) + ')';
-      lista.appendChild(li);
+  // ---------- Sim/Não e "enviar arquivo / preencher aqui": abre um bloco, fecha outro (fechado = não vai no e-mail)
+  function campos(box) { return F.$$("input, select, textarea, button.mini", box); }
+  function ajustar(id, abrir) {
+    var box = document.getElementById(id);
+    if (!box) return;
+    box.classList.toggle("aberto", abrir);
+    campos(box).forEach(function (c) { if (!c.hasAttribute("data-sempre")) c.disabled = !abrir; });
+  }
+  F.sincronizar = function () {
+    F.$$("input[type=radio][data-abre], input[type=radio][data-fecha]").forEach(function (r) {
+      if (!r.checked || r.disabled) return;
+      (r.dataset.fecha || "").split(" ").filter(Boolean).forEach(function (id) { ajustar(id, false); });
+      (r.dataset.abre || "").split(" ").filter(Boolean).forEach(function (id) { ajustar(id, true); });
     });
-    var t = totalMb(), tam = document.getElementById('tamanho-total');
-    tam.textContent = t > 0 ? 'Total anexado: ' + t.toFixed(1).replace('.', ',') + ' MB de 10 MB' : '';
-    tam.style.color = t > LIMITE_MB ? 'var(--laranja)' : 'var(--fraco)';
+  };
+  document.addEventListener("change", function (e) {
+    if (e.target.matches("input[type=radio][data-abre], input[type=radio][data-fecha]")) F.sincronizar();
   });
-});
 
-// Sugere o mês anterior (o mês que acabou de fechar); o cliente pode trocar.
-var hoje = new Date();
-var anterior = new Date(hoje.getFullYear(), hoje.getMonth() - 1, 1);
-document.getElementById('mes').value = NOMES_MES[anterior.getMonth()] + '/' + anterior.getFullYear();
+  // ---------- várias escolhas viram um texto só ("Mercado Livre, Shopee")
+  F.juntar = function () {
+    F.$$("[data-junta]").forEach(function (box) {
+      var alvo = document.getElementById(box.dataset.junta);
+      var marcados = F.$$("input:checked", box).map(function (c) { return c.value; });
+      var outro = box.dataset.outro && document.getElementById(box.dataset.outro);
+      if (outro && outro.value.trim()) marcados.push(outro.value.trim());
+      alvo.value = marcados.join(", ");
+    });
+  };
 
-// Rascunho salvo neste navegador (arquivos não entram).
-function camposRascunho() {
-  return form.querySelectorAll('input[type=text]:not([name=_honey]), input[type=email], textarea');
-}
-function salvarRascunho() {
-  try {
-    var dados = {};
-    camposRascunho().forEach(function (e) { if (e.id && e.value) dados[e.id] = e.value; });
-    localStorage.setItem(CHAVE_RASCUNHO, JSON.stringify(dados));
-  } catch (e) {}
-}
-try {
-  var rascunho = JSON.parse(localStorage.getItem(CHAVE_RASCUNHO) || 'null');
-  if (rascunho) Object.keys(rascunho).forEach(function (id) { var e = document.getElementById(id); if (e) e.value = rascunho[id]; });
-} catch (e) {}
-var timerRascunho;
-form.addEventListener('input', function () { clearTimeout(timerRascunho); timerRascunho = setTimeout(salvarRascunho, 400); });
-form.addEventListener('change', salvarRascunho);
+  // ---------- anexos: FormSubmit aceita até 10 MB no total
+  var LIMITE = 10 * 1024 * 1024;
+  F.totalArquivos = function () {
+    var t = 0, n = 0;
+    F.$$("input[type=file]").forEach(function (i) {
+      if (i.disabled) return;
+      Array.prototype.forEach.call(i.files, function (f) { t += f.size; n++; });
+    });
+    return { bytes: t, n: n };
+  };
+  F.mostrarTamanho = function () {
+    var t = F.totalArquivos(), el = F.$("#tamanho");
+    el.classList.toggle("mostrar", t.n > 0);
+    el.textContent = t.n + " arquivo(s) · " + (t.bytes / 1048576).toFixed(1).replace(".", ",") + " MB de 10 MB";
+    el.classList.toggle("alto", t.bytes > LIMITE);
+  };
+  document.addEventListener("change", function (e) { if (e.target.type === "file") F.mostrarTamanho(); });
 
-function mostrarErro(msg) {
-  erroEl.textContent = msg;
-  erroEl.style.display = 'block';
-  erroEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-function valor(id) { return (document.getElementById(id).value || '').trim(); }
+  // ---------- números digitados em reais ("1.234,56", "1234.5", "1,2 mil")
+  F.num = function (v) {
+    if (v == null) return null;
+    var s = String(v).toLowerCase().replace(/r\$|\s/g, "");
+    if (!s) return null;
+    var mil = /mil$/.test(s); s = s.replace(/mil$/, "");
+    if (s.indexOf(",") >= 0) s = s.replace(/\./g, "").replace(",", ".");
+    else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+    var n = parseFloat(s);
+    return isNaN(n) ? null : n * (mil ? 1000 : 1);
+  };
+  F.brl = function (n) {
+    return n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  F.preenchido = function (el) { return el && !el.disabled && el.value.trim() !== ""; };
+  F.temArquivo = function (sel) { return F.$$(sel).some(function (i) { return !i.disabled && i.files.length > 0; }); };
 
-form.addEventListener('submit', function (ev) {
-  erroEl.style.display = 'none';
-  var arquivos = [];
-  inputsArquivos.forEach(function (inp) { arquivos = arquivos.concat(Array.prototype.slice.call(inp.files)); });
+  // ---------- envio
+  F.aoEnviar = function (validar, antes) {
+    F.$("#form").addEventListener("submit", function (e) {
+      F.juntar();
+      if (antes) antes();
+      var erros = validar(), box = F.$("#erro");
+      box.innerHTML = "";
+      if (F.totalArquivos().bytes > LIMITE) erros.push("Os arquivos passaram de 10 MB. Tire algum e mande pelo WhatsApp.");
+      if (erros.length) {
+        e.preventDefault();
+        box.innerHTML = "Falta pouco:<ul>" + erros.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>";
+        return;
+      }
+      // o e-mail só leva o que foi respondido
+      F.$$('input[name^="grp-"]').forEach(function (r) { r.disabled = true; });
+      F.$$("input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea", this).forEach(function (c) {
+        if (!c.name || c.name.charAt(0) === "_") return;
+        if (!c.value.trim()) c.disabled = true;
+      });
+      F.$$("input[type=file]", this).forEach(function (i) { if (!i.files.length) i.disabled = true; });
+      F.$$("input[type=checkbox]:not([name])", this).forEach(function (c) { c.disabled = true; });
+      var b = F.$("#btn"); b.disabled = true; b.textContent = "Enviando…";
+    });
+  };
 
-  if (!valor('loja') || !valor('mes')) { ev.preventDefault(); mostrarErro('Preencha o nome da loja e o mês de referência.'); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor('email'))) { ev.preventDefault(); mostrarErro('Confira o seu e-mail.'); return; }
-  if (arquivos.length === 0) { ev.preventDefault(); mostrarErro('Anexe pelo menos um arquivo antes de enviar.'); return; }
-  if (totalMb() > LIMITE_MB) { ev.preventDefault(); mostrarErro('Os arquivos passam de 10 MB somados. Envie os principais aqui e o restante pelo WhatsApp.'); return; }
-  try { localStorage.removeItem(CHAVE_RASCUNHO); } catch (e) {}
-  btnEnviar.disabled = true;
-  btnEnviar.textContent = 'Enviando... (pode levar alguns segundos)';
-});
-// Se a pessoa voltar pelo navegador depois de enviar, destrava o botão.
-window.addEventListener('pageshow', function (ev) {
-  if (ev.persisted) { btnEnviar.disabled = false; btnEnviar.textContent = TEXTO_BTN_ORIGINAL; }
-});
+  document.addEventListener("DOMContentLoaded", function () { F.sincronizar(); });
+})();
+// voltar do "obrigado" com o botão do navegador: recarrega para não ficar com campos travados
+window.addEventListener("pageshow", function (e) { if (e.persisted) location.reload(); });
+
+// ---------- salvar o preenchimento neste aparelho (volta onde parou, mesmo fechando a página)
+(function () {
+  var F = window.F;
+  function chaveDe(el) {
+    if (el.type === "file" || el.type === "hidden" || el.readOnly) return null;
+    if (el.type === "radio") return el.name ? "r:" + el.name : null;
+    if (el.type === "checkbox") { var box = el.closest("[data-junta]"); return box ? "c:" + box.dataset.junta + ":" + el.value : null; }
+    if (el.name && el.name.charAt(0) !== "_") return "n:" + el.name;
+    if (el.id) return "i:" + el.id;
+    return null;
+  }
+  function ler(k) { try { return JSON.parse(localStorage.getItem(k) || "{}"); } catch (e) { return {}; } }
+  function gravar(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  function aplicar(dados) {
+    F.$$("#form input, #form select, #form textarea").forEach(function (el) {
+      var k = chaveDe(el); if (!k || !(k in dados)) return;
+      if (el.type === "radio") el.checked = dados[k] === el.value;
+      else if (el.type === "checkbox") el.checked = !!dados[k];
+      else el.value = dados[k];
+    });
+  }
+  F.autosalvar = function (chave, reconstruir) {
+    var dados = ler(chave), aviso = F.$("#salvo"), tem = Object.keys(dados).length > 0;
+    if (tem) {
+      aplicar(dados);                       // campos fixos, período, canais, escolhas
+      if (reconstruir) reconstruir();       // monta os campos que dependem deles (meses, canais)
+      aplicar(dados);                       // e preenche esses também
+      F.sincronizar();
+      F.$$("#form input").forEach(function (el) { if (el.name && el.value) { el.dispatchEvent(new Event("input", { bubbles: true })); } });
+    }
+    function mostrar(txt) { if (aviso) { aviso.firstChild.textContent = txt; aviso.classList.add("mostrar"); } }
+    if (tem) mostrar("✓ Continuamos de onde você parou. ");
+    var t = null;
+    function salvar() {
+      clearTimeout(t);
+      t = setTimeout(function () {
+        var d = {};
+        F.$$("#form input, #form select, #form textarea").forEach(function (el) {
+          var k = chaveDe(el); if (!k) return;
+          if (el.type === "radio") { if (el.checked) d[k] = el.value; }
+          else if (el.type === "checkbox") { if (el.checked) d[k] = true; }
+          else if (el.value.trim()) d[k] = el.value;
+        });
+        if (gravar(chave, d)) mostrar("✓ Suas respostas estão salvas neste aparelho. ");
+      }, 400);
+    }
+    F.$("#form").addEventListener("input", salvar);
+    F.$("#form").addEventListener("change", salvar);
+    F.$("#form").addEventListener("click", function (e) { if (e.target.closest("button.mini")) salvar(); });
+    var apagar = F.$("#apagar-salvo");
+    if (apagar) apagar.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (!confirm("Apagar tudo o que você preencheu e começar de novo?")) return;
+      try { localStorage.removeItem(chave); } catch (x) {}
+      location.reload();
+    });
+    F.limparSalvo = function () { try { localStorage.removeItem(chave); } catch (x) {} };
+  };
+})();
+
 </script>
+<script>
+(function () {
+  var $ = F.$, $$ = F.$$;
+  // link personalizado: formulario-vendas-mensal.html?loja=Lumi%20Velas&email=contato@... (a cliente não digita de novo)
+  var q = new URLSearchParams(location.search), loja = q.get("loja"), email = q.get("email");
+  if (loja) {
+    $("#loja").value = loja; if (email) $("#email").value = email;
+    $("#quem").style.display = "none";
+    $("#titulo").innerHTML = "Hora de fechar o <span>mês</span> · " + loja.replace(/[<>&]/g, "");
+  }
+  // mês: sugere o último mês fechado
+  var hoje = new Date(), ref = new Date(hoje.getFullYear(), hoje.getMonth() - 1, 1);
+  F.MESES.forEach(function (m, i) { var o = document.createElement("option"); o.value = i; o.textContent = m; if (i === ref.getMonth()) o.selected = true; $("#mes").appendChild(o); });
+  [hoje.getFullYear() - 1, hoje.getFullYear()].forEach(function (a) { var o = document.createElement("option"); o.value = a; o.textContent = a; if (a === ref.getFullYear()) o.selected = true; $("#ano").appendChild(o); });
 
+  // resultado = receita - custos - despesas (a cliente pode corrigir)
+  var mexeu = false;
+  $("#r-res").addEventListener("input", function () { mexeu = true; });
+  ["#r-rec", "#r-cus", "#r-des"].forEach(function (s) { $(s).addEventListener("input", function () {
+    if (mexeu) return;
+    var r = F.num($("#r-rec").value), c = F.num($("#r-cus").value) || 0, d = F.num($("#r-des").value) || 0;
+    $("#r-res").value = r != null ? F.brl(r - c - d) : "";
+  }); });
+
+  $("#grade-mkt").innerHTML = ["Meta Ads", "Google Ads", "Marketplace Ads", "Outro"].map(function (p, i) {
+    return '<div class="linha">'
+      + '<div class="campo"><label class="dica" for="mi' + i + '">' + p + ' · investimento</label><div class="rs"><input type="text" id="mi' + i + '" name="' + p + ' · Investimento no mês" inputmode="decimal"></div></div>'
+      + '<div class="campo"><label class="dica" for="mr' + i + '">' + p + ' · receita atribuída <span class="opc">(se tiver)</span></label><div class="rs"><input type="text" id="mr' + i + '" name="' + p + ' · Receita atribuída" inputmode="decimal"></div></div>'
+      + '</div>';
+  }).join("");
+
+  F.autosalvar("finspots-form-mensal" + (loja ? ":" + loja : ""));
+
+  F.aoEnviar(function () {
+    var e = [];
+    if (!F.preenchido($("#loja"))) e.push("Parte 1: nome da loja.");
+    var fin = $('input[name="grp-fin"]:checked').value;
+    if (fin === "arquivo" && !F.temArquivo("#f-dre")) e.push("Parte 2: anexe a DRE ou relatório financeiro (ou escolha preencher aqui).");
+    if (fin === "mao" && !(F.preenchido($("#r-rec")) && (F.preenchido($("#r-cus")) || F.preenchido($("#r-des")))))
+      e.push("Parte 2: receita e pelo menos custos ou despesas.");
+    var ven = $('input[name="grp-ven"]:checked').value;
+    if (ven === "arquivo" && !F.temArquivo("#f-vendas")) e.push("Parte 3: anexe o relatório de vendas (ou escolha preencher aqui).");
+    if (ven === "mao" && !(F.preenchido($("#v-fat")) && F.preenchido($("#v-ped")))) e.push("Parte 3: faturamento e número de pedidos.");
+    return e;
+  }, function () {
+    $("#h-mes").value = F.MESES[+$("#mes").value] + "/" + $("#ano").value;
+    $("#assunto").value = "Mensal " + $("#h-mes").value + ": " + $("#loja").value.trim();
+  });
+})();
+</script>
 </body>
 </html>
