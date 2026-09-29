@@ -424,7 +424,6 @@
         box.innerHTML = "Falta pouco:<ul>" + erros.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>";
         return;
       }
-      var jaDesligados = F.$$("input, select, textarea", this).filter(function (c) { return c.disabled; });
       // o e-mail só leva o que foi respondido
       F.$$('input[name^="grp-"]').forEach(function (r) { r.disabled = true; });
       F.$$("input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea", this).forEach(function (c) {
@@ -433,18 +432,7 @@
       });
       F.$$("input[type=file]", this).forEach(function (i) { if (!i.files.length) i.disabled = true; });
       F.$$("input[type=checkbox]:not([name])", this).forEach(function (c) { c.disabled = true; });
-      var b = F.$("#btn"), textoBtn = b.textContent; b.disabled = true; b.textContent = "Enviando…";
-      // envia pelo modo ajax do FormSubmit e depois vai para a página de obrigado
-      e.preventDefault();
-      var form = this, next = form.querySelector('input[name="_next"]');
-      fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } })
-        .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== "true") throw new Error(j.message || r.status); }); })
-        .then(function () { location.href = next ? next.value : "obrigado.html"; })
-        .catch(function () {
-          F.$$("input, select, textarea", form).forEach(function (c) { if (jaDesligados.indexOf(c) < 0) c.disabled = false; });
-          b.disabled = false; b.textContent = textoBtn;
-          box.innerHTML = "Não conseguimos enviar agora. Suas respostas continuam salvas: tente de novo em instantes ou fale com a gente no WhatsApp.";
-        });
+      var b = F.$("#btn"); b.disabled = true; b.textContent = "Enviando…";
     });
   };
 
