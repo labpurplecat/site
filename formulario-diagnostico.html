@@ -142,7 +142,7 @@
 
   <!-- ⚠️ Troque SEU_EMAIL_AQUI pelo e-mail (ou pelo código) do seu FormSubmit -->
   <form id="form" action="https://formsubmit.co/labfinspots@gmail.com" method="POST" enctype="multipart/form-data" novalidate>
-    <input type="hidden" name="_subject" id="assunto" value="Novo diagnóstico">
+    <input type="hidden" name="_subject" id="assunto" value="Diagnóstico Financeiro Finspots">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_next" value="https://finspots.com.br/obrigado.html">
     <input type="text" name="_honey" class="escondido" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -722,7 +722,7 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
     var ms = meses();
     $("#h-periodo").value = F.MESES[ms[0][0]] + (ms[0][1] !== ms[ms.length - 1][1] ? "/" + ms[0][1] : "") + " a "
                           + F.MESES[ms[ms.length - 1][0]] + "/" + ms[ms.length - 1][1];
-    $("#assunto").value = "Novo diagnóstico: " + $("#loja").value.trim();
+    $("#assunto").value = "Diagnóstico Financeiro Finspots: " + $("#loja").value.trim();
     $$("#paineis-fin input[readonly]").forEach(function (i) { if (!i.value) i.disabled = true; });
   });
 })();
