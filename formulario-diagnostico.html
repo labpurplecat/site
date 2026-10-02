@@ -106,6 +106,7 @@
   @media (max-width: 600px) { .meses-grade { grid-template-columns: 1fr 1fr; } }
   .sub { font-size: 13px; color: var(--suave); font-weight: 500; margin: 2px 0 8px; }
   .chips.peq span { padding: 6px 12px; font-size: 13px; }
+  .nome-ev { margin-top: 8px; width: 100%; max-width: 460px; font-size: 14px; }
   .mes-ev { border-bottom: 1px solid var(--borda); padding-bottom: 12px; margin-bottom: 12px; }
   .mes-ev:last-child { border-bottom: none; }
   .vazio { color: var(--fraco); font-size: 14px; font-style: italic; margin-bottom: 16px; }
@@ -390,7 +391,7 @@
       <legend><span class="n">9</span>Contexto da operação <span class="nivel opc">Opcional</span></legend>
       <div class="campo">
         <span class="t">Aconteceu alguma coisa que possa ter influenciado os resultados?</span>
-        <span class="dica">Marque em cada mês o que aconteceu. Assim a gente liga o acontecimento ao número daquele mês.</span>
+        <span class="dica">Marque em cada mês o que aconteceu. Se quiser, dê um nome curto ao acontecimento: ele aparece no seu relatório, ao lado do mês, para você lembrar o que foi.</span>
         <div id="grade-eventos"></div>
       </div>
       <div class="campo"><label class="t" for="ctx">Conte o que aconteceu <span class="opc">(e quando)</span></label>
@@ -807,8 +808,9 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
                  "Campanha", "Sazonalidade", "Mudança operacional"];
   function idMes(mm) { return "ev-" + mm[1] + "-" + (mm[0] + 1); }
   function montarEventos() {
-    var box = $("#grade-eventos"), marcados = {};
+    var box = $("#grade-eventos"), marcados = {}, nomes = {};
     $$("input[type=checkbox]:checked", box).forEach(function (c) { marcados[c.closest("[data-junta]").dataset.junta + ":" + c.value] = true; });
+    $$("input[data-nome-ev]", box).forEach(function (c) { nomes[c.dataset.nomeEv] = c.value; });
     if (!periodoOk()) { box.innerHTML = '<p class="vazio">Escolha um período de 3 a 6 meses na parte 1.</p>'; return; }
     box.innerHTML = meses().map(function (mm) {
       var id = idMes(mm), rot = F.curto(mm[0], mm[1]);
@@ -816,7 +818,10 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
         + EVENTOS.map(function (ev) {
             return '<label><input type="checkbox" value="' + ev + '"' + (marcados[id + ":" + ev] ? " checked" : "") + '><span>' + ev + "</span></label>";
           }).join("")
-        + '</div><input type="hidden" id="' + id + '" name="Acontecimentos · ' + rot + '"></div>';
+        + '</div><input type="hidden" id="' + id + '" name="Acontecimentos · ' + rot + '">'
+        + '<input type="text" class="nome-ev" data-nome-ev="' + id + '" name="Nome do evento · ' + rot + '" maxlength="50"'
+        + ' placeholder="Dê um nome curto ao que aconteceu (opcional). Ex.: Dia das Mães"'
+        + ' value="' + (nomes[id] || "").replace(/"/g, "&quot;") + '" aria-label="Nome do evento de ' + rot + '"></div>';
     }).join("");
   }
   function juntarEventos() {
