@@ -102,6 +102,12 @@
   .mini:hover { border-color: var(--laranja); color: #fff; }
   .bloco-canal { border: 1px solid var(--borda); border-radius: 12px; padding: 14px 14px 0; margin-bottom: 12px; }
   .bloco-canal .nome { font-weight: 600; margin-bottom: 10px; }
+  .meses-grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 600px) { .meses-grade { grid-template-columns: 1fr 1fr; } }
+  .sub { font-size: 13px; color: var(--suave); font-weight: 500; margin: 2px 0 8px; }
+  .chips.peq span { padding: 6px 12px; font-size: 13px; }
+  .mes-ev { border-bottom: 1px solid var(--borda); padding-bottom: 12px; margin-bottom: 12px; }
+  .mes-ev:last-child { border-bottom: none; }
   .vazio { color: var(--fraco); font-size: 14px; font-style: italic; margin-bottom: 16px; }
 
   .enviar { margin-top: 30px; text-align: center; }
@@ -315,8 +321,16 @@
         <div class="arquivo"><label class="t" for="f-ads">Relatórios de anúncios</label>
           <span class="dica">Planilha ou print de cada plataforma mostrando investimento e vendas do período.</span>
           <input type="file" id="f-ads" name="Anuncios" multiple accept=".csv,.xlsx,.xls,.pdf,.png,.jpg,.jpeg"></div>
-        <span class="t" style="margin-top:6px">Ou preencha o total do período <span class="opc">(o que souber)</span></span>
-        <div id="grade-mkt"></div>
+        <span class="t" style="margin-top:6px">Ou preencha mês a mês <span class="opc">(o que souber)</span></span>
+        <span class="dica">Escolha onde você anuncia. Não sabe o valor de cada mês? Preencha só o total do período.</span>
+        <div class="chips" id="plataformas" data-junta="h-plataformas">
+          <label><input type="checkbox" value="Meta Ads"><span>Meta Ads</span></label>
+          <label><input type="checkbox" value="Google Ads"><span>Google Ads</span></label>
+          <label><input type="checkbox" value="Marketplace Ads"><span>Marketplace Ads (Mercado Ads, Shopee Ads…)</span></label>
+          <label><input type="checkbox" value="Outro"><span>Outro</span></label>
+        </div>
+        <input type="hidden" id="h-plataformas">
+        <div id="grade-mkt" style="margin-top:14px"></div>
       </div>
     </fieldset>
 
@@ -375,17 +389,9 @@
     <fieldset>
       <legend><span class="n">9</span>Contexto da operação <span class="nivel opc">Opcional</span></legend>
       <div class="campo">
-        <span class="t">Aconteceu alguma coisa no período que possa ter influenciado os resultados?</span>
-        <div class="chips" data-junta="h-eventos">
-          <label><input type="checkbox" value="Promoção"><span>Promoção</span></label>
-          <label><input type="checkbox" value="Mudança de preço"><span>Mudança de preço</span></label>
-          <label><input type="checkbox" value="Novo produto ou canal"><span>Novo produto ou canal</span></label>
-          <label><input type="checkbox" value="Problema de estoque"><span>Problema de estoque</span></label>
-          <label><input type="checkbox" value="Troca de fornecedor"><span>Troca de fornecedor</span></label>
-          <label><input type="checkbox" value="Campanha"><span>Campanha</span></label>
-          <label><input type="checkbox" value="Sazonalidade"><span>Sazonalidade</span></label>
-          <label><input type="checkbox" value="Mudança operacional"><span>Mudança operacional</span></label>
-        </div>
+        <span class="t">Aconteceu alguma coisa que possa ter influenciado os resultados?</span>
+        <span class="dica">Marque em cada mês o que aconteceu. Assim a gente liga o acontecimento ao número daquele mês.</span>
+        <div id="grade-eventos"></div>
       </div>
       <div class="campo"><label class="t" for="ctx">Conte o que aconteceu <span class="opc">(e quando)</span></label>
         <textarea id="ctx" name="Contexto da operação" placeholder="ex.: Em julho fiz uma promoção de 20% no Mercado Livre e faltou o produto mais vendido por duas semanas."></textarea></div>
@@ -750,13 +756,78 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
   $("#canais").addEventListener("change", montarCanais);
   $("#canal-outro").addEventListener("change", montarCanais);
 
-  // ---------- marketing e fornecedores (grades fixas)
-  $("#grade-mkt").innerHTML = ["Meta Ads", "Google Ads", "Marketplace Ads (Mercado Ads, Shopee Ads…)", "Outro"].map(function (p) {
-    var base = p.split(" (")[0];
-    return '<div class="bloco-canal"><div class="nome">' + p + '</div><div class="linha3">'
-      + campoValor(base + " · Investimento no período", "", "rs", "") + campoValor(base + " · Receita atribuída", "se tiver", "rs", "")
-      + campoValor(base + " · Clientes novos vindos dos anúncios", "se tiver", "numeric", "") + "</div></div>";
-  }).join("");
+  // ---------- marketing: plataformas escolhidas viram blocos, com valor por mês e total do período
+  // Os totais mantêm os nomes de antes ("Meta Ads · Investimento no período", "Meta Ads · Receita atribuída"):
+  // com os meses preenchidos, o total é a soma; sem eles, a pessoa digita só o total.
+  var NOME_PLAT = { "Marketplace Ads": "Marketplace Ads (Mercado Ads, Shopee Ads…)" };
+  var MKT_METRICAS = [["Investimento", "Investimento no período", ""], ["Receita atribuída", "Receita atribuída", "vendas trazidas pelos anúncios, se tiver"]];
+  function montarMkt() {
+    F.juntar();
+    var box = $("#grade-mkt"), antes = guardar(box);
+    var lista = $("#h-plataformas").value ? $("#h-plataformas").value.split(", ") : [];
+    if (!lista.length) { box.innerHTML = ""; return; }
+    if (!periodoOk()) { box.innerHTML = '<p class="vazio">Escolha um período de 3 a 6 meses na parte 1.</p>'; return; }
+    var ms = meses();
+    box.innerHTML = lista.map(function (base) {
+      var html = '<div class="bloco-canal" data-plat="' + base + '"><div class="nome">' + (NOME_PLAT[base] || base) + '</div>';
+      MKT_METRICAS.forEach(function (mt) {
+        html += '<div class="sub">' + mt[0] + (mt[2] ? ' <span class="opc">· ' + mt[2] + '</span>' : "") + '</div><div class="meses-grade" data-met="' + mt[0] + '">';
+        ms.forEach(function (mm) {
+          var n = base + " · " + mt[0] + " · " + F.curto(mm[0], mm[1]);
+          html += campoValor(n, "", "rs", antes[n] || "");
+        });
+        html += "</div>";
+      });
+      html += '<div class="sub" style="margin-top:6px">Total do período <span class="opc">· soma sozinho quando você preenche os meses</span></div><div class="linha3">';
+      MKT_METRICAS.forEach(function (mt) {
+        var n = base + " · " + mt[1];
+        html += campoValor(n, "", "rs", antes[n] || "", ' data-total="' + mt[0] + '"');
+      });
+      var nc = base + " · Clientes novos vindos dos anúncios";
+      html += campoValor(nc, "se tiver", "numeric", antes[nc] || "") + "</div></div>";
+      return html;
+    }).join("");
+    somarMkt();
+  }
+  function somarMkt() {
+    $$("#grade-mkt [data-plat]").forEach(function (bloco) {
+      MKT_METRICAS.forEach(function (mt) {
+        var vals = $$('[data-met="' + mt[0] + '"] input', bloco).map(function (i) { return F.num(i.value); }).filter(function (v) { return v != null; });
+        var tot = $('input[data-total="' + mt[0] + '"]', bloco);
+        if (vals.length) { tot.value = F.brl(vals.reduce(function (a, b) { return a + b; }, 0)); tot.readOnly = true; }
+        else if (tot.readOnly) { tot.value = ""; tot.readOnly = false; }
+      });
+    });
+  }
+  $("#plataformas").addEventListener("change", montarMkt);
+  $("#grade-mkt").addEventListener("input", function (e) { if (!e.target.dataset.total) somarMkt(); });
+
+  // ---------- acontecimentos: chips em cada mês do período
+  var EVENTOS = ["Promoção", "Mudança de preço", "Novo produto ou canal", "Problema de estoque", "Troca de fornecedor",
+                 "Campanha", "Sazonalidade", "Mudança operacional"];
+  function idMes(mm) { return "ev-" + mm[1] + "-" + (mm[0] + 1); }
+  function montarEventos() {
+    var box = $("#grade-eventos"), marcados = {};
+    $$("input[type=checkbox]:checked", box).forEach(function (c) { marcados[c.closest("[data-junta]").dataset.junta + ":" + c.value] = true; });
+    if (!periodoOk()) { box.innerHTML = '<p class="vazio">Escolha um período de 3 a 6 meses na parte 1.</p>'; return; }
+    box.innerHTML = meses().map(function (mm) {
+      var id = idMes(mm), rot = F.curto(mm[0], mm[1]);
+      return '<div class="mes-ev"><div class="grupo">' + rot + '</div><div class="chips peq" data-junta="' + id + '">'
+        + EVENTOS.map(function (ev) {
+            return '<label><input type="checkbox" value="' + ev + '"' + (marcados[id + ":" + ev] ? " checked" : "") + '><span>' + ev + "</span></label>";
+          }).join("")
+        + '</div><input type="hidden" id="' + id + '" name="Acontecimentos · ' + rot + '"></div>';
+    }).join("");
+  }
+  function juntarEventos() {
+    F.juntar();
+    $("#h-eventos").value = meses().map(function (mm) {
+      var el = document.getElementById(idMes(mm));
+      return el && el.value ? F.curto(mm[0], mm[1]) + ": " + el.value : "";
+    }).filter(Boolean).join("; ");
+  }
+
+  // ---------- fornecedores (grade fixa)
   $("#grade-forn").innerHTML = [1, 2, 3].map(function (i) {
     var n = "Fornecedor " + i + " · ";
     return '<div class="bloco-canal" data-forn="' + i + '"' + (i > 1 ? ' style="display:none"' : "") + '><div class="linha">'
@@ -777,12 +848,13 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
     var ms = meses(), el = $("#periodo-txt");
     if (!periodoOk()) { el.style.color = "var(--erro)"; el.textContent = ms.length < 3 ? "Escolha pelo menos 3 meses." : "No máximo 6 meses."; }
     else { el.style.color = ""; el.textContent = ms.length + " meses: " + F.MESES[ms[0][0]] + "/" + ms[0][1] + " a " + F.MESES[ms[ms.length - 1][0]] + "/" + ms[ms.length - 1][1]; }
-    montarFinanceiro(); montarVendas(); F.sincronizar();
+    montarFinanceiro(); montarVendas(); montarMkt(); montarEventos(); F.sincronizar();
   }
   ["#ini-mes", "#ini-ano", "#fim-mes", "#fim-ano"].forEach(function (s) { $(s).addEventListener("change", atualizarPeriodo); });
   atualizarPeriodo();
 
   F.autosalvar("finspots-form-diagnostico", function () { montarCanais(); atualizarPeriodo(); });
+  somarMkt();
   $$('#grade-forn [data-forn]').forEach(function (b) {     // fornecedores preenchidos antes voltam visíveis
     if ($$("input", b).some(function (i) { return i.value.trim(); })) b.style.display = "";
   });
@@ -811,6 +883,7 @@ window.addEventListener("pageshow", function (e) { if (e.persisted) location.rel
       e.push("Parte 3: número de pedidos de cada mês.");
     return e;
   }, function () {
+    juntarEventos();
     var ms = meses();
     $("#h-periodo").value = F.MESES[ms[0][0]] + (ms[0][1] !== ms[ms.length - 1][1] ? "/" + ms[0][1] : "") + " a "
                           + F.MESES[ms[ms.length - 1][0]] + "/" + ms[ms.length - 1][1];
