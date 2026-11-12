@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tudo certo! · Finspots</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/finspots-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Poppins', system-ui, sans-serif; background-color: #04152e;
+         color: #fff; min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; text-align: center; line-height: 1.55; }
+  .caixa { width: 100%; max-width: 540px; background: rgba(0,3,27,.62); border: 1px solid rgba(255,255,255,.12);
+           border-radius: 20px; padding: 44px 28px 36px; backdrop-filter: blur(4px); }
+  .logo { height: 34px; margin: 0 auto 30px; display: block; }
+  .check { width: 68px; height: 68px; margin: 0 auto 20px; border-radius: 50%; border: 2px solid #07C480;
+           display: grid; place-items: center; background: rgba(7,196,128,.13); }
+  h1 { font-size: clamp(28px, 7vw, 34px); font-weight: 700; margin-bottom: 6px; }
+  .lead { color: #fff; font-size: 17px; font-weight: 500; }
+  p { color: #D8E1F6; font-size: 15.5px; }
+  .prazo { display: inline-block; margin: 22px 0; padding: 12px 20px; border: 1px solid #FF5500; border-radius: 12px;
+           color: #fff; font-size: 15px; }
+  .prazo b { color: #FF5500; }
+  .fim { margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.1); }
+  .fim p + p { margin-top: 2px; }
+  .fim strong { color: #fff; }
+  .zap { display: inline-block; margin-top: 22px; color: #8F9AC8; font-size: 13px; text-decoration: none; }
+  .zap:hover { color: #fff; }
+  #bg-fundo { position: fixed; inset: 0; z-index: -1; pointer-events: none;
+              background: #04152e url('assets/img/fundo-gradiente.png') center / cover no-repeat; }
+</style>
+</head>
+<body>
+<div id="bg-fundo" aria-hidden="true"></div>
+  <main class="caixa">
+    <img class="logo" src="assets/img/finspots-logo.png" alt="Finspots">
+    <div class="check" aria-hidden="true">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#07C480" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+    </div>
+    <h1>Tudo certo! 🎉</h1>
+    <p class="lead">Recebemos suas informações com sucesso.</p>
+    <p>Agora é só aguardar um pouquinho.</p>
+
+    <div class="prazo">O prazo para entrega é de até <b>7 dias úteis</b> após a confirmação do pagamento e o recebimento completo dos dados.</div>
+
+    <p>Assim que estiver pronto, enviamos o link do PDF e do vídeo pelo seu WhatsApp.</p>
+
+    <div class="fim">
+      <p>Obrigado por confiar na Finspots. 💙</p>
+      <p><strong>Agora deixa o resto com a gente.</strong></p>
+    </div>
+
+    <a class="zap" href="https://wa.me/5562996653913">Alguma dúvida? Fale com a gente no WhatsApp</a>
+  </main>
+<script>
+  // envio feito: apaga o rascunho salvo dos formulários
+  try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf("finspots-form-") === 0) localStorage.removeItem(k); }); } catch (e) {}
+</script>
+</body>
+</html>

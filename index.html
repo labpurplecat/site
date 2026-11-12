@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finspots | Diagnóstico Financeiro e Vendas para Lojas Online</title>
+<link rel="icon" type="image/png" href="assets/img/finspots-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #04152e;
+    --quase-preto: #00031B;
+    --laranja: #ff4500;
+    --laranja-fraco: rgba(255, 69, 0,0.13);
+    --branco: #FFFFFF;
+    --suave: #D8E1F6;
+    --fraco: #6B76A8;
+    --borda: rgba(255,255,255,0.09);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    background-color: var(--azul);
+    color: var(--branco);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #bg-fundo {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--azul) url('assets/img/fundo-gradiente.png') center / cover no-repeat;
+  }
+
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  :focus-visible { outline: 2px solid var(--laranja); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+  .wrap-estreito { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  section { padding: 84px 0; }
+  .bg-fundo { background: var(--quase-preto); }
+
+  h2 {
+    font-size: clamp(24px, 3.2vw, 32px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: #ff4500;
+    text-shadow: 0 0 18px rgba(255, 69, 0,0.35);
+  }
+
+  .lead {
+    font-size: clamp(19px, 2.6vw, 24px);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  p { color: var(--suave); font-size: 16px; }
+  p + p { margin-top: 14px; }
+
+  .central { text-align: center; }
+  .central p { max-width: 560px; margin-left: auto; margin-right: auto; }
+
+  .btn {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .btn:hover { transform: scale(1.04); }
+  .btn-primario { background: var(--laranja); color: var(--branco); box-shadow: 0 0 18px rgba(255, 69, 0, 0.45); }
+  .btn-primario:hover { box-shadow: 0 0 26px rgba(255, 69, 0, 0.65); }
+  .btn-secundario { background: transparent; color: var(--branco); border: 1.5px solid var(--borda); box-shadow: 0 0 16px rgba(255, 69, 0, 0.22); }
+  .btn-secundario:hover { box-shadow: 0 0 24px rgba(255, 69, 0, 0.4); }
+
+
+  .legenda {
+    font-style: italic;
+    color: var(--fraco);
+    font-size: 13.5px;
+    margin-top: 18px;
+  }
+
+  hr.linha { border: none; border-top: 1px solid var(--borda); margin: 0; }
+
+  .kicker {
+    color: var(--laranja); font-weight: 700; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px;
+  }
+  .central .kicker { display: inline-block; }
+
+
+  .evolucao-faixa { display: flex; gap: 18px; align-items: flex-start; text-align: left; margin-top: 36px; padding: 24px 26px;
+    border-radius: 16px; background: rgba(4,21,46,0.75); border: 1px solid rgba(255,69,0,0.35); }
+  .evolucao-faixa h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .central .evolucao-faixa p { font-size: 14.5px; margin: 0; max-width: none; color: var(--suave); }
+  .evolucao-faixa .icone { flex-shrink: 0; }
+  @media (max-width: 520px) { .evolucao-faixa { flex-direction: column; } }
+
+  /* ---------- Cabeçalho ---------- */
+
+  header { position: sticky; top: 0; z-index: 900; padding: 0; background: #02021b; border-bottom: 1px solid var(--borda); }
+  html { scroll-padding-top: 140px; }
+  .faixa-topo { background: #ff6b00; color: var(--azul); overflow: hidden; white-space: nowrap; padding: 3px 0; font-size: 12px; font-weight: 600; line-height: 1.4; }
+  .faixa-trilho { display: inline-flex; animation: faixa-rolando 60s linear infinite; }
+  .faixa-trilho span { padding-right: 56px; }
+  @keyframes faixa-rolando { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .faixa-trilho { animation: none; } }
+  .header-inner { max-width: 1040px; margin: 0 auto; padding: 28px 24px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+  .nav-links { display: flex; gap: 26px; font-size: 14px; align-items: center; }
+  .nav-links > a { text-decoration: none; color: var(--suave); }
+  .nav-links > a:hover { color: var(--branco); }
+  .logo img { height: 42px; display: block; }
+  .nav-item-dropdown { position: relative; }
+  .nav-item-dropdown > a { text-decoration: none; color: var(--suave); cursor: default; }
+  .nav-item-dropdown:hover > a { color: var(--branco); }
+  .dropdown-menu {
+    position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    background: var(--quase-preto); border: 1px solid var(--borda); border-radius: 10px;
+    padding: 8px; min-width: 210px; opacity: 0; visibility: hidden;
+    transition: opacity 0.15s ease; margin-top: 12px; text-align: left; z-index: 10;
+  }
+  .nav-item-dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; }
+  .dropdown-menu a { display: block; padding: 10px 14px; border-radius: 7px; font-size: 13.5px; white-space: nowrap; color: var(--suave); text-decoration: none; }
+  .dropdown-menu a:hover { background: rgba(255,255,255,0.06); color: var(--branco); }
+  .logo { font-size: 21px; font-weight: 800; letter-spacing: -0.3px; }
+  .logo .spots { color: var(--laranja); }
+  .logo .mira {
+    display: inline-block; width: 0.6em; height: 0.6em;
+    border-radius: 50%; border: 0.13em solid var(--laranja);
+    position: relative; vertical-align: -0.02em;
+  }
+  .logo .mira::after {
+    content: ""; position: absolute; inset: 0.16em;
+    background: var(--laranja); border-radius: 50%;
+  }
+
+  /* ---------- Hero (imagem ao lado) ---------- */
+
+  .hero { padding-top: 44px; }
+  .hero .wrap {
+    display: grid;
+    grid-template-columns: 0.86fr 1.14fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(30px, 4.6vw, 44px);
+    font-weight: 800;
+    line-height: 1.16;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .hero .subtitulo {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    color: var(--laranja);
+    margin-bottom: 22px;
+  }
+  .hero .lead { color: var(--branco); margin-bottom: 18px; }
+  .hero p { margin-bottom: 4px; }
+  .hero .cta-area { margin-top: 30px; }
+
+  .hero-imagem {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1.5px solid var(--laranja);
+    box-shadow: 0 0 32px rgba(255, 69, 0,0.28);
+    aspect-ratio: 1 / 1;
+  }
+  .hero-imagem img { width: 100%; height: 100%; object-fit: cover; }
+  /* Hero centralizado com imagem de fundo */
+  .hero-central {
+    padding: 110px 0 96px;
+    background: transparent;
+  }
+  .hero-central .wrap { display: block; text-align: center; }
+  .hero-central .kicker, .hero-central h1, .hero-central p, .hero-central .legenda {
+    text-shadow: 0 2px 14px rgba(0, 3, 27, 0.55), 0 1px 3px rgba(0, 3, 27, 0.35);
+  }
+  .hero-central h1 { color: var(--laranja); font-size: clamp(28px, 4.4vw, 50px); line-height: 1.2; margin-bottom: 36px; }
+  .hero-central h1 { color: var(--branco); }
+  .hero-central h1 .subtitulo { display: inline; font-size: inherit; margin: 0; color: var(--laranja); }
+  .hero-central p { max-width: 900px; margin: 0 auto 4px; color: var(--suave); }
+  .hero-central .hero-destaque { color: var(--branco); font-weight: 600; margin-top: 14px; }
+  .hero-central .cta-area { margin-top: 30px; }
+  .hero-badge {
+    position: absolute;
+    left: 20px; bottom: 20px;
+    background: rgba(0,3,27,0.88);
+    border-radius: 10px;
+    padding: 12px 16px;
+    backdrop-filter: blur(3px);
+  }
+  .hero-badge b { color: var(--laranja); font-size: 15px; display: block; }
+  .hero-badge span { color: var(--suave); font-size: 11px; letter-spacing: 0.3px; }
+
+  @media (max-width: 820px) {
+    .hero .wrap { grid-template-columns: 1fr; }
+    .hero-imagem { order: -1; aspect-ratio: 16/10; }
+  }
+
+  /* ---------- Placeholder genérico (vídeo / mockup) ---------- */
+
+  .placeholder {
+    background: var(--quase-preto);
+    border: 1px dashed var(--borda);
+    border-radius: 14px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; color: var(--fraco); text-align: center; padding: 40px 20px;
+  }
+  .placeholder.video { aspect-ratio: 16/9; max-width: 720px; margin: 0 auto; }
+  .play-icon {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--laranja);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .play-icon svg { width: 18px; height: 18px; fill: var(--branco); }
+  .placeholder p { color: var(--fraco); font-size: 13px; max-width: 260px; }
+
+  .grid-mockups {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 32px 0; max-width: 520px; margin-left: auto; margin-right: auto;
+  }
+  .grid-mockups .placeholder { aspect-ratio: 3/4; padding: 20px 14px; }
+  @media (max-width: 560px) { .grid-mockups { grid-template-columns: 1fr; } }
+
+  /* ---------- Ícones (lista com ícone + título + texto) ---------- */
+
+  .icone {
+    width: 42px; height: 42px; border-radius: 11px;
+    background: var(--laranja-fraco); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .icone svg { width: 20px; height: 20px; stroke: var(--laranja); fill: none; stroke-width: 1.8; }
+
+  .lista-icones { display: grid; gap: 30px; margin-top: 40px; }
+  .item-icone { display: flex; gap: 18px; align-items: flex-start; }
+  .item-icone h3 { font-size: 17px; font-weight: 600; margin-bottom: 5px; }
+  .item-icone p { font-size: 14.5px; }
+
+  @media (min-width: 720px) {
+    .lista-icones.duas-colunas { grid-template-columns: 1fr 1fr; column-gap: 40px; }
+  }
+
+  .categoria-label {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--fraco); font-weight: 700; margin-bottom: 6px;
+  }
+  .item-icone .sub-item { margin-top: 10px; }
+  .item-icone .sub-item:first-of-type { margin-top: 0; }
+
+  .icone.num { font-weight: 800; font-size: 14px; color: var(--laranja); letter-spacing: 0.3px; }
+  .nota-transparencia { font-size: 14px; color: var(--fraco); margin-top: 18px; }
+
+  /* ---------- Dados de mercado (seção do problema) ---------- */
+  .dados-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 34px auto 26px; text-align: left; }
+  @media (min-width: 720px) { .dados-grid { grid-template-columns: repeat(3, 1fr); } }
+  .dado { background: rgba(0,3,27,0.45); border: 1px solid rgba(107,118,168,0.28); border-top: 3px solid var(--laranja); border-radius: 14px; padding: 20px 20px 16px; }
+  .dado-num { font-size: 25px; white-space: nowrap; font-weight: 800; color: var(--laranja); line-height: 1.1; letter-spacing: -0.5px; }
+  .central .dado p { font-size: 14.5px; color: var(--suave); margin: 8px 0 0; }
+  .central .dado .dado-fonte { font-size: 11.5px; color: var(--fraco); margin-top: 10px; }
+  .central .dados-fontes { font-size: 11.5px; color: var(--fraco); }
+  .num { color: var(--laranja); font-weight: 700; white-space: nowrap; }
+
+  /* ---------- Passos numerados (só onde é sequência de verdade) ---------- */
+
+  .passos { display: grid; gap: 36px; margin-top: 44px; }
+  @media (min-width: 720px) { .passos { grid-template-columns: repeat(3, 1fr); } }
+  .passo-num {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--laranja);
+    color: var(--branco); font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  }
+  .passo h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .passo p { font-size: 14.5px; }
+  .passo strong { color: var(--branco); }
+
+  /* ---------- Listas de check ---------- */
+
+  .lista-check { list-style: none; margin-top: 28px; display: grid; gap: 14px; }
+  .lista-check.duas-colunas { grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .lista-check.duas-colunas { grid-template-columns: 1fr 1fr; } }
+  .lista-check li { display: flex; gap: 12px; font-size: 15px; color: var(--suave); align-items: flex-start; }
+  .check-marca {
+    width: 20px; height: 20px; border-radius: 50%; background: var(--laranja-fraco);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .check-marca svg { width: 11px; height: 11px; stroke: var(--laranja); stroke-width: 3; fill: none; }
+  .lista-verde { max-width: 560px; margin-left: auto; margin-right: auto; text-align: left; }
+
+  /* ---------- Identificação ---------- */
+
+  .lista-dores { list-style: none; margin: 32px 0; display: grid; gap: 14px; max-width: 600px; margin-left: auto; margin-right: auto; }
+  .lista-dores li {
+    font-weight: 600; font-size: 16px; color: var(--branco);
+    border-left: 2px solid var(--laranja); padding: 4px 0 4px 16px; text-align: left;
+  }
+
+  /* ---------- Card de oferta ---------- */
+
+  .card-oferta {
+    max-width: 620px; margin: 40px auto 0;
+    background: var(--quase-preto); border: 1.5px solid var(--laranja);
+    border-radius: 18px; padding: 44px 40px;
+  }
+  .card-oferta h3 { font-size: 22px; font-weight: 700; margin-bottom: 14px; }
+  .preco { font-size: 38px; font-weight: 800; margin-top: 18px; }
+  .preco-nota { color: var(--fraco); font-size: 13.5px; margin-bottom: 8px; }
+  .card-oferta .lista-check { margin-top: 26px; margin-bottom: 30px; }
+
+  .card-mais-canais {
+    max-width: 620px; margin: 20px auto 0; text-align: left;
+    background: rgba(0,3,27,0.45); border: 1px solid rgba(107,118,168,0.28); border-radius: 18px;
+    padding: 26px 28px; display: flex; gap: 18px; align-items: flex-start;
+  }
+  .card-mais-canais h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .central .card-mais-canais p { font-size: 14.5px; margin: 0 0 16px; max-width: none; }
+  .card-mais-canais .btn { padding: 12px 22px; font-size: 14px; }
+  .card-mais-canais .btn:hover { border-color: var(--laranja); }
+  @media (max-width: 520px) { .card-mais-canais { flex-direction: column; } .card-mais-canais .btn { width: 100%; text-align: center; } }
+
+  /* ---------- FAQ ---------- */
+
+  .faq { max-width: 680px; margin: 40px auto 0; }
+  .faq details {
+    border-bottom: 1px solid var(--borda); padding: 20px 0;
+  }
+  .faq summary {
+    cursor: pointer; font-weight: 600; font-size: 16px; color: var(--branco);
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    list-style: none; text-align: left;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "+"; font-size: 22px; color: var(--laranja); flex-shrink: 0; font-weight: 400;
+  }
+  .faq details[open] summary::after { content: "–"; }
+  .faq p { margin-top: 12px; font-size: 14.5px; text-align: left; }
+  .faq .pendente { color: var(--laranja); font-style: italic; }
+
+  /* ---------- Rodapé ---------- */
+
+  footer { padding: 44px 0 36px; text-align: center; background: var(--quase-preto); }
+  footer .marca { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  footer .slogan { color: var(--fraco); font-size: 13.5px; margin-bottom: 18px; }
+  footer .links { font-size: 13px; color: var(--fraco); }
+  footer .links a { text-decoration: underline; text-underline-offset: 3px; }
+  footer .links span { margin: 0 8px; }
+
+  b, strong { color: var(--branco); font-weight: 700; }
+  .lista-simples { list-style: disc; padding-left: 20px; margin: 10px 0 4px; display: grid; gap: 6px; font-size: 14.5px; color: var(--suave); text-align: left; }
+  .central .lista-simples { max-width: 560px; margin-left: auto; margin-right: auto; padding-left: 38px; }
+  .faq .lista-simples { margin-top: 12px; }
+  .analise-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 44px; text-align: left; }
+  @media (min-width: 720px) { .analise-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 960px) { .analise-grid { grid-template-columns: repeat(3, 1fr); } .analise-grid-2 { grid-template-columns: 1fr 1fr; max-width: 860px; margin-left: auto; margin-right: auto; } }
+  .analise-card { background: rgba(0,3,27,0.45); border: 1px solid rgba(107,118,168,0.28); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .analise-topo { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .analise-titulo { font-size: 13px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; color: var(--branco); }
+  .analise-tag { font-size: 11.5px; color: var(--laranja); background: var(--laranja-fraco); border-radius: 999px; padding: 3px 10px; font-weight: 600; }
+  .analise-item h4 { font-size: 15px; font-weight: 600; color: var(--branco); margin-bottom: 4px; line-height: 1.35; }
+  .central .analise-item p { font-size: 14px; color: var(--suave); margin: 0; max-width: none; }
+  .analise-item strong { color: var(--branco); }
+  .analise-destaque { grid-column: 1 / -1; }
+  .analise-subgrid { display: grid; grid-template-columns: 1fr; gap: 18px 28px; }
+  @media (min-width: 720px) { .analise-subgrid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 960px) { .analise-subgrid { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ---------- Botões extras ---------- */
+  .btn-header { padding: 10px 18px; font-size: 13.5px; border-radius: 999px; }
+  @media (max-width: 520px) { .btn-header { padding: 9px 14px; font-size: 12.5px; } .logo img { height: 34px; } }
+  .cta-meio { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .cta-meio .btn-secundario:hover { border-color: var(--laranja); }
+  @media (max-width: 520px) { .cta-meio .btn { width: 100%; text-align: center; } }
+
+  /* ---------- Exemplo do diagnóstico ---------- */
+  .exemplo-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 40px; }
+  @media (min-width: 760px) { .exemplo-grid { grid-template-columns: 1fr 1fr; } }
+  .exemplo-slot {
+    background: rgba(0,3,27,0.55); border: 1.5px dashed rgba(255, 69, 0,0.45); border-radius: 14px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    padding: 28px 20px; text-align: center; min-height: 260px; overflow: hidden;
+  }
+  .exemplo-slot img, .exemplo-slot iframe { width: 100%; border: 0; border-radius: 10px; }
+  .exemplo-slot iframe { aspect-ratio: 16/9; height: auto; }
+  .exemplo-slot h3 { font-size: 16px; font-weight: 600; }
+  .central .exemplo-slot p { font-size: 13.5px; color: var(--fraco); margin: 0; max-width: 280px; }
+  .foto-entrega { position: relative; left: 50%; transform: translateX(-50%); width: min(780px, calc(100vw - 48px)); margin-top: 36px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 69, 0, 0.35); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
+  .foto-entrega img { width: 100%; height: auto; display: block; }
+  .aviso-ficticio { font-size: 13px; color: var(--fraco); font-style: italic; margin-top: 18px; }
+
+  .selo-mini { display: flex; align-items: center; gap: 14px; text-align: left; }
+  .selo-mini img { width: 76px; flex-shrink: 0; }
+  @media (max-width: 560px) { .selo-mini { flex-direction: column; text-align: center; } .selo-mini img { width: 96px; } }
+
+  /* ---------- Segurança / Sobre ---------- */
+  .cards-3 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 40px; text-align: left; }
+  @media (min-width: 720px) { .cards-3 { grid-template-columns: 1fr 1fr; } }
+  .card-simples { background: rgba(0,3,27,0.45); border: 1px solid rgba(107,118,168,0.28); border-radius: 14px; padding: 22px; display: flex; gap: 16px; align-items: flex-start; }
+  .card-simples h3 { font-size: 16px; font-weight: 600; margin-bottom: 5px; }
+  .central .card-simples p { font-size: 14px; margin: 0; max-width: none; }
+  .sobre-pilares { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 32px; text-align: left; }
+  @media (min-width: 720px) { .sobre-pilares { grid-template-columns: repeat(3, 1fr); } }
+  .pilar { border-top: 2px solid var(--laranja); padding-top: 14px; }
+  .pilar h3 { font-size: 15.5px; font-weight: 700; margin-bottom: 4px; }
+  .central .pilar p { font-size: 14px; margin: 0; }
+  .sobre-lado { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; margin-top: 32px; text-align: left; }
+  @media (min-width: 820px) { .sobre-lado { grid-template-columns: 1fr 1fr; gap: 44px; } }
+  .sobre-lado img { width: 100%; border-radius: 14px; border: 1.5px solid var(--laranja); box-shadow: 0 0 32px rgba(255, 69, 0,0.28); }
+  .central .sobre-lado p { max-width: none; margin-left: 0; margin-right: 0; }
+
+  /* ---------- Foto em duas colunas ---------- */
+  .wrap-foto { max-width: 1000px; }
+  .wrap-foto.wrap-larga { max-width: 1120px; }
+  .foto-lado { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; margin: 32px 0; }
+  .foto-lado:last-child { margin-bottom: 0; }
+  .foto { position: relative; width: 100%; max-width: 640px; margin: 0 auto; aspect-ratio: 16 / 10; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 69, 0, 0.35); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
+  .foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .foto::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0, 3, 27, 0) 45%, rgba(0, 3, 27, 0.6) 100%), linear-gradient(135deg, rgba(255, 69, 0, 0.12), rgba(255, 69, 0, 0) 40%); }
+  .foto-texto > p:first-child { margin-top: 0 !important; }
+  .grafico { width: 100%; max-width: 520px; margin: 0 auto; padding: 22px 22px 16px; border-radius: 16px; border: 1px solid rgba(255, 69, 0, 0.35); background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
+  .grafico svg { display: block; width: 100%; height: auto; font-family: inherit; }
+  .grafico figcaption { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--laranja); text-align: left; margin-bottom: 10px; }
+  .foto-lado.final { margin-top: 0; }
+  .foto-lado.final .foto { aspect-ratio: 1 / 1; max-width: 520px; }
+  @media (min-width: 820px) {
+    .foto-lado { grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
+    .foto { aspect-ratio: 4 / 3; max-width: none; }
+    .foto-lado.invertido .foto { order: 2; }
+    .grafico { max-width: none; }
+    .foto-texto { text-align: left; }
+    .central .foto-texto p { max-width: none; margin-left: 0; margin-right: 0; }
+    .foto-texto .cta-meio { justify-content: flex-start; }
+    .foto-lado.larga { grid-template-columns: 1.35fr 1fr; gap: 44px; }
+    .foto-lado.larga.invertido { grid-template-columns: 1fr 1.35fr; }
+    .foto-lado.larga .foto { aspect-ratio: 3 / 2; }
+    .foto-lado.larga.final { grid-template-columns: 1fr 1.1fr; }
+    .foto-lado.final .foto { aspect-ratio: 1 / 1; max-width: none; }
+  }
+
+  /* ---------- Perguntas por área ---------- */
+  .lista-perguntas { list-style: none; display: grid; gap: 12px; }
+  .lista-perguntas li { font-size: 15px; font-weight: 600; color: var(--branco); line-height: 1.4; border-left: 2px solid var(--laranja); padding: 2px 0 2px 12px; }
+  .central .analise-card .nota-area { font-size: 13px; color: var(--fraco); margin: 0; max-width: none; }
+
+  /* ---------- Ampliação no desktop ---------- */
+  @media (min-width: 1200px) { body { zoom: 1.1; } }
+  @media (min-width: 1500px) { body { zoom: 1.2; } }
+  @media (min-width: 1900px) { body { zoom: 1.3; } }
+
+  /* ---------- Foto da fundadora ---------- */
+  .sobre-foto { display:block; width:128px; height:128px; border-radius:50%; object-fit:cover; margin:28px auto 24px;
+    border:2px solid var(--laranja); box-shadow:0 0 24px rgba(255,69,0,0.22); }
+  @media (max-width:520px) { .sobre-foto { width:112px; height:112px; } }
+</style>
+</head>
+<body>
+<div id="bg-fundo" aria-hidden="true"></div>
+
+<header>
+  <div class="faixa-topo"><div class="faixa-trilho"><span>Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span><span aria-hidden="true">Diagnóstico Financeiro e Vendas · PDF + vídeo</span></div></div>
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="assets/img/finspots-logo.png" alt="Finspots"></a>
+    <a href="https://wa.me/5562996653913?text=Oi%21%20Quero%20receber%20a%20proposta%20do%20Diagn%C3%B3stico%20Financeiro%20e%20Vendas%20para%20a%20minha%20loja." target="_blank" rel="noopener" class="btn btn-primario btn-header">Receber a proposta</a>
+  </div>
+</header>
+
+<!-- 01 - HERO -->
+<section class="hero hero-central">
+  <div class="wrap">
+    <div class="kicker">Entregamos respostas, não planilhas.</div>
+    <h1>Sua loja online vende.<br><span class="subtitulo">Mas está dando dinheiro?</span></h1>
+    <div class="video-embed" style="position:relative; width:100%; max-width:760px; margin:28px auto; aspect-ratio:16/9; border-radius:16px; overflow:hidden; border:1px solid rgba(255, 69, 0, 0.35); box-shadow:0 18px 40px rgba(0, 0, 0, 0.45);"><iframe src="https://www.youtube.com/embed/Tg8Crjse7GE" title="Sua loja online vende. Mas está dando dinheiro?" style="position:absolute; inset:0; width:100%; height:100%; border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    <p>O Diagnóstico Financeiro e Vendas transforma os números da sua loja em respostas claras: o que está acontecendo, por quê, e o que merece atenção primeiro.</p>
+    <p class="hero-destaque">Você envia os dados. Nós fazemos a análise. Você recebe as respostas.</p>
+    <div class="cta-area">
+      <a href="https://wa.me/5562996653913?text=Oi%21%20Quero%20receber%20a%20proposta%20do%20Diagn%C3%B3stico%20Financeiro%20e%20Vendas%20para%20a%20minha%20loja." target="_blank" rel="noopener" class="btn btn-primario">Receber a proposta no WhatsApp →</a>
+    </div>
+  </div>
+</section>
+
+<hr class="linha">
+
+<!-- 02 - O PROBLEMA -->
+<section class="bg-fundo central">
+  <div class="wrap-estreito wrap-foto">
+    <h2>Vender não é o mesmo que lucrar.</h2>
+    <div class="foto-lado">
+      <figure class="grafico"><figcaption>Do que você vende ao que sobra</figcaption><svg viewBox="0 0 320 222" role="img" aria-label="Gráfico: das vendas saem custos, taxas, fretes e anúncios, até chegar ao que realmente sobra"><line x1="8" y1="190" x2="312" y2="190" stroke="#6B76A8" stroke-opacity="0.5"/><g stroke="#6B76A8" stroke-dasharray="3 3" stroke-opacity="0.7"><line x1="49" y1="40" x2="63" y2="40"/><line x1="99" y1="100" x2="113" y2="100"/><line x1="149" y1="128" x2="163" y2="128"/><line x1="199" y1="148" x2="213" y2="148"/><line x1="249" y1="170" x2="263" y2="170"/></g><rect x="13" y="40" width="36" height="150" rx="4" fill="#D8E1F6"/><g fill="#6B76A8" fill-opacity="0.75"><rect x="63" y="40" width="36" height="60" rx="4"/><rect x="113" y="100" width="36" height="28" rx="4"/><rect x="163" y="128" width="36" height="20" rx="4"/><rect x="213" y="148" width="36" height="22" rx="4"/></g><rect x="263" y="170" width="36" height="20" rx="4" fill="#ff4500"/><text x="281" y="160" text-anchor="middle" font-size="20" font-weight="700" fill="#ff4500">?</text><g font-size="10.5" fill="#D8E1F6" text-anchor="middle"><text x="31" y="208">Vendas</text><text x="81" y="208">Custos</text><text x="131" y="208">Taxas</text><text x="181" y="208">Fretes</text><text x="231" y="208">Anúncios</text><text x="281" y="208" font-weight="700" fill="#FFFFFF">Sobra</text></g></svg></figure>
+      <div class="foto-texto">
+        <p style="margin-top:20px;">Sua loja pode vender todos os dias e, ainda assim, você não saber quanto realmente sobra.</p>
+        <p>O dinheiro entra, mas também sai: fornecedores, taxas, impostos, fretes e anúncios. Com tudo espalhado, o faturamento não conta a história completa.</p>
+        <p class="lead" style="color:var(--branco); margin-top:24px;">E o problema costuma aparecer no caixa antes de aparecer no faturamento.</p>
+      </div>
+    </div>
+    <ul class="lista-dores">
+      <li>“Vendi bem esse mês e, no fim, não sobrou nada.”</li>
+      <li>“Coloco dinheiro em anúncio e não sei se ele volta.”</li>
+      <li>“Tenho estoque parado e, mesmo assim, falta dinheiro.”</li>
+      <li>“Olho os números, não entendo, e acabo decidindo no feeling.”</li>
+    </ul>
+    <p style="margin-top:28px;">O problema não é falta de dados.</p>
+    <p class="lead" style="color:var(--branco);">É falta de resposta.</p>
+  </div>
+</section>
+
+<!-- 03 - AS PERGUNTAS -->
+<section class="central">
+  <div class="wrap">
+    <h2>As perguntas que todo dono de loja faz.</h2>
+    <p class="lead" style="color:var(--branco); margin-top:8px;">Respondidas com os números da sua loja.</p>
+    <p style="margin-top:20px;">São 11 perguntas, em duas áreas. Em cada uma: o que está acontecendo, por que aconteceu e o que isso significa para a loja.</p>
+
+    <div class="analise-grid analise-grid-2">
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span><span class="analise-titulo">Financeiro</span></div>
+        <ul class="lista-perguntas">
+          <li>A loja está dando lucro?</li>
+          <li>Para onde vai o dinheiro das vendas?</li>
+          <li>Onde a loja ganha e onde perde dinheiro?</li>
+          <li>O dinheiro investido em anúncio volta?</li>
+          <li>Quanto tempo o caixa aguenta?</li>
+        </ul>
+      </div>
+      <div class="analise-card">
+        <div class="analise-topo"><span class="icone"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h2l2.6 12.4a2 2 0 002 1.6h8.8a2 2 0 002-1.6L21 7H6"/></svg></span><span class="analise-titulo">Vendas</span></div>
+        <ul class="lista-perguntas">
+          <li>As vendas estão crescendo ou caindo?</li>
+          <li>Por onde a loja vende?</li>
+          <li>Quais são os produtos mais e menos vendidos?</li>
+          <li>O estoque está girando?</li>
+          <li>Os clientes voltam a comprar?</li>
+          <li>Qual é a meta de vendas da loja?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lista-icones duas-colunas" style="text-align:left;">
+      <div class="item-icone">
+        <span class="icone"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 11l10-4M7 13l10 4"/></svg></span>
+        <div><h3>As prioridades</h3><p>No final, o que os números dizem juntos e até 3 prioridades em ordem, com o passo a passo de cada uma.</p></div>
+      </div>
+      <div class="item-icone">
+        <span class="icone num">?</span>
+        <div><h3>A sua pergunta</h3><p>Aquela dúvida que é só sua também entra, respondida com os números da sua loja.</p></div>
+      </div>
+    </div>
+
+    <p class="nota-transparencia">Se algum dado não for enviado, a pergunta que depende dele aparece como não realizada, com o motivo. Nada é inventado para preencher espaço.</p>
+  </div>
+</section>
+
+<!-- 04 - O QUE VOCÊ RECEBE -->
+<section class="bg-fundo central">
+  <div class="wrap-estreito">
+    <h2>Você não recebe uma pilha de números.</h2>
+    <p class="lead" style="color:var(--branco); margin-top:8px;">Recebe respostas que consegue usar.</p>
+
+    <figure class="foto-entrega"><img src="assets/img/diagnostico-entrega.webp" alt="Prévia do Diagnóstico Financeiro e Vendas Finspots: o PDF personalizado com os números da loja e o vídeo narrado que explica a mesma análise em linguagem simples" width="1600" height="901" loading="lazy"></figure>
+
+    <div class="lista-icones" style="text-align:left; margin-top:44px;">
+      <div class="item-icone">
+        <span class="icone"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></span>
+        <div>
+          <h3>PDF personalizado</h3>
+          <p>Escrito para quem não é da área, sem termos de analista:</p>
+          <ul class="lista-simples">
+            <li><strong>Visão geral:</strong> um resumo de cada área para ver rápido onde está a atenção.</li>
+            <li><strong>Pergunta por pergunta:</strong> a conclusão, os números e o gráfico.</li>
+            <li><strong>Mês a mês:</strong> como os principais números mudaram nos 4 meses.</li>
+            <li><strong>Plano de ação:</strong> o que fazer primeiro, por que e como saber se deu certo.</li>
+            <li><strong>Transparência:</strong> de onde veio cada número e o que ficou de fora.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="item-icone">
+        <span class="icone"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        <div><h3>Vídeo narrado</h3><p>O resultado em versão guiada, um card por pergunta, na mesma ordem do PDF. Sem reunião: você assiste quando quiser.</p></div>
+      </div>
+      <div class="item-icone">
+        <span class="icone"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+        <div><h3>Suporte via WhatsApp</h3><p>Por até 30 dias depois da entrega, para as dúvidas sobre o seu Diagnóstico.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 - COMO CONTRATAR -->
+<section class="central" id="oferta">
+  <div class="wrap">
+    <h2>Como contratar.</h2>
+    <p class="lead" style="color:var(--branco); margin-top:8px;">Em três passos, pelo WhatsApp.</p>
+    <div class="passos" style="text-align:left;">
+      <div class="passo">
+        <div class="passo-num">1</div>
+        <h3>Receba a proposta</h3>
+        <p>Chame no WhatsApp. Você recebe a proposta com o valor e o link de pagamento.</p>
+      </div>
+      <div class="passo">
+        <div class="passo-num">2</div>
+        <h3>Envie os dados</h3>
+        <p>Depois do pagamento, você recebe o formulário com os <strong>4 últimos meses completos</strong>. Envie do jeito que tiver: relatórios das plataformas, extratos, planilhas. <strong>Não precisa organizar nada.</strong></p>
+      </div>
+      <div class="passo">
+        <div class="passo-num">3</div>
+        <h3>Receba as respostas</h3>
+        <p>Em até <strong>7 dias úteis</strong>, o PDF e o vídeo chegam no seu WhatsApp.</p>
+      </div>
+    </div>
+    <div class="cta-area" style="margin-top:44px;">
+      <a href="https://wa.me/5562996653913?text=Oi%21%20Quero%20receber%20a%20proposta%20do%20Diagn%C3%B3stico%20Financeiro%20e%20Vendas%20para%20a%20minha%20loja." target="_blank" rel="noopener" class="btn btn-primario">Receber a proposta no WhatsApp →</a>
+      <div class="legenda">4 meses analisados · PDF + vídeo · suporte por 30 dias</div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 - SEGURANÇA DOS DADOS -->
+<section class="bg-fundo central" id="seguranca">
+  <div class="wrap">
+    <div class="kicker">Seus dados, protegidos</div>
+    <h2>Seus números ficam entre você e a gente.</h2>
+    <div class="cards-3">
+      <div class="card-simples">
+        <span class="icone"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></span>
+        <div><h3>Usados só para a sua análise</h3><p>Não vendemos, não alugamos e não usamos seus dados para nenhuma outra finalidade.</p></div>
+      </div>
+      <div class="card-simples">
+        <span class="icone"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <div><h3>De acordo com a LGPD</h3><p>Você pode pedir acesso, correção ou exclusão dos seus dados a qualquer momento, pelo WhatsApp.</p></div>
+      </div>
+      <div class="card-simples">
+        <span class="icone"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></span>
+        <div><h3>Extrato bancário não é obrigatório</h3><p>Sem ele, só a pergunta sobre o caixa fica de fora. Você decide o que compartilhar.</p></div>
+      </div>
+      <div class="card-simples">
+        <span class="icone"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8M8 12h5"/></svg></span>
+        <div><h3>Entrega privada</h3><p>O link do PDF e do vídeo vai só para você, pelo WhatsApp. O site não tem cookies de rastreamento.</p></div>
+      </div>
+    </div>
+    <p style="margin-top:24px; font-size:14px;">Detalhes na nossa <a href="privacidade.html" style="color:var(--laranja); text-decoration:underline;">Política de Privacidade</a>.</p>
+  </div>
+</section>
+
+<!-- 08 - SOBRE A FINSPOTS -->
+<section class="central" id="sobre">
+  <div class="wrap-estreito">
+    <div class="kicker">Sobre a Finspots</div>
+    <h2>Por que a Finspots existe.</h2>
+    <!-- FOTO: salve a sua foto em assets/img/foto-helaynne.jpg (quadrada, de preferência). Sem o arquivo, o espaço some sozinho. -->
+    <img class="sobre-foto" src="assets/img/foto-helaynne.jpg" alt="Helaynne Alessandra, fundadora da Finspots" width="128" height="128" loading="lazy" onerror="this.remove()">
+    <p>A Finspots foi fundada por <strong style="color:var(--branco);">Helaynne Alessandra</strong>, pesquisadora, especialista em marketing corporativo e analista financeira, com mais de 6 anos de experiência.</p>
+    <p>Loja online é uma das operações mais difíceis de acompanhar: são muitos dados, espalhados em plataformas e painéis diferentes. E muita loja pequena e média fecha mesmo faturando bem, porque a falta de clareza esconde o problema até ser tarde.</p>
+    <p class="lead" style="color:var(--branco); margin-top:24px;">A Finspots existe para transformar essa complexidade em respostas claras.</p>
+  </div>
+</section>
+
+<!-- 09 - FAQ -->
+<section class="bg-fundo central">
+  <div class="wrap-estreito">
+    <h2>Perguntas frequentes</h2>
+    <div class="faq">
+      <details>
+        <summary>Quanto custa?</summary>
+        <p>O valor está na proposta, junto com o link de pagamento. É um pagamento único, que não muda com o número de canais. <a href="https://wa.me/5562996653913?text=Oi%21%20Quero%20receber%20a%20proposta%20do%20Diagn%C3%B3stico%20Financeiro%20e%20Vendas%20para%20a%20minha%20loja." target="_blank" rel="noopener" style="color:var(--laranja); text-decoration:underline;">Chame no WhatsApp</a> e enviamos a proposta.</p>
+      </details>
+      <details>
+        <summary>Preciso entender de finanças?</summary>
+        <p><strong>Não.</strong> O relatório usa a linguagem do dia a dia da loja, e cada número vem explicado.</p>
+      </details>
+      <details>
+        <summary>O que preciso enviar?</summary>
+        <p><strong>O essencial:</strong> os números dos 4 últimos meses completos: faturamento, devoluções, custo dos produtos, frete, custos fixos, pró-labore, pedidos e as vendas de cada canal.</p>
+        <p><strong>Para a análise completa:</strong> os extratos bancários (para o caixa), os relatórios de vendas e o custo de cada produto (para produtos e estoque) e os dados de anúncios (para saber se o anúncio volta).</p>
+        <p>Você envia do jeito que tiver e nós organizamos. O formulário mostra campo a campo o que preencher e onde encontrar cada informação.</p>
+      </details>
+      <details>
+        <summary>E se a minha loja não investe em anúncios?</summary>
+        <p><strong>Sem problema.</strong> A pergunta sobre anúncios explica que não se aplica, e todas as outras continuam no Diagnóstico.</p>
+      </details>
+      <details>
+        <summary>Posso refazer depois?</summary>
+        <p><strong>Sim.</strong> A cada 4 meses dá para fechar um novo período. A partir do segundo Diagnóstico, o relatório compara com o anterior: o que melhorou, o que piorou e se as prioridades saíram do papel.</p>
+      </details>
+      <details>
+        <summary>O Diagnóstico substitui meu contador?</summary>
+        <p><strong>Não.</strong> Ele ajuda você a entender a loja; não substitui serviços contábeis, fiscais ou obrigações legais.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="central">
+  <div class="wrap-estreito wrap-foto wrap-larga">
+    <div class="foto-lado invertido larga final">
+      <figure class="foto"><img src="assets/img/diagnostico-bastidores.jpg" alt="Empreendedora sorridente refletindo em frente ao notebook, representando a clareza que o diagnóstico traz para os números do negócio" loading="lazy" style="object-position:74% 50%;"></figure>
+      <div class="foto-texto">
+        <h2>Você já tem os dados.</h2>
+        <p class="lead" style="color:var(--branco); margin-top:8px;">Agora precisa das respostas.</p>
+        <p style="color:var(--branco); font-weight:600; margin-top:24px;">Como a sua loja está.<br>O que merece atenção.<br>E por onde começar.</p>
+        <div class="cta-area" style="margin-top:28px;">
+          <a href="https://wa.me/5562996653913?text=Oi%21%20Quero%20receber%20a%20proposta%20do%20Diagn%C3%B3stico%20Financeiro%20e%20Vendas%20para%20a%20minha%20loja." target="_blank" rel="noopener" class="btn btn-primario">Receber a proposta no WhatsApp →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="marca">Diagnóstico Financeiro e Vendas, um produto Finspots | O financeiro e as vendas da sua loja online em respostas</div>
+    <div class="slogan">Entregamos respostas, não planilhas.</div>
+    <div class="links">
+      <a href="https://wa.me/5562996653913" target="_blank" rel="noopener">WhatsApp</a><span>·</span><a href="privacidade.html">Política de privacidade</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Botão flutuante de WhatsApp -->
+<style>
+  .whats-flutuante {
+    position: fixed;
+    right: 22px;
+    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    width: 64px;
+    height: 64px;
+    display: block;
+    z-index: 999;
+    transition: transform 0.15s ease;
+  }
+  .whats-flutuante:hover { transform: scale(1.08); }
+  .whats-flutuante img { position: relative; width: 100%; height: 100%; display: block; }
+  @media (max-width: 600px) {
+    .whats-flutuante { right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: 58px; height: 58px; }
+  }
+</style>
+<a class="whats-flutuante" href="https://wa.me/5562996653913?text=Oi!%20Quero%20saber%20mais%20sobre%20o%20Diagn%C3%B3stico%20Financeiro%20e%20Vendas%20Finspots." target="_blank" rel="noopener" aria-label="Falar no WhatsApp" title="Falar no WhatsApp">
+  <img src="assets/img/whatsapp.webp" alt="WhatsApp" width="64" height="64">
+</a>
+
+</body>
+</html>
