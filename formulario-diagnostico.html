@@ -168,7 +168,9 @@
     .carregando .barra span { animation-duration: 3s; }
   }
   #bg-fundo { position: fixed; inset: 0; z-index: -1; pointer-events: none;
-              background: var(--azul) url('assets/img/fundo-formulario.png') center / cover no-repeat; }
+              background: var(--azul) url('assets/img/fundo-formulario.jpg') 62% center / cover no-repeat;
+              background-image: image-set(url('assets/img/fundo-formulario.webp') type('image/webp'),
+                                          url('assets/img/fundo-formulario.jpg') type('image/jpeg')); }
 
   /* ---------- painel "Onde encontro isso?": ao lado no computador, gaveta no celular */
   .pagina { display: block; }
